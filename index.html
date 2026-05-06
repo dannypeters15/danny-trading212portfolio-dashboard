@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Craigside Portfolio</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-size:14px}
+.app{padding:18px 22px;max-width:1800px;margin:0 auto}
+
+/* Header */
+.hdr{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:16px 24px;margin-bottom:12px;gap:16px;flex-wrap:wrap}
+.brand{font-size:22px;font-weight:700;color:#1E3A8A}
+.brand-meta{display:flex;flex-direction:column;gap:3px}
+.brand-sub{font-size:10px;color:#94A3B8}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:20px;padding:3px 10px;font-size:10px;color:#15803D;font-weight:600}
+.live-badge.stale{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
+.live-badge.loading{background:#EFF6FF;border-color:#BFDBFE;color:#1D4ED8}
+.live-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pval-wrap{text-align:right}
+.pval-label{font-size:10px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px}
+.pval-num{font-size:26px;font-weight:700;color:#0F172A}
+.pval-fx{font-size:10px;color:#94A3B8;margin-top:2px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:12px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:10px 14px}
+.stat.warn{border-color:#FCA5A5;background:#FEF2F2}
+.stat-lbl{font-size:8px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-val{font-size:17px;font-weight:700}
+
+/* Alerts */
+.alerts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;min-height:0}
+.alert{border-radius:6px;padding:6px 12px;font-size:10px}
+.alert.red{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.alert.amber{background:#FEF3C7;border:1px solid #FCD34D;color:#92400E}
+.alert.green{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D}
+
+/* Tabs */
+.tab-bar{display:flex;background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:0 6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab{padding:11px 15px;font-size:11px;color:#94A3B8;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
+.tab.active{color:#1D4ED8;border-bottom-color:#1D4ED8;font-weight:700}
+.tab:hover:not(.active){color:#475569}
+
+/* Cards */
+.card{background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:18px 22px;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.chart-hint{font-size:10px;color:#94A3B8;margin-bottom:12px;line-height:1.6}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+@media(max-width:700px){.g3{grid-template-columns:1fr}}
+
+/* Legend */
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:10px;color:#475569}
+.leg-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
+.tk-leg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px 6px;margin-top:10px}
+.tk-item{display:flex;align-items:center;gap:4px;font-size:9px;color:#475569;overflow:hidden}
+.tk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tk-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;max-height:460px;overflow-y:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:8px 10px;text-align:left;color:#94A3B8;font-size:9px;font-weight:700;letter-spacing:.8px;border-bottom:2px solid #F1F5F9;background:#F8FAFC;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:1}
+th.r{text-align:right}
+td{padding:6px 10px;border-bottom:1px solid #F8FAFC;white-space:nowrap;font-size:11px}
+td.r{text-align:right}
+tr:hover td{background:#F8FAFC}
+.tk-chip{display:inline-block;background:#EFF6FF;color:#1D4ED8;border-radius:3px;padding:2px 7px;font-weight:700;font-size:10px}
+.stale-chip{display:inline-block;background:#FEF3C7;color:#92400E;border-radius:3px;padding:1px 5px;font-size:8px;margin-left:3px}
+
+/* Inputs */
+.inp{background:#F8FAFC;border:1px solid #E2E8F0;color:#0F172A;padding:4px 6px;border-radius:4px;font-size:10px;font-family:inherit;outline:none;width:80px}
+.inp:focus{border-color:#1D4ED8;background:#fff}
+.inp-tk{color:#1D4ED8;font-weight:700;width:56px}
+.inp-cat{width:162px;font-size:10px}
+.inp-sm{width:62px}
+.inp-xs{width:50px}
+
+/* Buttons */
+.btn{border-radius:6px;padding:9px 18px;font-size:11px;font-family:inherit;font-weight:700;cursor:pointer;border:none}
+.btn-blue{background:#1D4ED8;color:#fff}.btn-blue:hover{background:#1E40AF}
+.btn-green{background:#059669;color:#fff}
+.btn-grey{background:transparent;color:#64748B;border:1px solid #CBD5E1}.btn-grey:hover{background:#F8FAFC}
+.btn-sm{padding:6px 12px;font-size:10px}
+.del-btn{background:transparent;border:1px solid #FCA5A5;color:#DC2626;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;font-family:inherit}
+
+/* DCA */
+.dca-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end}
+.dca-grp{display:flex;flex-direction:column;gap:4px}
+.dca-lbl{font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.5px}
+.dca-inp{background:#fff;border:1px solid #CBD5E1;color:#0F172A;padding:9px 12px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;width:160px}
+
+/* Misc */
+.pos{color:#16A34A;font-weight:700}
+.neg{color:#DC2626;font-weight:700}
+.muted{color:#94A3B8}
+.empty{text-align:center;padding:40px;color:#94A3B8;font-size:12px;line-height:2}
+.empty span{color:#1D4ED8;font-weight:700}
+.ed-tip{margin-top:14px;font-size:10px;color:#94A3B8;line-height:1.8;border-top:1px solid #F1F5F9;padding-top:12px}
+canvas{display:block}
+
+/* Loading overlay */
+.loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.85);display:flex;align-items:center;justify-content:center;z-index:100;font-size:14px;color:#1D4ED8;letter-spacing:.5px;font-family:inherit}
+.loading-spinner{width:20px;height:20px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="loading-overlay" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  Loading live market data…
+</div>
+
+<div class="app">
+  <div class="hdr">
+    <div class="brand-meta">
+      <div class="brand">CRAIGSIDE PORTFOLIO</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+        <span id="live-badge" class="live-badge loading"><span class="live-dot"></span>Loading…</span>
+        <span class="brand-sub" id="last-updated"></span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn btn-grey btn-sm" onclick="refreshData()" title="Re-fetch data.json">⟳ Refresh</button>
+      <div class="pval-wrap">
+        <div class="pval-label">Portfolio Value</div>
+        <div class="pval-num" id="total-val">£0</div>
+        <div class="pval-fx" id="fx-display"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alerts" id="alerts"></div>
+  <div class="stats" id="stats-band"></div>
+  <div class="tab-bar" id="tab-bar"></div>
+  <div id="content"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ─── Constants ────────────────────────────────────────────────────────────────
+const SC = {
+  'AI Infrastructure & Data Centres': '#0EA5E9',
+  'Consumer & Lifestyle':             '#F97316',
+  'Consumer Internet / Platforms':    '#14B8A6',
+  'Critical Materials':               '#D97706',
+  'Defence & Aerospace':              '#78909C',
+  'Fintech':                          '#F59E0B',
+  'Gaming':                           '#8B5CF6',
+  'Nuclear':                          '#22C55E',
+  'Semiconductors & Hardware':        '#EC4899',
+};
+const SS = {
+  'AI Infrastructure & Data Centres': 'AI Infra',
+  'Consumer & Lifestyle':             'Consumer',
+  'Consumer Internet / Platforms':    'Internet',
+  'Critical Materials':               'Materials',
+  'Defence & Aerospace':              'Defence',
+  'Fintech':                          'Fintech',
+  'Gaming':                           'Gaming',
+  'Nuclear':                          'Nuclear',
+  'Semiconductors & Hardware':        'Semis',
+};
+const CATS    = Object.keys(SC);
+const TABS    = ['Overview','Gap Analysis','Upside','ATH Analysis','Planned vs Current','Returns','P&L','DCA Planner','Editor'];
+const RL      = ['1W','1M','3M','6M','1Y','3Y','5Y'];
+const POS     = '#16A34A', NEG = '#DC2626', ACCENT = '#1D4ED8';
+const TEXT    = '#0F172A', MUTED = '#64748B', BORDER = '#CBD5E1', GC = 'rgba(203,213,225,.5)';
+const TS      = { color: MUTED, font: { family:"'Courier New',monospace", size:10 } };
+const CB      = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display:false }, tooltip: {
+    backgroundColor:'#fff', borderColor:BORDER, borderWidth:1,
+    titleColor:TEXT, bodyColor:MUTED, padding:10,
+    titleFont:{ family:"'Courier New',monospace", size:12 },
+    bodyFont:{ family:"'Courier New',monospace", size:11 }
+  }},
+  scales: { x:{ ticks:TS, grid:{ color:GC } }, y:{ ticks:TS, grid:{ color:GC } } }
+};
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let portfolio  = [];   // user config from localStorage
+let liveData   = null; // fetched from data.json
+let activeTab  = 'Overview';
+let charts     = {};
+let nextId     = 31;
+
+// ─── Default portfolio config (used if localStorage is empty) ─────────────────
+const INIT_PORTFOLIO = [
+  {id:1,  ticker:'APLD', category:'AI Infrastructure & Data Centres', shares:13.489,    costBasis:299.55,   plannedTotal:394,   targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:2,  ticker:'ORCL', category:'AI Infrastructure & Data Centres', shares:13.695,    costBasis:1524.85,  plannedTotal:1307,  targetPct:6.5, athHoldingValue:2784,  manualHolding:null},
+  {id:3,  ticker:'IREN', category:'AI Infrastructure & Data Centres', shares:15.172,    costBasis:532.51,   plannedTotal:612,   targetPct:3.0, athHoldingValue:308,   manualHolding:null},
+  {id:4,  ticker:'NKE',  category:'Consumer & Lifestyle',             shares:5.958,     costBasis:199.70,   plannedTotal:200,   targetPct:0,   athHoldingValue:761,   manualHolding:null},
+  {id:5,  ticker:'MSFT', category:'Consumer Internet / Platforms',    shares:4.950,     costBasis:1408.22,  plannedTotal:1488,  targetPct:5.0, athHoldingValue:1671,  manualHolding:null},
+  {id:6,  ticker:'ADBE', category:'Consumer Internet / Platforms',    shares:1.141,     costBasis:199.70,   plannedTotal:214,   targetPct:0,   athHoldingValue:608,   manualHolding:null},
+  {id:7,  ticker:'AAPL', category:'Consumer Internet / Platforms',    shares:null,      costBasis:null,     plannedTotal:1327,  targetPct:6.5, athHoldingValue:1485,  manualHolding:1327},
+  {id:8,  ticker:'GOOGL',category:'Consumer Internet / Platforms',    shares:2.754,     costBasis:577.31,   plannedTotal:800,   targetPct:7.0, athHoldingValue:1005,  manualHolding:null},
+  {id:9,  ticker:'AMZN', category:'Consumer Internet / Platforms',    shares:4.294,     costBasis:680.78,   plannedTotal:862,   targetPct:7.0, athHoldingValue:810,   manualHolding:null},
+  {id:10, ticker:'META', category:'Consumer Internet / Platforms',    shares:1.724,     costBasis:718.85,   plannedTotal:762,   targetPct:5.0, athHoldingValue:1438,  manualHolding:null},
+  {id:11, ticker:'SHOP', category:'Consumer Internet / Platforms',    shares:2.752,     costBasis:239.63,   plannedTotal:219,   targetPct:2.0, athHoldingValue:366,   manualHolding:null},
+  {id:12, ticker:'SNAP', category:'Consumer Internet / Platforms',    shares:66.232,    costBasis:249.62,   plannedTotal:299,   targetPct:0,   athHoldingValue:2790,  manualHolding:null},
+  {id:13, ticker:'NFLX', category:'Consumer Internet / Platforms',    shares:7.082,     costBasis:506.00,   plannedTotal:457,   targetPct:5.0, athHoldingValue:1402,  manualHolding:null},
+  {id:14, ticker:'ALOY', category:'Critical Materials',               shares:70.092,    costBasis:499.25,   plannedTotal:494,   targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:15, ticker:'FLY',  category:'Defence & Aerospace',              shares:13.689,    costBasis:374.44,   plannedTotal:318,   targetPct:0,   athHoldingValue:476,   manualHolding:null},
+  {id:16, ticker:'ARKX', category:'Defence & Aerospace',              shares:57.817,    costBasis:219.66,   plannedTotal:232,   targetPct:2.5, athHoldingValue:272,   manualHolding:null},
+  {id:17, ticker:'HOOD', category:'Fintech',                          shares:4.581,     costBasis:234.64,   plannedTotal:259,   targetPct:2.5, athHoldingValue:715,   manualHolding:null},
+  {id:18, ticker:'SOFI', category:'Fintech',                          shares:43.802,    costBasis:504.24,   plannedTotal:517,   targetPct:2.5, athHoldingValue:1083,  manualHolding:null},
+  {id:19, ticker:'TTWO', category:'Gaming',                           shares:0.997,     costBasis:149.78,   plannedTotal:164,   targetPct:2.0, athHoldingValue:191,   manualHolding:null},
+  {id:20, ticker:'SMR',  category:'Nuclear',                          shares:201.423,   costBasis:1725.05,  plannedTotal:3852,  targetPct:5.0, athHoldingValue:18219, manualHolding:null},
+  {id:21, ticker:'OKLO', category:'Nuclear',                          shares:85.887,    costBasis:4123.46,  plannedTotal:4220,  targetPct:5.0, athHoldingValue:12616, manualHolding:null},
+  {id:22, ticker:'LTBR', category:'Nuclear',                          shares:22.765,    costBasis:199.70,   plannedTotal:220,   targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:23, ticker:'NVA',  category:'Nuclear',                          shares:47.015,    costBasis:199.70,   plannedTotal:208,   targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:24, ticker:'UEC',  category:'Nuclear',                          shares:189.847,   costBasis:1987.01,  plannedTotal:2047,  targetPct:3.0, athHoldingValue:2584,  manualHolding:null},
+  {id:25, ticker:'UUUU', category:'Nuclear',                          shares:null,      costBasis:null,     plannedTotal:43,    targetPct:1.0, athHoldingValue:65,    manualHolding:43},
+  {id:26, ticker:'LEU',  category:'Nuclear',                          shares:34.869,    costBasis:5469.69,  plannedTotal:5278,  targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:27, ticker:'XE',   category:'Nuclear',                          shares:3.674,     costBasis:99.85,    plannedTotal:76,    targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:28, ticker:'NVDA', category:'Semiconductors & Hardware',        shares:3.465,     costBasis:438.26,   plannedTotal:501,   targetPct:5.0, athHoldingValue:586,   manualHolding:null},
+  {id:29, ticker:'AVGO', category:'Semiconductors & Hardware',        shares:1.685,     costBasis:380.20,   plannedTotal:534,   targetPct:5.0, athHoldingValue:915,   manualHolding:null},
+  {id:30, ticker:'ASML', category:'Semiconductors & Hardware',        shares:0.194,     costBasis:199.70,   plannedTotal:209,   targetPct:0.5, athHoldingValue:222,   manualHolding:null},
+];
+
+// ─── Data helpers ─────────────────────────────────────────────────────────────
+function toLiveGBP(price, currency) {
+  if (!liveData || !price) return 0;
+  const gbpusd = liveData.gbpusd || 1.26;
+  const eurusd = liveData.eurusd || 1.08;
+  if (currency === 'GBP') return price;
+  if (currency === 'EUR') return price / (gbpusd / eurusd);
+  return price / gbpusd; // default USD
+}
+
+function computed() {
+  const tc_raw = [];
+  const en = portfolio.map(p => {
+    const live    = liveData?.tickers?.[p.ticker] || {};
+    const price   = live.price   || 0;
+    const curr    = live.currency || 'USD';
+    const priceGBP = toLiveGBP(price, curr);
+
+    // Current holding: live price × shares, or manual override
+    const currentHolding = p.shares
+      ? p.shares * priceGBP
+      : (p.manualHolding || 0);
+
+    const costBasis = p.costBasis || null;
+    const unrealisedPL    = costBasis != null ? currentHolding - costBasis : null;
+    const unrealisedPLPct = (costBasis && costBasis > 0) ? ((currentHolding - costBasis) / costBasis) * 100 : null;
+
+    const analystTarget = live.analystTarget || null;
+    const upside = (analystTarget && price) ? ((analystTarget - price) / price) * 100 : null;
+    const mktCapB = live.mktCapB || null;
+    const returns = live.returns || Object.fromEntries(RL.map(l => [l, null]));
+
+    tc_raw.push(currentHolding);
+
+    return {
+      ...p, price, priceGBP, currency: curr, currentHolding,
+      unrealisedPL, unrealisedPLPct, analystTarget, mktCapB, returns,
+      upside, stale: live.stale || false,
+    };
+  });
+
+  const tc   = tc_raw.reduce((s, v) => s + v, 0);
+  const tp   = portfolio.reduce((s, p) => s + (p.plannedTotal || 0), 0);
+  const tt   = portfolio.reduce((s, p) => s + (p.targetPct   || 0), 0);
+  const pos  = en.filter(p => p.currentHolding > 0.5).length;
+  const tath = portfolio.reduce((s, p) => s + (p.athHoldingValue || 0), 0);
+  const tpl  = en.reduce((s, p) => s + (p.unrealisedPL || 0), 0);
+
+  const wu   = en.filter(p => p.upside != null && p.currentHolding > 0.5);
+  const wt   = wu.reduce((s, p) => s + p.currentHolding, 0);
+  const avgUp = wt > 0 ? wu.reduce((s, p) => s + p.upside * p.currentHolding, 0) / wt : 0;
+
+  const finalEn = en.map(p => ({
+    ...p,
+    curPct:    tc > 0 ? p.currentHolding / tc * 100 : 0,
+    gap:       (p.targetPct || 0) - (tc > 0 ? p.currentHolding / tc * 100 : 0),
+    buyNeeded: (p.plannedTotal || 0) - p.currentHolding,
+  }));
+
+  return { tc, tp, tt, pos, net: tp - tc, tath, tpl, avgUp, en: finalEn };
+}
+
+function agg(en, fn) {
+  const m = {};
+  en.forEach(p => {
+    if (!m[p.category]) m[p.category] = { name: SS[p.category], fullName: p.category, value: 0, color: SC[p.category] };
+    m[p.category].value += fn(p);
+  });
+  return Object.values(m).filter(s => s.value > 0.01);
+}
+
+function mkLeg(items) {
+  return `<div class="leg">${items.map(i => `<span><span class="leg-sq" style="background:${i.color}"></span>${i.name}</span>`).join('')}</div>`;
+}
+
+function sCard(label, val, color, warn) {
+  return `<div class="stat${warn ? ' warn' : ''}"><div class="stat-lbl">${label}</div><div class="stat-val" style="color:${color || TEXT}">${val}</div></div>`;
+}
+
+function fp(v)  { return v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1) + '%'; }
+function fc(v)  { return v == null ? MUTED : v > 0 ? POS : v < 0 ? NEG : MUTED; }
+function fgbp(v){ return '£' + Math.abs(v).toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+
+// ─── UI updates ───────────────────────────────────────────────────────────────
+function updateBadge() {
+  const badge = document.getElementById('live-badge');
+  const lu    = document.getElementById('last-updated');
+  if (!liveData) {
+    badge.className = 'live-badge stale';
+    badge.innerHTML = '<span class="live-dot"></span>No live data';
+    return;
+  }
+  const updated = new Date(liveData.lastUpdated);
+  const ageHrs  = (Date.now() - updated) / 36e5;
+  badge.className = 'live-badge' + (ageHrs > 26 ? ' stale' : '');
+  badge.innerHTML = `<span class="live-dot"></span>${ageHrs > 26 ? 'Stale' : 'Live'}`;
+  lu.textContent  = 'Updated ' + updated.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }) + ' ' + updated.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  if (liveData.gbpusd) {
+    document.getElementById('fx-display').textContent = `GBP/USD ${liveData.gbpusd} · GBP/EUR ${liveData.gbpeur || '—'}`;
+  }
+}
+
+function updateAlerts() {
+  const { en, tt, tc } = computed();
+  const al = [];
+  const toff = Math.abs(tt - 100) > 0.5;
+  if (toff) al.push({ t: `⚠ Target % = ${tt.toFixed(1)}% — ${(100 - tt).toFixed(1)}% unallocated`, c: 'red' });
+  en.forEach(p => { if (p.curPct > 10) al.push({ t: `⚠ ${p.ticker} = ${p.curPct.toFixed(1)}% of portfolio`, c: 'red' }); });
+  const top = en.filter(p => p.upside != null && p.upside > 50 && p.currentHolding > 0.5);
+  if (top.length) al.push({ t: `★ ${top.map(p => p.ticker).join(', ')} — 50%+ analyst upside`, c: 'green' });
+  const losing = en.filter(p => p.unrealisedPLPct != null && p.unrealisedPLPct < -20 && p.currentHolding > 100);
+  if (losing.length) al.push({ t: `↓ ${losing.map(p => p.ticker).join(', ')} — down 20%+ from cost`, c: 'amber' });
+  document.getElementById('alerts').innerHTML = al.slice(0, 6).map(a => `<div class="alert ${a.c}">${a.t}</div>`).join('');
+}
+
+function updateStats() {
+  const { tc, tp, tt, pos, net, tath, tpl, avgUp } = computed();
+  const toff = Math.abs(tt - 100) > 0.5;
+  document.getElementById('total-val').textContent = '£' + tc.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  document.getElementById('stats-band').innerHTML =
+    sCard('Positions', pos, TEXT) +
+    sCard('Planned Total', '£' + Math.round(tp).toLocaleString(), TEXT) +
+    sCard('Target % Sum', tt.toFixed(1) + '%', toff ? NEG : POS, toff) +
+    sCard(net >= 0 ? 'Net to Buy' : 'Net to Sell', '£' + Math.abs(Math.round(net)).toLocaleString(), net > 0 ? POS : net < 0 ? NEG : TEXT) +
+    sCard('Unrealised P&L', (tpl >= 0 ? '+' : '') + fgbp(tpl), tpl >= 0 ? POS : NEG) +
+    sCard('Total ATH Value', '£' + Math.round(tath).toLocaleString(), MUTED) +
+    sCard('Wtd Avg Upside', fp(avgUp), avgUp >= 0 ? POS : NEG);
+  updateAlerts();
+}
+
+// ─── Renderers ────────────────────────────────────────────────────────────────
+function renderOverview() {
+  const { en } = computed();
+  const cs   = agg(en, p => p.curPct);
+  const ts   = agg(en, p => p.targetPct || 0);
+  const held = en.filter(p => p.currentHolding > 0.5).sort((a, b) => b.currentHolding - a.currentHolding);
+  const sC   = Object.values(en.reduce((m, p) => {
+    if (!m[p.category]) m[p.category] = { name: SS[p.category], cur: 0, tgt: 0 };
+    m[p.category].cur += p.curPct; m[p.category].tgt += (p.targetPct || 0); return m;
+  }, {}));
+  const tkLeg = `<div class="tk-leg">${held.map(p => `<div class="tk-item"><div class="tk-dot" style="background:${SC[p.category]}"></div><span class="tk-txt">${p.ticker} ${p.curPct.toFixed(1)}%</span></div>`).join('')}</div>`;
+  const rows  = [...en].sort((a, b) => b.currentHolding - a.currentHolding).map(p => `<tr>
+    <td><span class="tk-chip">${p.ticker}</span>${p.stale ? '<span class="stale-chip">stale</span>' : ''}</td>
+    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    <td class="r">${p.shares != null ? p.shares.toFixed(3) : '—'}</td>
+    <td class="r">${p.currentHolding > 0.5 ? fgbp(p.currentHolding) : '—'}</td>
+    <td class="r">${p.curPct.toFixed(2)}%</td>
+    <td class="r">${p.targetPct > 0 ? p.targetPct.toFixed(1) + '%' : '—'}</td>
+    <td class="r" style="color:${p.gap > .2 ? POS : p.gap < -.2 ? NEG : MUTED};font-weight:700">${p.gap > .05 ? '+' : ''}${p.gap.toFixed(2)}%</td>
+    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL != null ? (p.unrealisedPL >= 0 ? '+' : '-') + fgbp(p.unrealisedPL) : '—'}</td>
+    <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
+    <td class="r">${p.price > 0 ? '$' + p.price.toFixed(2) : '—'}</td>
+    <td class="r">${p.analystTarget ? '$' + p.analystTarget.toFixed(2) : '—'}</td>
+    <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
+    <td class="r" style="font-size:9px;color:${MUTED}">${p.mktCapB != null ? '$' + p.mktCapB + 'B' : '—'}</td>
+  </tr>`).join('');
+
+  return `
+  <div class="g3">
+    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Sector</div>${mkLeg(cs.map(s => ({ name: s.name, color: s.color })))}<div style="position:relative;height:180px"><canvas id="c-cp"></canvas></div></div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Sector</div>${mkLeg(ts.map(s => ({ name: s.name, color: s.color })))}<div style="position:relative;height:180px"><canvas id="c-tp"></canvas></div></div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Ticker</div><div style="position:relative;height:180px"><canvas id="c-tkp"></canvas></div>${tkLeg}</div>
+  </div>
+  <div class="card"><div class="card-title">Sector: Current vs Target %</div>${mkLeg([{ name: 'Current %', color: ACCENT }, { name: 'Target %', color: POS }])}<div style="position:relative;height:220px"><canvas id="c-sb"></canvas></div></div>
+  <div class="card"><div class="card-title">All Positions — Live</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ticker</th><th>Sector</th><th class="r">Shares</th><th class="r">Holding £</th><th class="r">Cur%</th><th class="r">Tgt%</th><th class="r">Gap</th><th class="r">P&L £</th><th class="r">P&L %</th><th class="r">Price</th><th class="r">Analyst</th><th class="r">Upside</th><th class="r">Mkt Cap</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderGap() {
+  return `<div class="card"><div class="card-title">Gap to Target % per Ticker</div>
+    <div class="chart-hint"><span style="color:${POS}">■</span> Underweight — needs buying &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Overweight — consider trimming</div>
+    <div id="gap-wrap" style="position:relative"><canvas id="c-gap"></canvas></div></div>`;
+}
+
+function renderUpside() {
+  return `<div class="card"><div class="card-title">Analyst Price Target Upside — High to Low</div>
+    <div class="chart-hint">Colour-coded by sector &nbsp;·&nbsp; Negative = priced above analyst consensus &nbsp;·&nbsp; No coverage excluded &nbsp;·&nbsp; Prices in native currency</div>
+    <div id="up-wrap" style="position:relative"><canvas id="c-up"></canvas></div></div>`;
+}
+
+function renderATH() {
+  return `<div class="card"><div class="card-title">ATH Holding Value vs Current (£)</div>
+    <div class="chart-hint"><span style="color:${NEG}">■</span> Peak recorded value &nbsp;·&nbsp; <span style="color:${ACCENT}">■</span> Current live value</div>
+    ${mkLeg([{ name: 'ATH Value', color: NEG }, { name: 'Current', color: ACCENT }])}
+    <div id="ath-wrap" style="position:relative"><canvas id="c-ath"></canvas></div></div>`;
+}
+
+function renderPlanned() {
+  return `
+  <div class="card"><div class="card-title">Planned Total vs Current Holding (£)</div>
+    ${mkLeg([{ name: 'Current', color: ACCENT }, { name: 'Planned', color: POS }])}
+    <div id="pvc-wrap" style="position:relative"><canvas id="c-pvc"></canvas></div></div>
+  <div class="card"><div class="card-title">Buy / Sell Required to Hit Plan (£)</div>
+    <div class="chart-hint"><span style="color:${POS}">■</span> Buy &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Sell / trim &nbsp;·&nbsp; Edit Planned Total in Editor tab</div>
+    <div id="bs-wrap" style="position:relative"><canvas id="c-bs"></canvas></div></div>`;
+}
+
+function renderReturns() {
+  const { en } = computed();
+  const held = en.filter(p => p.currentHolding > 0.5).sort((a, b) => b.currentHolding - a.currentHolding);
+  const rows = held.map(p => `<tr>
+    <td><span class="tk-chip">${p.ticker}</span>${p.stale ? '<span class="stale-chip">stale</span>' : ''}</td>
+    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    ${RL.map(l => { const v = p.returns?.[l]; return `<td class="r" style="color:${fc(v)};font-weight:${v != null ? 700 : 400}">${fp(v)}</td>`; }).join('')}
+  </tr>`).join('');
+  return `
+  <div class="card"><div class="card-title">Period Returns — Auto-populated Daily</div>
+    <div class="chart-hint">Data fetched automatically each evening from Yahoo Finance. Stale badge = last known price. Blank = insufficient price history for that period.</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Ticker</th><th>Sector</th>${RL.map(l => `<th class="r">${l}</th>`).join('')}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div></div>
+  <div class="card"><div class="card-title">1-Year Return — Best to Worst</div>
+    <div id="ret-wrap" style="position:relative"><canvas id="c-ret"></canvas></div></div>
+  <div class="card"><div class="card-title">3-Month Return — Best to Worst</div>
+    <div id="ret3m-wrap" style="position:relative"><canvas id="c-ret3m"></canvas></div></div>`;
+}
+
+function renderPL() {
+  const { en, tpl } = computed();
+  return `
+  <div class="card"><div class="card-title">Unrealised P&L by Position (£) — Live</div>
+    <div class="chart-hint"><span style="color:${POS}">■</span> In profit &nbsp;·&nbsp; <span style="color:${NEG}">■</span> In loss &nbsp;·&nbsp; Portfolio total P&L: <strong style="color:${tpl >= 0 ? POS : NEG}">${tpl >= 0 ? '+' : ''}${fgbp(tpl)}</strong></div>
+    <div id="pl-wrap" style="position:relative"><canvas id="c-pl"></canvas></div></div>
+  <div class="card"><div class="card-title">Unrealised P&L % — Best to Worst</div>
+    <div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
+}
+
+function renderDCA() {
+  return `<div class="card"><div class="card-title">DCA Planner</div>
+    <div class="dca-row">
+      <div class="dca-grp"><div class="dca-lbl">Monthly budget</div><input class="dca-inp" id="dca-budget" type="number" value="500" min="0" oninput="renderDCATable()"></div>
+      <div class="dca-grp"><div class="dca-lbl">Method</div>
+        <select class="dca-inp" id="dca-method" onchange="renderDCATable()">
+          <option value="gap">Proportional to gap</option>
+          <option value="equal">Equal split</option>
+        </select>
+      </div>
+    </div>
+    <div id="dca-table-wrap"></div>
+    <div class="chart-hint" style="margin-top:12px;margin-bottom:0">Only positions with a Target % and a positive gap (underweight) are included.</div>
+  </div>`;
+}
+
+function renderEditor() {
+  const rows = portfolio.map(p => `<tr>
+    <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
+    <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${CATS.map(c => `<option value="${c}"${c === p.category ? ' selected' : ''}>${SS[c]}</option>`).join('')}</select></td>
+    <td><input class="inp inp-sm" value="${p.shares ?? ''}" placeholder="shares" onblur="upd(${p.id},'shares',this.value)"></td>
+    <td><input class="inp" value="${p.manualHolding ?? ''}" placeholder="if no shares" onblur="upd(${p.id},'manualHolding',this.value)"></td>
+    <td><input class="inp" value="${p.costBasis ?? ''}" placeholder="£ invested" onblur="upd(${p.id},'costBasis',this.value)"></td>
+    <td><input class="inp" value="${p.plannedTotal ?? ''}" onblur="upd(${p.id},'plannedTotal',this.value)"></td>
+    <td><input class="inp inp-xs" value="${p.targetPct ?? ''}" onblur="upd(${p.id},'targetPct',this.value)"></td>
+    <td><input class="inp" value="${p.athHoldingValue ?? ''}" onblur="upd(${p.id},'athHoldingValue',this.value)"></td>
+    <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
+  </tr>`).join('');
+  return `<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div class="card-title" style="margin-bottom:0">Portfolio Editor</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-blue" onclick="addRow()">+ Add Ticker</button>
+        <button class="btn btn-green" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="btn btn-grey" onclick="exportPortfolioJSON()">↓ portfolio.json</button>
+        <button class="btn btn-grey" onclick="resetData()">↺ Reset</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr>
+        <th>Ticker</th><th>Category</th><th>Shares</th><th>Manual £</th>
+        <th>Cost Basis £</th><th>Planned £</th><th>Tgt%</th><th>ATH £</th><th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+    <div class="ed-tip">
+      💡 <strong>Shares</strong> = number held → current value auto-calculated from live price.<br>
+      <strong>Manual £</strong> = use instead of shares (e.g. if you don't know your share count — AAPL, UUUU).<br>
+      <strong>Cost Basis</strong> = total £ invested → P&L calculated automatically daily.<br>
+      <strong>portfolio.json</strong> downloads your current config to commit to GitHub (keeps it in sync).
+    </div>
+  </div>`;
+}
+
+// ─── Chart drawing ────────────────────────────────────────────────────────────
+function destroyCharts() { Object.values(charts).forEach(c => { try { c.destroy(); } catch {} }); charts = {}; }
+
+function drawCharts() {
+  destroyCharts();
+  const { en } = computed();
+  const doO = { ...CB, cutout: '60%', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%` } } } };
+
+  if (activeTab === 'Overview') {
+    const cs   = agg(en, p => p.curPct), ts = agg(en, p => p.targetPct || 0);
+    const held = en.filter(p => p.currentHolding > 0.5).sort((a, b) => b.currentHolding - a.currentHolding);
+    const sC   = Object.values(en.reduce((m, p) => { if (!m[p.category]) m[p.category] = { name: SS[p.category], cur: 0, tgt: 0 }; m[p.category].cur += p.curPct; m[p.category].tgt += (p.targetPct || 0); return m; }, {}));
+    charts.cp  = new Chart(document.getElementById('c-cp'),  { type: 'doughnut', data: { labels: cs.map(s => s.name),   datasets: [{ data: cs.map(s => s.value),   backgroundColor: cs.map(s => s.color),         borderWidth: 2, borderColor: '#fff' }] }, options: doO });
+    charts.tp  = new Chart(document.getElementById('c-tp'),  { type: 'doughnut', data: { labels: ts.map(s => s.name),   datasets: [{ data: ts.map(s => s.value),   backgroundColor: ts.map(s => s.color + '99'),  borderWidth: 2, borderColor: '#fff' }] }, options: doO });
+    charts.tkp = new Chart(document.getElementById('c-tkp'), { type: 'doughnut', data: { labels: held.map(p => p.ticker), datasets: [{ data: held.map(p => p.curPct), backgroundColor: held.map(p => SC[p.category]), borderWidth: 2, borderColor: '#fff' }] }, options: doO });
+    charts.sb  = new Chart(document.getElementById('c-sb'),  { type: 'bar', data: { labels: sC.map(s => s.name), datasets: [{ label: 'Current %', data: sC.map(s => +s.cur.toFixed(2)), backgroundColor: ACCENT + 'CC', borderRadius: 4 }, { label: 'Target %', data: sC.map(s => +s.tgt.toFixed(2)), backgroundColor: POS + 'CC', borderRadius: 4 }] }, options: { ...CB, plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%` } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, autoSkip: false } }, y: { ...CB.scales.y, ticks: { ...TS, callback: v => v + '%' } } } } });
+  }
+  else if (activeTab === 'Gap Analysis') {
+    const gd = [...en].filter(p => (p.targetPct || 0) > 0 || p.curPct > 0.1).sort((a, b) => b.gap - a.gap);
+    document.getElementById('gap-wrap').style.height = Math.max(gd.length * 28 + 50, 150) + 'px';
+    charts.gap = new Chart(document.getElementById('c-gap'), { type: 'bar', data: { labels: gd.map(p => p.ticker), datasets: [{ data: gd.map(p => +p.gap.toFixed(2)), backgroundColor: gd.map(p => p.gap >= 0 ? POS + 'CC' : NEG + 'CC'), borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${v > 0 ? '+' : ''}${v.toFixed(2)}%`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => (v > 0 ? '+' : '') + v.toFixed(1) + '%' } }, y: { ...CB.scales.y, ticks: TS } } } });
+  }
+  else if (activeTab === 'Upside') {
+    const ud = en.filter(p => p.upside != null).sort((a, b) => b.upside - a.upside);
+    document.getElementById('up-wrap').style.height = Math.max(ud.length * 28 + 50, 150) + 'px';
+    charts.up = new Chart(document.getElementById('c-up'), { type: 'bar', data: { labels: ud.map(p => p.ticker), datasets: [{ data: ud.map(p => +p.upside.toFixed(1)), backgroundColor: ud.map(p => p.upside >= 0 ? (SC[p.category] || ACCENT) + 'CC' : NEG + 'CC'), borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${v > 0 ? '+' : ''}${v.toFixed(1)}%`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => (v > 0 ? '+' : '') + v.toFixed(0) + '%' } }, y: { ...CB.scales.y, ticks: TS } } } });
+  }
+  else if (activeTab === 'ATH Analysis') {
+    const ad = en.filter(p => p.athHoldingValue && p.currentHolding > 0.5).sort((a, b) => b.athHoldingValue - a.athHoldingValue);
+    document.getElementById('ath-wrap').style.height = Math.max(ad.length * 40 + 60, 150) + 'px';
+    charts.ath = new Chart(document.getElementById('c-ath'), { type: 'bar', data: { labels: ad.map(p => p.ticker), datasets: [{ label: 'ATH', data: ad.map(p => p.athHoldingValue), backgroundColor: NEG + '88', borderRadius: 3 }, { label: 'Current', data: ad.map(p => p.currentHolding), backgroundColor: ACCENT + 'CC', borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}` } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => '£' + (v / 1000).toFixed(0) + 'k' } }, y: { ...CB.scales.y, ticks: TS } } } });
+  }
+  else if (activeTab === 'Planned vs Current') {
+    const pd  = en.filter(p => (p.plannedTotal || 0) > 0 || p.currentHolding > 0.5).sort((a, b) => b.currentHolding - a.currentHolding);
+    const bsd = pd.filter(p => Math.abs(p.buyNeeded) > 0.5).sort((a, b) => b.buyNeeded - a.buyNeeded);
+    document.getElementById('pvc-wrap').style.height = Math.max(pd.length * 40 + 60, 150) + 'px';
+    charts.pvc = new Chart(document.getElementById('c-pvc'), { type: 'bar', data: { labels: pd.map(p => p.ticker), datasets: [{ label: 'Current', data: pd.map(p => p.currentHolding), backgroundColor: ACCENT + 'CC', borderRadius: 3 }, { label: 'Planned', data: pd.map(p => p.plannedTotal || 0), backgroundColor: POS + 'CC', borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}` } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => '£' + (v / 1000).toFixed(1) + 'k' } }, y: { ...CB.scales.y, ticks: TS } } } });
+    const bsW = document.getElementById('bs-wrap');
+    if (bsd.length > 0) {
+      bsW.style.height = Math.max(bsd.length * 28 + 50, 80) + 'px';
+      charts.bs = new Chart(document.getElementById('c-bs'), { type: 'bar', data: { labels: bsd.map(p => p.ticker), datasets: [{ data: bsd.map(p => Math.round(p.buyNeeded)), backgroundColor: bsd.map(p => p.buyNeeded >= 0 ? POS + 'CC' : NEG + 'CC'), borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${v >= 0 ? 'Buy' : 'Sell'}: ${fgbp(Math.abs(v))}`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => '£' + (v >= 0 ? '+' : '') + Math.round(v).toLocaleString() } }, y: { ...CB.scales.y, ticks: TS } } } });
+    } else {
+      bsW.innerHTML = `<div class="empty">All planned totals match current holdings.<br><span>Update Planned Total £ in Editor tab to generate signals.</span></div>`;
+    }
+  }
+  else if (activeTab === 'Returns') {
+    const mkRetChart = (id, wrapId, period) => {
+      const wd = en.filter(p => p.currentHolding > 0.5 && p.returns?.[period] != null).sort((a, b) => b.returns[period] - a.returns[period]);
+      const w = document.getElementById(wrapId);
+      if (wd.length > 0) {
+        w.style.height = Math.max(wd.length * 28 + 50, 100) + 'px';
+        return new Chart(document.getElementById(id), { type: 'bar', data: { labels: wd.map(p => p.ticker), datasets: [{ data: wd.map(p => wd[0].returns[period] !== undefined ? p.returns[period] : null), backgroundColor: wd.map(p => p.returns[period] >= 0 ? (SC[p.category] || ACCENT) + 'CC' : NEG + 'CC'), borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${period}: ${v > 0 ? '+' : ''}${v.toFixed(1)}%`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => (v > 0 ? '+' : '') + v.toFixed(0) + '%' } }, y: { ...CB.scales.y, ticks: TS } } } });
+      } else {
+        w.innerHTML = `<div class="empty">No ${period} return data yet. Run the GitHub Action first.</div>`;
+        return null;
+      }
+    };
+    charts.ret   = mkRetChart('c-ret',   'ret-wrap',   '1Y');
+    charts.ret3m = mkRetChart('c-ret3m', 'ret3m-wrap', '3M');
+  }
+  else if (activeTab === 'P&L') {
+    const wpl  = en.filter(p => p.unrealisedPL != null && p.currentHolding > 0.5).sort((a, b) => b.unrealisedPL - a.unrealisedPL);
+    const wpct = en.filter(p => p.unrealisedPLPct != null && p.currentHolding > 0.5).sort((a, b) => b.unrealisedPLPct - a.unrealisedPLPct);
+    document.getElementById('pl-wrap').style.height    = Math.max(wpl.length * 28 + 50, 100) + 'px';
+    document.getElementById('plpct-wrap').style.height = Math.max(wpct.length * 28 + 50, 100) + 'px';
+    charts.pl    = new Chart(document.getElementById('c-pl'),    { type: 'bar', data: { labels: wpl.map(p => p.ticker),  datasets: [{ data: wpl.map(p => p.unrealisedPL),    backgroundColor: wpl.map(p => p.unrealisedPL >= 0 ? POS + 'CC' : NEG + 'CC'),    borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${v >= 0 ? '+' : '-'}${fgbp(Math.abs(v))}`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => (v >= 0 ? '+' : '') + '£' + Math.round(v) } }, y: { ...CB.scales.y, ticks: TS } } } });
+    charts.plpct = new Chart(document.getElementById('c-plpct'), { type: 'bar', data: { labels: wpct.map(p => p.ticker), datasets: [{ data: wpct.map(p => p.unrealisedPLPct), backgroundColor: wpct.map(p => p.unrealisedPLPct >= 0 ? (SC[p.category] || POS) + 'CC' : NEG + 'CC'), borderRadius: 3 }] }, options: { ...CB, indexAxis: 'y', plugins: { ...CB.plugins, tooltip: { ...CB.plugins.tooltip, callbacks: { label: ctx => { const v = ctx.parsed.x; return ` ${v >= 0 ? '+' : ''}${v.toFixed(2)}%`; } } } }, scales: { x: { ...CB.scales.x, ticks: { ...TS, callback: v => (v >= 0 ? '+' : '') + v.toFixed(0) + '%' } }, y: { ...CB.scales.y, ticks: TS } } } });
+  }
+}
+
+// ─── DCA Planner ──────────────────────────────────────────────────────────────
+window.renderDCATable = function () {
+  const { en } = computed();
+  const budget = parseFloat(document.getElementById('dca-budget').value) || 0;
+  const method = document.getElementById('dca-method').value;
+  const uw     = en.filter(p => (p.targetPct || 0) > 0 && p.gap > 0.1).sort((a, b) => b.gap - a.gap);
+  if (!uw.length) { document.getElementById('dca-table-wrap').innerHTML = `<div class="empty">No underweight positions. <span>Set target % values in Editor.</span></div>`; return; }
+  const totalGap = uw.reduce((s, p) => s + p.gap, 0);
+  const rows = uw.map(p => {
+    const al = method === 'gap' ? budget * (p.gap / totalGap) : budget / uw.length;
+    return `<tr><td><span class="tk-chip">${p.ticker}</span></td><td class="muted" style="font-size:9px">${SS[p.category]}</td>
+      <td class="r">${p.curPct.toFixed(2)}%</td><td class="r">${p.targetPct.toFixed(1)}%</td>
+      <td class="r pos">+${p.gap.toFixed(2)}%</td>
+      <td class="r" style="font-weight:700;color:${ACCENT}">£${al.toFixed(2)}</td>
+      <td class="r">${(al / budget * 100).toFixed(1)}%</td></tr>`;
+  }).join('');
+  document.getElementById('dca-table-wrap').innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>Ticker</th><th>Sector</th><th class="r">Cur%</th><th class="r">Tgt%</th><th class="r">Gap</th><th class="r">Allocate</th><th class="r">Of Budget</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+};
+
+// ─── Tab routing ──────────────────────────────────────────────────────────────
+function setTab(t) {
+  activeTab = t;
+  document.querySelectorAll('.tab').forEach(el => el.className = 'tab' + (el.dataset.tab === t ? ' active' : ''));
+  const fn = { Overview: renderOverview, 'Gap Analysis': renderGap, Upside: renderUpside, 'ATH Analysis': renderATH, 'Planned vs Current': renderPlanned, Returns: renderReturns, 'P&L': renderPL, 'DCA Planner': renderDCA, Editor: renderEditor };
+  document.getElementById('content').innerHTML = fn[t] ? fn[t]() : '';
+  if (t === 'DCA Planner') setTimeout(renderDCATable, 20);
+  else if (t !== 'Editor') setTimeout(drawCharts, 40);
+}
+
+// ─── Portfolio CRUD ───────────────────────────────────────────────────────────
+function savePortfolio() {
+  localStorage.setItem('craigside-portfolio-v1', JSON.stringify(portfolio));
+}
+
+window.upd = function (id, field, val) {
+  const nf = ['shares', 'manualHolding', 'costBasis', 'plannedTotal', 'targetPct', 'athHoldingValue'];
+  const v  = nf.includes(field) ? (val === '' || val == null ? null : parseFloat(val) || 0) : val;
+  const p  = portfolio.find(x => x.id === id); if (p) p[field] = v;
+  updateStats(); savePortfolio();
+};
+
+window.addRow = function () {
+  portfolio.push({ id: nextId++, ticker: 'NEW', category: CATS[0], shares: null, costBasis: null, plannedTotal: 0, targetPct: 0, athHoldingValue: null, manualHolding: null });
+  setTab('Editor'); updateStats(); savePortfolio();
+};
+
+window.delRow = function (id) {
+  portfolio = portfolio.filter(p => p.id !== id);
+  setTab('Editor'); updateStats(); savePortfolio();
+};
+
+window.resetData = function () {
+  if (confirm('Reset portfolio config to original data?')) {
+    portfolio = INIT_PORTFOLIO.map(p => ({ ...p })); nextId = 31;
+    updateStats(); setTab('Editor'); savePortfolio();
+  }
+};
+
+window.exportCSV = function () {
+  const { en } = computed();
+  const heads = ['Ticker', 'Category', 'Shares', 'Holding £', 'Cost Basis £', 'Unrealised P&L £', 'P&L %', 'Planned £', 'Target %', 'ATH £', 'Price', 'Analyst Target', 'Upside %', 'Mkt Cap $B', ...RL.map(l => l + ' Return %')];
+  const rows  = en.sort((a, b) => b.currentHolding - a.currentHolding).map(p => [
+    p.ticker, p.category, p.shares ?? '', p.currentHolding.toFixed(2), p.costBasis ?? '',
+    p.unrealisedPL != null ? p.unrealisedPL.toFixed(2) : '', p.unrealisedPLPct != null ? p.unrealisedPLPct.toFixed(2) : '',
+    p.plannedTotal ?? '', p.targetPct ?? '', p.athHoldingValue ?? '',
+    p.price ?? '', p.analystTarget ?? '', p.upside != null ? p.upside.toFixed(2) : '', p.mktCapB ?? '',
+    ...RL.map(l => p.returns?.[l] ?? '')
+  ].join(','));
+  const csv = [heads.join(','), ...rows].join('\n');
+  const a   = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv); a.download = 'craigside_portfolio.csv'; a.click();
+};
+
+window.exportPortfolioJSON = function () {
+  const data = { version: 1, holdings: portfolio.map(({ id, ticker, category, shares, costBasis, plannedTotal, targetPct, athHoldingValue, manualHolding }) => ({ id, ticker, category, shares, costBasis, plannedTotal, targetPct, athHoldingValue, manualHolding: manualHolding || null })) };
+  const a    = document.createElement('a'); a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data, null, 2)); a.download = 'portfolio.json'; a.click();
+};
+
+// ─── Live data fetch ──────────────────────────────────────────────────────────
+async function fetchLiveData() {
+  try {
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('data.json not found');
+    liveData = await res.json();
+  } catch (e) {
+    console.warn('Could not load data.json:', e.message);
+    liveData = null;
+  }
+}
+
+window.refreshData = async function () {
+  document.getElementById('live-badge').className = 'live-badge loading';
+  document.getElementById('live-badge').innerHTML = '<span class="live-dot"></span>Refreshing…';
+  await fetchLiveData();
+  updateBadge(); updateStats(); setTab(activeTab);
+};
+
+// ─── Initialisation ───────────────────────────────────────────────────────────
+async function init() {
+  // Load portfolio config from localStorage (or use defaults)
+  const saved = localStorage.getItem('craigside-portfolio-v1');
+  portfolio   = saved ? JSON.parse(saved) : INIT_PORTFOLIO.map(p => ({ ...p }));
+  nextId      = Math.max(...portfolio.map(p => p.id)) + 1;
+
+  // Fetch live market data
+  await fetchLiveData();
+
+  // Build UI
+  document.getElementById('loading-overlay').style.display = 'none';
+  updateBadge();
+  document.getElementById('tab-bar').innerHTML = TABS.map(t => `<button class="tab" data-tab="${t}" onclick="setTab('${t}')">${t}</button>`).join('');
+  updateStats();
+  setTab('Overview');
+}
+
+init();
+</script>
+</body>
+</html>
