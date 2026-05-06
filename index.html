@@ -3,91 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Craigside Portfolio</title>
+<title>Trading 212 Portfolio</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-size:14px}
+body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-size:15px}
 .app{padding:18px 22px;max-width:1800px;margin:0 auto}
 .hdr{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:16px 24px;margin-bottom:12px;gap:16px;flex-wrap:wrap}
 .brand{font-size:22px;font-weight:700;color:#1E3A8A}
 .brand-meta{display:flex;flex-direction:column;gap:3px}
 .brand-sub-row{display:flex;align-items:center;gap:8px;margin-top:4px}
-.live-badge{display:inline-flex;align-items:center;gap:5px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:20px;padding:3px 10px;font-size:10px;color:#15803D;font-weight:600}
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:20px;padding:3px 10px;font-size:11px;color:#15803D;font-weight:600}
 .live-badge.stale{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
 .live-badge.loading{background:#EFF6FF;border-color:#BFDBFE;color:#1D4ED8}
-.live-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.brand-sub{font-size:10px;color:#94A3B8}
+.live-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.brand-sub{font-size:11px;color:#94A3B8}
 .pval-wrap{text-align:right}
-.pval-label{font-size:10px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px}
-.pval-num{font-size:26px;font-weight:700}
-.pval-fx{font-size:10px;color:#94A3B8;margin-top:2px}
+.pval-label{font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px}
+.pval-num{font-size:28px;font-weight:700}
+.pval-fx{font-size:11px;color:#94A3B8;margin-top:2px}
 .stats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:12px}
 @media(max-width:900px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .stat{background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:10px 14px}
 .stat.warn{border-color:#FCA5A5;background:#FEF2F2}
-.stat-lbl{font-size:8px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.stat-val{font-size:17px;font-weight:700}
+.stat-lbl{font-size:9px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-val{font-size:18px;font-weight:700}
 .alerts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.alert{border-radius:6px;padding:6px 12px;font-size:10px}
+.alert{border-radius:6px;padding:7px 13px;font-size:11px}
 .alert.red{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
 .alert.amber{background:#FEF3C7;border:1px solid #FCD34D;color:#92400E}
 .alert.green{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D}
 .tab-bar{display:flex;background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:0 6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab{padding:11px 15px;font-size:11px;color:#94A3B8;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
+.tab{padding:12px 16px;font-size:11px;color:#94A3B8;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
 .tab.active{color:#1D4ED8;border-bottom-color:#1D4ED8;font-weight:700}
 .tab:hover:not(.active){color:#475569}
 .card{background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:18px 22px;margin-bottom:14px}
-.card-title{font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
-.chart-hint{font-size:10px;color:#94A3B8;margin-bottom:12px;line-height:1.6}
+.card-title{font-size:12px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.chart-hint{font-size:11px;color:#94A3B8;margin-bottom:12px;line-height:1.6}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:700px){.g2{grid-template-columns:1fr}}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:10px;color:#475569}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:11px;color:#475569}
 .leg-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
 .tk-leg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px 6px;margin-top:10px}
-.tk-item{display:flex;align-items:center;gap:4px;font-size:9px;color:#475569;overflow:hidden}
-.tk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tk-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#475569;overflow:hidden}
+.tk-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .tk-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tbl-wrap{overflow-x:auto;max-height:480px;overflow-y:auto}
+.tbl-wrap{overflow-x:auto;max-height:500px;overflow-y:auto}
 table{width:100%;border-collapse:collapse}
-th{padding:8px 10px;text-align:left;color:#64748B;font-size:9px;font-weight:700;letter-spacing:.8px;border-bottom:2px solid #F1F5F9;background:#F8FAFC;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:1}
+th{padding:9px 10px;text-align:left;color:#64748B;font-size:10px;font-weight:700;letter-spacing:.8px;border-bottom:2px solid #F1F5F9;background:#F8FAFC;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:1}
 th.r{text-align:right}
 th.sortable{cursor:pointer;user-select:none}
 th.sortable:hover{color:#1D4ED8;background:#EFF6FF}
-td{padding:6px 10px;border-bottom:1px solid #F8FAFC;white-space:nowrap;font-size:11px}
+td{padding:7px 10px;border-bottom:1px solid #F8FAFC;white-space:nowrap;font-size:12px}
 td.r{text-align:right}
 tr:hover td{background:#F8FAFC}
-.tk-chip{display:inline-block;background:#EFF6FF;color:#1D4ED8;border-radius:3px;padding:2px 7px;font-weight:700;font-size:10px}
-.stale-chip{display:inline-block;background:#FEF3C7;color:#92400E;border-radius:3px;padding:1px 5px;font-size:8px;margin-left:3px}
-.manual-chip{display:inline-block;background:#FDF4FF;color:#7C3AED;border-radius:3px;padding:1px 5px;font-size:8px;margin-left:3px}
-.inp{background:#F8FAFC;border:1px solid #E2E8F0;color:#0F172A;padding:4px 6px;border-radius:4px;font-size:10px;font-family:inherit;outline:none;width:80px}
+.tk-chip{display:inline-block;background:#EFF6FF;color:#1D4ED8;border-radius:3px;padding:2px 8px;font-weight:700;font-size:11px}
+.stale-chip{display:inline-block;background:#FEF3C7;color:#92400E;border-radius:3px;padding:1px 6px;font-size:9px;margin-left:3px}
+.manual-chip{display:inline-block;background:#FDF4FF;color:#7C3AED;border-radius:3px;padding:1px 6px;font-size:9px;margin-left:3px}
+.inp{background:#F8FAFC;border:1px solid #E2E8F0;color:#0F172A;padding:5px 7px;border-radius:4px;font-size:11px;font-family:inherit;outline:none;width:82px}
 .inp:focus{border-color:#1D4ED8;background:#fff}
-.inp-tk{color:#1D4ED8;font-weight:700;width:56px}
-.inp-cat{width:162px;font-size:10px}
-.inp-sm{width:64px}
-.inp-xs{width:52px}
-.btn{border-radius:6px;padding:9px 18px;font-size:11px;font-family:inherit;font-weight:700;cursor:pointer;border:none}
+.inp-tk{color:#1D4ED8;font-weight:700;width:58px}
+.inp-cat{width:200px;font-size:11px}
+.inp-sm{width:68px}
+.inp-xs{width:54px}
+.inp-lg{width:220px}
+.btn{border-radius:6px;padding:9px 18px;font-size:12px;font-family:inherit;font-weight:700;cursor:pointer;border:none}
 .btn-blue{background:#1D4ED8;color:#fff}.btn-blue:hover{background:#1E40AF}
 .btn-green{background:#059669;color:#fff}
 .btn-grey{background:transparent;color:#64748B;border:1px solid #CBD5E1}.btn-grey:hover{background:#F8FAFC}
-.btn-sm{padding:6px 12px;font-size:10px}
-.del-btn{background:transparent;border:1px solid #FCA5A5;color:#DC2626;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;font-family:inherit}
+.btn-red{background:transparent;color:#DC2626;border:1px solid #FCA5A5}.btn-red:hover{background:#FEF2F2}
+.btn-sm{padding:6px 12px;font-size:11px}
+.del-btn{background:transparent;border:1px solid #FCA5A5;color:#DC2626;border-radius:4px;padding:4px 9px;font-size:11px;cursor:pointer;font-family:inherit}
 .del-btn:hover{background:#FEF2F2}
 .dca-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end}
-.dca-grp{display:flex;flex-direction:column;gap:4px}
-.dca-lbl{font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.5px}
-.dca-inp{background:#fff;border:1px solid #CBD5E1;color:#0F172A;padding:9px 12px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;width:160px}
+.dca-grp{display:flex;flex-direction:column;gap:5px}
+.dca-lbl{font-size:11px;color:#64748B;text-transform:uppercase;letter-spacing:.5px}
+.dca-inp{background:#fff;border:1px solid #CBD5E1;color:#0F172A;padding:9px 12px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;width:170px}
 .pos{color:#16A34A;font-weight:700}
 .neg{color:#DC2626;font-weight:700}
 .muted{color:#94A3B8}
-.empty{text-align:center;padding:40px;color:#94A3B8;font-size:12px;line-height:2}
+.empty{text-align:center;padding:40px;color:#94A3B8;font-size:13px;line-height:2}
 .empty span{color:#1D4ED8;font-weight:700}
-.ed-tip{margin-top:14px;font-size:10px;color:#94A3B8;line-height:1.8;border-top:1px solid #F1F5F9;padding-top:12px}
-.ed-field-guide{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:10px;line-height:1.9;color:#475569}
+.ed-tip{margin-top:14px;font-size:11px;color:#94A3B8;line-height:1.8;border-top:1px solid #F1F5F9;padding-top:12px}
+.ed-field-guide{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:13px 17px;margin-bottom:14px;font-size:11px;line-height:2;color:#475569}
 .ed-field-guide strong{color:#0F172A}
 canvas{display:block}
-.loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.85);display:flex;align-items:center;justify-content:center;z-index:100;font-size:14px;color:#1D4ED8;font-family:inherit}
-.loading-spinner{width:20px;height:20px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:12px}
+/* Category manager */
+.cat-section{border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-bottom:14px}
+.cat-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#F8FAFC;cursor:pointer;user-select:none}
+.cat-header:hover{background:#F1F5F9}
+.cat-header-title{font-size:12px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1px}
+.cat-body{padding:14px 16px;display:none}
+.cat-body.open{display:block}
+.cat-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F8FAFC}
+.cat-swatch{width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;padding:0;flex-shrink:0}
+.cat-inp-full{flex:1;min-width:160px}
+.cat-inp-short{width:100px}
+.cat-add-row{display:flex;align-items:center;gap:10px;padding-top:12px;margin-top:6px;border-top:1px solid #F1F5F9;flex-wrap:wrap}
+.loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.88);display:flex;align-items:center;justify-content:center;z-index:100;font-size:15px;color:#1D4ED8;font-family:inherit}
+.loading-spinner{width:22px;height:22px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -98,7 +112,7 @@ canvas{display:block}
 <div class="app">
   <div class="hdr">
     <div class="brand-meta">
-      <div class="brand">CRAIGSIDE PORTFOLIO</div>
+      <div class="brand">TRADING 212 PORTFOLIO</div>
       <div class="brand-sub-row">
         <span id="live-badge" class="live-badge loading"><span class="live-dot"></span>Loading…</span>
         <span class="brand-sub" id="last-updated"></span>
@@ -120,104 +134,97 @@ canvas{display:block}
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ── Constants ──────────────────────────────────────────────────────────────
-const SC={
-  'AI Infrastructure & Data Centres':'#0EA5E9',
-  'Consumer & Lifestyle':'#F97316',
-  'Consumer Internet / Platforms':'#14B8A6',
-  'Critical Materials':'#D97706',
-  'Defence & Aerospace':'#78909C',
-  'Fintech':'#F59E0B',
-  'Gaming':'#8B5CF6',
-  'Nuclear':'#22C55E',
-  'Semiconductors & Hardware':'#EC4899'
-};
-const SS={
-  'AI Infrastructure & Data Centres':'AI Infra',
-  'Consumer & Lifestyle':'Consumer',
-  'Consumer Internet / Platforms':'Internet',
-  'Critical Materials':'Materials',
-  'Defence & Aerospace':'Defence',
-  'Fintech':'Fintech',
-  'Gaming':'Gaming',
-  'Nuclear':'Nuclear',
-  'Semiconductors & Hardware':'Semis'
-};
-const CATS=Object.keys(SC);
+// ── Default categories (stored in localStorage, fully editable) ──────────
+const DEFAULT_CATS=[
+  {id:'c1',fullName:'AI Infrastructure & Data Centres',shortName:'AI Infra',  color:'#0EA5E9'},
+  {id:'c2',fullName:'Consumer & Lifestyle',             shortName:'Consumer',  color:'#F97316'},
+  {id:'c3',fullName:'Consumer Internet / Platforms',    shortName:'Internet',  color:'#14B8A6'},
+  {id:'c4',fullName:'Critical Materials',               shortName:'Materials', color:'#D97706'},
+  {id:'c5',fullName:'Defence & Aerospace',              shortName:'Defence',   color:'#78909C'},
+  {id:'c6',fullName:'Fintech',                          shortName:'Fintech',   color:'#F59E0B'},
+  {id:'c7',fullName:'Gaming',                           shortName:'Gaming',    color:'#8B5CF6'},
+  {id:'c8',fullName:'Nuclear',                          shortName:'Nuclear',   color:'#22C55E'},
+  {id:'c9',fullName:'Semiconductors & Hardware',        shortName:'Semis',     color:'#EC4899'},
+];
+let categories=[];
+function loadCategories(){
+  const s=localStorage.getItem('t212-categories-v1');
+  categories=s?JSON.parse(s):[...DEFAULT_CATS.map(c=>({...c}))];
+}
+function saveCategories(){localStorage.setItem('t212-categories-v1',JSON.stringify(categories));}
+function getCatColor(fullName){return categories.find(c=>c.fullName===fullName)?.color||'#94A3B8';}
+function getCatShort(fullName){return categories.find(c=>c.fullName===fullName)?.shortName||fullName;}
+
+// ── Constants ─────────────────────────────────────────────────────────────
 const TABS=['Overview','Gap Analysis','Upside','ATH Analysis','Planned vs Current','Returns','P&L','DCA Planner','Editor'];
 const RL=['1W','1M','3M','6M','1Y','3Y','5Y'];
 const POS='#16A34A',NEG='#DC2626',ACCENT='#1D4ED8',TEXT='#0F172A',MUTED='#64748B',BORDER='#CBD5E1',GC='rgba(203,213,225,.5)';
-const TS={color:MUTED,font:{family:"'Courier New',monospace",size:10}};
+const TS={color:MUTED,font:{family:"'Courier New',monospace",size:11}};
 const CB={
   responsive:true,maintainAspectRatio:false,
   plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:BORDER,borderWidth:1,titleColor:TEXT,bodyColor:MUTED,padding:10,titleFont:{family:"'Courier New',monospace",size:12},bodyFont:{family:"'Courier New',monospace",size:11}}},
   scales:{x:{ticks:TS,grid:{color:GC}},y:{ticks:TS,grid:{color:GC}}}
 };
 
-// ── State ──────────────────────────────────────────────────────────────────
-let portfolio=[], liveData=null, activeTab='Overview', charts={}, nextId=31;
-let sortStates={};
+// ── State ─────────────────────────────────────────────────────────────────
+let portfolio=[],liveData=null,activeTab='Overview',charts={},nextId=31,sortStates={},catOpen=false;
 
-// ── Default config ─────────────────────────────────────────────────────────
+// ── Default portfolio ─────────────────────────────────────────────────────
 const INIT_PORTFOLIO=[
-  {id:1, ticker:'APLD', category:'AI Infrastructure & Data Centres', shares:13.489,  costBasis:299.55,  plannedTotal:394,  targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:2, ticker:'ORCL', category:'AI Infrastructure & Data Centres', shares:13.695,  costBasis:1524.85, plannedTotal:1307, targetPct:6.5, athHoldingValue:null, manualHolding:null},
-  {id:3, ticker:'IREN', category:'AI Infrastructure & Data Centres', shares:15.172,  costBasis:532.51,  plannedTotal:612,  targetPct:3.0, athHoldingValue:null, manualHolding:null},
-  {id:4, ticker:'NKE',  category:'Consumer & Lifestyle',             shares:5.958,   costBasis:199.70,  plannedTotal:200,  targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:5, ticker:'MSFT', category:'Consumer Internet / Platforms',    shares:4.950,   costBasis:1408.22, plannedTotal:1488, targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:6, ticker:'ADBE', category:'Consumer Internet / Platforms',    shares:1.141,   costBasis:199.70,  plannedTotal:214,  targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:7, ticker:'AAPL', category:'Consumer Internet / Platforms',    shares:null,    costBasis:null,    plannedTotal:1327, targetPct:6.5, athHoldingValue:null, manualHolding:1327},
-  {id:8, ticker:'GOOGL',category:'Consumer Internet / Platforms',    shares:2.754,   costBasis:577.31,  plannedTotal:800,  targetPct:7.0, athHoldingValue:null, manualHolding:null},
-  {id:9, ticker:'AMZN', category:'Consumer Internet / Platforms',    shares:4.294,   costBasis:680.78,  plannedTotal:862,  targetPct:7.0, athHoldingValue:null, manualHolding:null},
-  {id:10,ticker:'META', category:'Consumer Internet / Platforms',    shares:1.724,   costBasis:718.85,  plannedTotal:762,  targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:11,ticker:'SHOP', category:'Consumer Internet / Platforms',    shares:2.752,   costBasis:239.63,  plannedTotal:219,  targetPct:2.0, athHoldingValue:null, manualHolding:null},
-  {id:12,ticker:'SNAP', category:'Consumer Internet / Platforms',    shares:66.232,  costBasis:249.62,  plannedTotal:299,  targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:13,ticker:'NFLX', category:'Consumer Internet / Platforms',    shares:7.082,   costBasis:506.00,  plannedTotal:457,  targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:14,ticker:'ALOY', category:'Critical Materials',               shares:70.092,  costBasis:499.25,  plannedTotal:494,  targetPct:0,   athHoldingValue:null, manualHolding:494.22},
-  {id:15,ticker:'FLY',  category:'Defence & Aerospace',              shares:13.689,  costBasis:374.44,  plannedTotal:318,  targetPct:0,   athHoldingValue:null, manualHolding:317.67},
-  {id:16,ticker:'ARKX', category:'Defence & Aerospace',              shares:57.817,  costBasis:219.66,  plannedTotal:232,  targetPct:2.5, athHoldingValue:null, manualHolding:232.43},
-  {id:17,ticker:'HOOD', category:'Fintech',                          shares:4.581,   costBasis:234.64,  plannedTotal:259,  targetPct:2.5, athHoldingValue:null, manualHolding:null},
-  {id:18,ticker:'SOFI', category:'Fintech',                          shares:43.802,  costBasis:504.24,  plannedTotal:517,  targetPct:2.5, athHoldingValue:null, manualHolding:null},
-  {id:19,ticker:'TTWO', category:'Gaming',                           shares:0.997,   costBasis:149.78,  plannedTotal:164,  targetPct:2.0, athHoldingValue:null, manualHolding:null},
-  {id:20,ticker:'SMR',  category:'Nuclear',                          shares:201.423, costBasis:1725.05, plannedTotal:3852, targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:21,ticker:'OKLO', category:'Nuclear',                          shares:85.887,  costBasis:4123.46, plannedTotal:4220, targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:22,ticker:'LTBR', category:'Nuclear',                          shares:22.765,  costBasis:199.70,  plannedTotal:220,  targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:23,ticker:'NVA',  category:'Nuclear',                          shares:47.015,  costBasis:199.70,  plannedTotal:208,  targetPct:0,   athHoldingValue:null, manualHolding:208.32},
-  {id:24,ticker:'UEC',  category:'Nuclear',                          shares:189.847, costBasis:1987.01, plannedTotal:2047, targetPct:3.0, athHoldingValue:null, manualHolding:null},
-  {id:25,ticker:'UUUU', category:'Nuclear',                          shares:null,    costBasis:null,    plannedTotal:43,   targetPct:1.0, athHoldingValue:null, manualHolding:43},
-  {id:26,ticker:'LEU',  category:'Nuclear',                          shares:34.869,  costBasis:5469.69, plannedTotal:5278, targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:27,ticker:'XE',   category:'Nuclear',                          shares:3.674,   costBasis:99.85,   plannedTotal:76,   targetPct:0,   athHoldingValue:null, manualHolding:null},
-  {id:28,ticker:'NVDA', category:'Semiconductors & Hardware',        shares:3.465,   costBasis:438.26,  plannedTotal:501,  targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:29,ticker:'AVGO', category:'Semiconductors & Hardware',        shares:1.685,   costBasis:380.20,  plannedTotal:534,  targetPct:5.0, athHoldingValue:null, manualHolding:null},
-  {id:30,ticker:'ASML', category:'Semiconductors & Hardware',        shares:0.194,   costBasis:199.70,  plannedTotal:209,  targetPct:0.5, athHoldingValue:null, manualHolding:null}
+  {id:1, ticker:'APLD', category:'AI Infrastructure & Data Centres', shares:13.489,  costBasis:299.55,  plannedTotal:394,  targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:2, ticker:'ORCL', category:'AI Infrastructure & Data Centres', shares:13.695,  costBasis:1524.85, plannedTotal:1307, targetPct:6.5, athHoldingValue:2784,  manualHolding:null},
+  {id:3, ticker:'IREN', category:'AI Infrastructure & Data Centres', shares:15.172,  costBasis:532.51,  plannedTotal:612,  targetPct:3.0, athHoldingValue:308,   manualHolding:null},
+  {id:4, ticker:'NKE',  category:'Consumer & Lifestyle',             shares:5.958,   costBasis:199.70,  plannedTotal:200,  targetPct:0,   athHoldingValue:761,   manualHolding:null},
+  {id:5, ticker:'MSFT', category:'Consumer Internet / Platforms',    shares:4.950,   costBasis:1408.22, plannedTotal:1488, targetPct:5.0, athHoldingValue:1671,  manualHolding:null},
+  {id:6, ticker:'ADBE', category:'Consumer Internet / Platforms',    shares:1.141,   costBasis:199.70,  plannedTotal:214,  targetPct:0,   athHoldingValue:608,   manualHolding:null},
+  {id:7, ticker:'AAPL', category:'Consumer Internet / Platforms',    shares:null,    costBasis:null,    plannedTotal:1327, targetPct:6.5, athHoldingValue:1485,  manualHolding:1327},
+  {id:8, ticker:'GOOGL',category:'Consumer Internet / Platforms',    shares:2.754,   costBasis:577.31,  plannedTotal:800,  targetPct:7.0, athHoldingValue:1005,  manualHolding:null},
+  {id:9, ticker:'AMZN', category:'Consumer Internet / Platforms',    shares:4.294,   costBasis:680.78,  plannedTotal:862,  targetPct:7.0, athHoldingValue:810,   manualHolding:null},
+  {id:10,ticker:'META', category:'Consumer Internet / Platforms',    shares:1.724,   costBasis:718.85,  plannedTotal:762,  targetPct:5.0, athHoldingValue:1438,  manualHolding:null},
+  {id:11,ticker:'SHOP', category:'Consumer Internet / Platforms',    shares:2.752,   costBasis:239.63,  plannedTotal:219,  targetPct:2.0, athHoldingValue:366,   manualHolding:null},
+  {id:12,ticker:'SNAP', category:'Consumer Internet / Platforms',    shares:66.232,  costBasis:249.62,  plannedTotal:299,  targetPct:0,   athHoldingValue:2790,  manualHolding:null},
+  {id:13,ticker:'NFLX', category:'Consumer Internet / Platforms',    shares:7.082,   costBasis:506.00,  plannedTotal:457,  targetPct:5.0, athHoldingValue:1402,  manualHolding:null},
+  {id:14,ticker:'ALOY', category:'Critical Materials',               shares:70.092,  costBasis:499.25,  plannedTotal:494,  targetPct:0,   athHoldingValue:null,  manualHolding:494.22},
+  {id:15,ticker:'FLY',  category:'Defence & Aerospace',              shares:13.689,  costBasis:374.44,  plannedTotal:318,  targetPct:0,   athHoldingValue:476,   manualHolding:317.67},
+  {id:16,ticker:'ARKX', category:'Defence & Aerospace',              shares:57.817,  costBasis:219.66,  plannedTotal:232,  targetPct:2.5, athHoldingValue:272,   manualHolding:232.43},
+  {id:17,ticker:'HOOD', category:'Fintech',                          shares:4.581,   costBasis:234.64,  plannedTotal:259,  targetPct:2.5, athHoldingValue:715,   manualHolding:null},
+  {id:18,ticker:'SOFI', category:'Fintech',                          shares:43.802,  costBasis:504.24,  plannedTotal:517,  targetPct:2.5, athHoldingValue:1083,  manualHolding:null},
+  {id:19,ticker:'TTWO', category:'Gaming',                           shares:0.997,   costBasis:149.78,  plannedTotal:164,  targetPct:2.0, athHoldingValue:191,   manualHolding:null},
+  {id:20,ticker:'SMR',  category:'Nuclear',                          shares:201.423, costBasis:1725.05, plannedTotal:3852, targetPct:5.0, athHoldingValue:18219, manualHolding:null},
+  {id:21,ticker:'OKLO', category:'Nuclear',                          shares:85.887,  costBasis:4123.46, plannedTotal:4220, targetPct:5.0, athHoldingValue:12616, manualHolding:null},
+  {id:22,ticker:'LTBR', category:'Nuclear',                          shares:22.765,  costBasis:199.70,  plannedTotal:220,  targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:23,ticker:'NVA',  category:'Nuclear',                          shares:47.015,  costBasis:199.70,  plannedTotal:208,  targetPct:0,   athHoldingValue:null,  manualHolding:208.32},
+  {id:24,ticker:'UEC',  category:'Nuclear',                          shares:189.847, costBasis:1987.01, plannedTotal:2047, targetPct:3.0, athHoldingValue:2584,  manualHolding:null},
+  {id:25,ticker:'UUUU', category:'Nuclear',                          shares:null,    costBasis:null,    plannedTotal:43,   targetPct:1.0, athHoldingValue:65,    manualHolding:43},
+  {id:26,ticker:'LEU',  category:'Nuclear',                          shares:34.869,  costBasis:5469.69, plannedTotal:5278, targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:27,ticker:'XE',   category:'Nuclear',                          shares:3.674,   costBasis:99.85,   plannedTotal:76,   targetPct:0,   athHoldingValue:null,  manualHolding:null},
+  {id:28,ticker:'NVDA', category:'Semiconductors & Hardware',        shares:3.465,   costBasis:438.26,  plannedTotal:501,  targetPct:5.0, athHoldingValue:586,   manualHolding:null},
+  {id:29,ticker:'AVGO', category:'Semiconductors & Hardware',        shares:1.685,   costBasis:380.20,  plannedTotal:534,  targetPct:5.0, athHoldingValue:915,   manualHolding:null},
+  {id:30,ticker:'ASML', category:'Semiconductors & Hardware',        shares:0.194,   costBasis:199.70,  plannedTotal:209,  targetPct:0.5, athHoldingValue:222,   manualHolding:null},
 ];
 
-// ── Data helpers ───────────────────────────────────────────────────────────
+// ── Data helpers ──────────────────────────────────────────────────────────
 function toLiveGBP(price,currency){
-  if(!liveData||!price) return 0;
-  const g=liveData.gbpusd||1.26, e=liveData.eurusd||1.08;
-  if(currency==='GBP') return price;
-  if(currency==='EUR') return price/(g/e);
+  if(!liveData||!price)return 0;
+  const g=liveData.gbpusd||1.26,e=liveData.eurusd||1.08;
+  if(currency==='GBP')return price;
+  if(currency==='EUR')return price/(g/e);
   return price/g;
 }
 
 function computed(){
   const en=portfolio.map(p=>{
     const live=liveData?.tickers?.[p.ticker]||{};
-    const price=live.price||0, curr=live.currency||'USD';
+    const price=live.price||0,curr=live.currency||'USD';
     const priceGBP=toLiveGBP(price,curr);
-
-    // manualHolding overrides auto-calculation if set
     const usingManual=p.manualHolding!=null;
-    const currentHolding=usingManual
-      ? p.manualHolding
-      : (p.shares!=null ? p.shares*priceGBP : 0);
+    const currentHolding=usingManual?p.manualHolding:(p.shares!=null?p.shares*priceGBP:0);
 
-    // ATH: auto from live athPrice × shares, fallback to manual
+    // ATH: live athPrice × shares if available, else stored athHoldingValue fallback
     const athPriceGBP=live.athPrice?toLiveGBP(live.athPrice,curr):null;
-    const athHoldingValue=
-      (athPriceGBP&&p.shares) ? p.shares*athPriceGBP
-      : (p.athHoldingValue||null);
+    const athHoldingValue=(athPriceGBP&&p.shares!=null)
+      ?p.shares*athPriceGBP
+      :(p.athHoldingValue||null);
 
     const cb=p.costBasis||null;
     const unrealisedPL=cb!=null?currentHolding-cb:null;
@@ -226,12 +233,10 @@ function computed(){
     const upside=(analystTarget&&price)?((analystTarget-price)/price)*100:null;
     const mktCapB=live.mktCapB||null;
     const returns=live.returns||Object.fromEntries(RL.map(l=>[l,null]));
-
     return{...p,price,priceGBP,currency:curr,currentHolding,usingManual,
       athHoldingValue,unrealisedPL,unrealisedPLPct,
       analystTarget,mktCapB,returns,upside,stale:live.stale||false};
   });
-
   const tc=en.reduce((s,p)=>s+(p.currentHolding||0),0);
   const tp=portfolio.reduce((s,p)=>s+(p.plannedTotal||0),0);
   const tt=portfolio.reduce((s,p)=>s+(p.targetPct||0),0);
@@ -241,11 +246,11 @@ function computed(){
   const wu=en.filter(p=>p.upside!=null&&p.currentHolding>0.5);
   const wt=wu.reduce((s,p)=>s+p.currentHolding,0);
   const avgUp=wt>0?wu.reduce((s,p)=>s+p.upside*p.currentHolding,0)/wt:0;
-
   const fin=en.map(p=>({...p,
     curPct:tc>0?p.currentHolding/tc*100:0,
     gap:(p.targetPct||0)-(tc>0?p.currentHolding/tc*100:0),
-    buyNeeded:(p.plannedTotal||0)-p.currentHolding
+    buyNeeded:(p.plannedTotal||0)-p.currentHolding,
+    drawdown:p.athHoldingValue>0?((p.currentHolding-p.athHoldingValue)/p.athHoldingValue)*100:null
   }));
   return{tc,tp,tt,pos,net:tp-tc,tath,tpl,avgUp,en:fin};
 }
@@ -253,7 +258,7 @@ function computed(){
 function agg(en,fn){
   const m={};
   en.forEach(p=>{
-    if(!m[p.category])m[p.category]={name:SS[p.category],fullName:p.category,value:0,color:SC[p.category]};
+    if(!m[p.category])m[p.category]={name:getCatShort(p.category),fullName:p.category,value:0,color:getCatColor(p.category)};
     m[p.category].value+=fn(p);
   });
   return Object.values(m).filter(s=>s.value>0.01);
@@ -265,15 +270,19 @@ function fp(v){return v==null?'—':(v>0?'+':'')+v.toFixed(1)+'%';}
 function fc(v){return v==null?MUTED:v>0?POS:v<0?NEG:MUTED;}
 function fgbp(v){return'£'+Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-// ── Sort helpers ───────────────────────────────────────────────────────────
-function getSorted(arr,tab,def='currentHolding'){
-  const s=sortStates[tab]||{field:def,dir:'desc'};
+// ── Sort helpers — supports nested paths like "returns.1Y" ────────────────
+function getVal(obj,path){
+  // Handles dot-notation paths e.g. "returns.1Y"
+  return path.split('.').reduce((o,k)=>o==null?null:o[k],obj);
+}
+function getSorted(arr,tab,defField){
+  const s=sortStates[tab]||{field:defField||'currentHolding',dir:'desc'};
   return[...arr].sort((a,b)=>{
-    let va=a[s.field],vb=b[s.field];
+    let va=getVal(a,s.field),vb=getVal(b,s.field);
     if(va==null&&vb==null)return 0;
     if(va==null)return 1;
     if(vb==null)return-1;
-    const cmp=typeof va==='string'?va.localeCompare(vb):va-vb;
+    const cmp=typeof va==='string'?va.localeCompare(vb):Number(va)-Number(vb);
     return s.dir==='asc'?cmp:-cmp;
   });
 }
@@ -284,15 +293,15 @@ window.sortBy=function(tab,field){
 };
 function sa(tab,field){
   const s=sortStates[tab];
-  if(!s||s.field!==field)return'↕';
+  if(!s||s.field!==field)return'<span style="opacity:.3">↕</span>';
   return s.dir==='desc'?'↓':'↑';
 }
-function th(tab,field,label,cls=''){
-  return`<th class="${cls} sortable" onclick="sortBy('${tab}','${field}')">${label} ${sa(tab,field)}</th>`;
+function th(tab,field,label,extra=''){
+  return`<th class="sortable${extra?' r':''}" onclick="sortBy('${tab}','${field}')">${label} ${sa(tab,field)}</th>`;
 }
 function thr(tab,field,label){return th(tab,field,label,'r');}
 
-// ── Header/stats update ────────────────────────────────────────────────────
+// ── Stats / alerts ────────────────────────────────────────────────────────
 function updateBadge(){
   const b=document.getElementById('live-badge'),lu=document.getElementById('last-updated');
   if(!liveData){b.className='live-badge stale';b.innerHTML='<span class="live-dot"></span>No live data';return;}
@@ -302,7 +311,6 @@ function updateBadge(){
   lu.textContent='Updated '+upd.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})+' '+upd.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   if(liveData.gbpusd)document.getElementById('fx-display').textContent=`GBP/USD ${liveData.gbpusd} · GBP/EUR ${liveData.gbpeur||'—'}`;
 }
-
 function updateAlerts(){
   const{en,tt}=computed();
   const al=[];
@@ -313,10 +321,9 @@ function updateAlerts(){
   const losing=en.filter(p=>p.unrealisedPLPct!=null&&p.unrealisedPLPct<-20&&p.currentHolding>100);
   if(losing.length)al.push({t:`↓ ${losing.map(p=>p.ticker).join(', ')} — down 20%+ from cost`,c:'amber'});
   const manual=en.filter(p=>p.usingManual&&p.currentHolding>0.5);
-  if(manual.length)al.push({t:`🔒 Manual override active: ${manual.map(p=>p.ticker).join(', ')} — update £ value when holdings change`,c:'amber'});
+  if(manual.length)al.push({t:`🔒 Manual override: ${manual.map(p=>p.ticker).join(', ')} — update £ when holdings change`,c:'amber'});
   document.getElementById('alerts').innerHTML=al.slice(0,6).map(a=>`<div class="alert ${a.c}">${a.t}</div>`).join('');
 }
-
 function updateStats(){
   const{tc,tp,tt,pos,net,tath,tpl,avgUp}=computed();
   const toff=Math.abs(tt-100)>0.5;
@@ -332,47 +339,45 @@ function updateStats(){
   updateAlerts();
 }
 
-// ── Renderers ──────────────────────────────────────────────────────────────
+// ── Renderers ─────────────────────────────────────────────────────────────
 function renderOverview(){
   const{en}=computed();
-  const cs=agg(en,p=>p.curPct);
-  const ts=agg(en,p=>p.targetPct||0);
+  const cs=agg(en,p=>p.curPct),ts=agg(en,p=>p.targetPct||0);
   const held=en.filter(p=>p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
-  const sC=Object.values(en.reduce((m,p)=>{if(!m[p.category])m[p.category]={name:SS[p.category],cur:0,tgt:0};m[p.category].cur+=p.curPct;m[p.category].tgt+=(p.targetPct||0);return m;},{}));
-  const tkLegCur=`<div class="tk-leg">${held.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${SC[p.category]}"></div><span class="tk-txt">${p.ticker} ${p.curPct.toFixed(1)}%</span></div>`).join('')}</div>`;
-  const tkTgtData=en.filter(p=>(p.targetPct||0)>0);
-  const tkLegTgt=`<div class="tk-leg">${tkTgtData.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${SC[p.category]}"></div><span class="tk-txt">${p.ticker} ${p.targetPct}%</span></div>`).join('')}</div>`;
-
+  const tkTgt=en.filter(p=>(p.targetPct||0)>0);
+  const sC=Object.values(en.reduce((m,p)=>{
+    const k=p.category;
+    if(!m[k])m[k]={name:getCatShort(k),cur:0,tgt:0};
+    m[k].cur+=p.curPct;m[k].tgt+=(p.targetPct||0);return m;
+  },{}));
+  const tkLegCur=`<div class="tk-leg">${held.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${getCatColor(p.category)}"></div><span class="tk-txt">${p.ticker} ${p.curPct.toFixed(1)}%</span></div>`).join('')}</div>`;
+  const tkLegTgt=`<div class="tk-leg">${tkTgt.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${getCatColor(p.category)}"></div><span class="tk-txt">${p.ticker} ${p.targetPct}%</span></div>`).join('')}</div>`;
   const sorted=getSorted(en,'Overview','currentHolding');
-  const rows=sorted.map(p=>{
-    const gC=p.gap>.2?POS:p.gap<-.2?NEG:MUTED;
-    return`<tr>
-      <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}${p.usingManual?'<span class="manual-chip">manual</span>':''}</td>
-      <td class="muted" style="font-size:9px">${SS[p.category]}</td>
-      <td class="r">${p.shares!=null?p.shares.toFixed(3):'—'}</td>
-      <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'—'}</td>
-      <td class="r">${p.curPct.toFixed(2)}%</td>
-      <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'—'}</td>
-      <td class="r" style="color:${gC};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
-      <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'—'}</td>
-      <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
-      <td class="r">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
-      <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'—'}</td>
-      <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
-      <td class="r" style="font-size:9px;color:${MUTED}">${p.mktCapB!=null?'$'+p.mktCapB+'B':'—'}</td>
-    </tr>`;
-  }).join('');
-
+  const rows=sorted.map(p=>`<tr>
+    <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}${p.usingManual?'<span class="manual-chip">manual</span>':''}</td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
+    <td class="r">${p.shares!=null?p.shares.toFixed(3):'—'}</td>
+    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'—'}</td>
+    <td class="r">${p.curPct.toFixed(2)}%</td>
+    <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'—'}</td>
+    <td class="r" style="color:${p.gap>.2?POS:p.gap<-.2?NEG:MUTED};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
+    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'—'}</td>
+    <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
+    <td class="r">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
+    <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'—'}</td>
+    <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
+    <td class="r" style="font-size:10px;color:${MUTED}">${p.mktCapB!=null?'$'+p.mktCapB+'B':'—'}</td>
+  </tr>`).join('');
   return`
   <div class="g2">
-    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Sector</div>${mkLeg(cs.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:230px"><canvas id="c-cp"></canvas></div></div>
-    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Ticker</div><div style="position:relative;height:230px"><canvas id="c-tkp"></canvas></div>${tkLegCur}</div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Sector</div>${mkLeg(cs.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:240px"><canvas id="c-cp"></canvas></div></div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Current by Ticker</div><div style="position:relative;height:240px"><canvas id="c-tkp"></canvas></div>${tkLegCur}</div>
   </div>
   <div class="g2">
-    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Sector</div>${mkLeg(ts.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:230px"><canvas id="c-tp"></canvas></div></div>
-    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Ticker</div><div style="position:relative;height:230px"><canvas id="c-tkp2"></canvas></div>${tkLegTgt}</div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Sector</div>${mkLeg(ts.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:240px"><canvas id="c-tp"></canvas></div></div>
+    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Ticker</div><div style="position:relative;height:240px"><canvas id="c-tkp2"></canvas></div>${tkLegTgt}</div>
   </div>
-  <div class="card"><div class="card-title">Sector: Current % vs Target %</div>${mkLeg([{name:'Current %',color:ACCENT},{name:'Target %',color:POS}])}<div style="position:relative;height:220px"><canvas id="c-sb"></canvas></div></div>
+  <div class="card"><div class="card-title">Sector: Current % vs Target %</div>${mkLeg([{name:'Current %',color:ACCENT},{name:'Target %',color:POS}])}<div style="position:relative;height:230px"><canvas id="c-sb"></canvas></div></div>
   <div class="card"><div class="card-title">Ticker: Current % vs Target %</div>${mkLeg([{name:'Current %',color:ACCENT},{name:'Target %',color:POS}])}<div id="c-tkbar-wrap" style="position:relative"><canvas id="c-tkbar"></canvas></div></div>
   <div class="card"><div class="card-title">All Positions</div>
     <div class="tbl-wrap"><table>
@@ -392,20 +397,22 @@ function renderOverview(){
 
 function renderGap(){
   const{en}=computed();
-  const gd=getSorted(en.filter(p=>(p.targetPct||0)>0||p.curPct>0.1),'Gap Analysis','gap');
-  const rows=gd.map(p=>{
+  const all=en.filter(p=>(p.targetPct||0)>0||p.curPct>0.1);
+  const sorted=getSorted(all,'Gap Analysis','gap');
+  const tc=en.reduce((s,p)=>s+(p.currentHolding||0),0);
+  const rows=sorted.map(p=>{
     const gC=p.gap>=0?POS:NEG;
     return`<tr>
       <td><span class="tk-chip">${p.ticker}</span></td>
-      <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+      <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
       <td class="r">${p.curPct.toFixed(2)}%</td>
       <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'—'}</td>
       <td class="r" style="color:${gC};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
-      <td class="r" style="color:${gC};font-weight:700">${fgbp(Math.abs(p.gap/100*(en.reduce((s,x)=>s+x.currentHolding,0))))}</td>
+      <td class="r" style="color:${gC};font-weight:700">${fgbp(Math.abs(p.gap/100*tc))}</td>
     </tr>`;
   }).join('');
   return`<div class="card"><div class="card-title">Gap to Target % per Ticker</div>
-    <div class="chart-hint"><span style="color:${POS}">■</span> Underweight — needs buying &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Overweight — consider trimming &nbsp;·&nbsp; Click headers to sort</div>
+    <div class="chart-hint"><span style="color:${POS}">■</span> Underweight &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Overweight &nbsp;·&nbsp; Click headers to sort</div>
     <div id="gap-wrap" style="position:relative"><canvas id="c-gap"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
       <thead><tr>${th('Gap Analysis','ticker','Ticker')}${th('Gap Analysis','category','Sector')}${thr('Gap Analysis','curPct','Cur%')}${thr('Gap Analysis','targetPct','Tgt%')}${thr('Gap Analysis','gap','Gap %')}${thr('Gap Analysis','gap','Gap £')}</tr></thead>
@@ -416,17 +423,17 @@ function renderGap(){
 
 function renderUpside(){
   const{en}=computed();
-  const ud=getSorted(en.filter(p=>p.upside!=null),'Upside','upside');
-  const rows=ud.map(p=>`<tr>
+  const sorted=getSorted(en.filter(p=>p.upside!=null),'Upside','upside');
+  const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
-    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
     <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'—'}</td>
     <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
     <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'—'}</td>
   </tr>`).join('');
-  return`<div class="card"><div class="card-title">Analyst Price Target Upside — High to Low</div>
-    <div class="chart-hint">Colour-coded by sector &nbsp;·&nbsp; Negative = priced above analyst consensus &nbsp;·&nbsp; No coverage excluded &nbsp;·&nbsp; Click headers to sort</div>
+  return`<div class="card"><div class="card-title">Analyst Price Target Upside</div>
+    <div class="chart-hint">Colour-coded by sector &nbsp;·&nbsp; Click headers to sort &nbsp;·&nbsp; No coverage excluded</div>
     <div id="up-wrap" style="position:relative"><canvas id="c-up"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
       <thead><tr>${th('Upside','ticker','Ticker')}${th('Upside','category','Sector')}${thr('Upside','price','Price')}${thr('Upside','analystTarget','Analyst Tgt')}${thr('Upside','upside','Upside %')}${thr('Upside','currentHolding','Holding £')}</tr></thead>
@@ -437,36 +444,38 @@ function renderUpside(){
 
 function renderATH(){
   const{en}=computed();
-  const ad=getSorted(en.filter(p=>p.athHoldingValue&&p.currentHolding>0.5),'ATH Analysis','athHoldingValue');
-  const rows=ad.map(p=>{
-    const drawdown=p.athHoldingValue>0?((p.currentHolding-p.athHoldingValue)/p.athHoldingValue)*100:null;
-    return`<tr>
-      <td><span class="tk-chip">${p.ticker}</span></td>
-      <td class="muted" style="font-size:9px">${SS[p.category]}</td>
-      <td class="r">${fgbp(p.currentHolding)}</td>
-      <td class="r" style="color:${NEG};font-weight:700">${fgbp(p.athHoldingValue)}</td>
-      <td class="r" style="color:${NEG};font-weight:700">${fp(drawdown)}</td>
-      <td class="r" style="color:${MUTED};font-size:9px">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
-    </tr>`;
-  }).join('');
+  const withATH=en.filter(p=>p.athHoldingValue!=null&&p.athHoldingValue>0&&p.currentHolding>0.5);
+  const sorted=getSorted(withATH,'ATH Analysis','athHoldingValue');
+  const rows=sorted.map(p=>`<tr>
+    <td><span class="tk-chip">${p.ticker}</span></td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
+    <td class="r">${fgbp(p.currentHolding)}</td>
+    <td class="r" style="color:${NEG};font-weight:700">${fgbp(p.athHoldingValue)}</td>
+    <td class="r" style="color:${NEG};font-weight:700">${fp(p.drawdown)}</td>
+    <td class="r" style="font-size:10px;color:${MUTED}">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
+  </tr>`).join('');
+  const noATH=en.filter(p=>p.currentHolding>0.5&&(p.athHoldingValue==null||p.athHoldingValue<=0)).map(p=>p.ticker).join(', ');
   return`<div class="card"><div class="card-title">ATH Holding Value vs Current (£)</div>
-    <div class="chart-hint"><span style="color:${NEG}">■</span> All-time high value (auto-updated daily from price history × shares) &nbsp;·&nbsp; <span style="color:${ACCENT}">■</span> Current live value &nbsp;·&nbsp; Click headers to sort</div>
+    <div class="chart-hint">
+      <span style="color:${NEG}">■</span> All-time high (auto-updated from price history × shares once GitHub Action runs) &nbsp;·&nbsp; <span style="color:${ACCENT}">■</span> Current live value<br>
+      ${noATH?`<span style="color:${MUTED}">No ATH data yet for: ${noATH} — run the GitHub Action to populate</span>`:''}
+    </div>
     ${mkLeg([{name:'ATH Value',color:NEG},{name:'Current',color:ACCENT}])}
     <div id="ath-wrap" style="position:relative"><canvas id="c-ath"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
-      <thead><tr>${th('ATH Analysis','ticker','Ticker')}${th('ATH Analysis','category','Sector')}${thr('ATH Analysis','currentHolding','Current £')}${thr('ATH Analysis','athHoldingValue','ATH £')}${thr('ATH Analysis','drawdown','Drawdown')}${thr('ATH Analysis','price','Price')}</tr></thead>
-      <tbody>${rows}</tbody>
+      <thead><tr>${th('ATH Analysis','ticker','Ticker')}${th('ATH Analysis','category','Sector')}${thr('ATH Analysis','currentHolding','Current £')}${thr('ATH Analysis','athHoldingValue','ATH £')}${thr('ATH Analysis','drawdown','Drawdown %')}${thr('ATH Analysis','price','Price')}</tr></thead>
+      <tbody>${rows.length?rows:`<tr><td colspan="6" style="text-align:center;color:${MUTED};padding:20px">No ATH data available — run the GitHub Action to populate</td></tr>`}</tbody>
     </table></div>
   </div>`;
 }
 
 function renderPlanned(){
   const{en}=computed();
-  const pd=getSorted(en.filter(p=>(p.plannedTotal||0)>0||p.currentHolding>0.5),'Planned vs Current','currentHolding');
-  const bsd=getSorted(pd.filter(p=>Math.abs(p.buyNeeded)>0.5),'Planned vs Current','buyNeeded');
-  const rows=pd.map(p=>`<tr>
+  const sorted=getSorted(en.filter(p=>(p.plannedTotal||0)>0||p.currentHolding>0.5),'Planned vs Current','currentHolding');
+  const bsd=getSorted(sorted.filter(p=>Math.abs(p.buyNeeded)>0.5),'Planned vs Current','buyNeeded');
+  const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
-    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${fgbp(p.currentHolding)}</td>
     <td class="r">${p.plannedTotal?fgbp(p.plannedTotal):'—'}</td>
     <td class="r" style="color:${fc(p.buyNeeded)};font-weight:700">${p.buyNeeded>0.5?'+':''}${fgbp(p.buyNeeded)}</td>
@@ -476,11 +485,11 @@ function renderPlanned(){
     ${mkLeg([{name:'Current',color:ACCENT},{name:'Planned',color:POS}])}
     <div id="pvc-wrap" style="position:relative"><canvas id="c-pvc"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
-      <thead><tr>${th('Planned vs Current','ticker','Ticker')}${th('Planned vs Current','category','Sector')}${thr('Planned vs Current','currentHolding','Current £')}${thr('Planned vs Current','plannedTotal','Planned £')}${thr('Planned vs Current','buyNeeded','Δ Buy/Sell')}</tr></thead>
+      <thead><tr>${th('Planned vs Current','ticker','Ticker')}${th('Planned vs Current','category','Sector')}${thr('Planned vs Current','currentHolding','Current £')}${thr('Planned vs Current','plannedTotal','Planned £')}${thr('Planned vs Current','buyNeeded','Δ')}</tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
   </div>
-  <div class="card"><div class="card-title">Buy / Sell Required to Hit Plan (£)</div>
+  <div class="card"><div class="card-title">Buy / Sell Required (£)</div>
     <div class="chart-hint"><span style="color:${POS}">■</span> Buy &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Sell / trim</div>
     <div id="bs-wrap" style="position:relative"><canvas id="c-bs"></canvas></div>
   </div>`;
@@ -488,22 +497,35 @@ function renderPlanned(){
 
 function renderReturns(){
   const{en}=computed();
-  const held=getSorted(en.filter(p=>p.currentHolding>0.5),'Returns','currentHolding');
-  const rows=held.map(p=>`<tr>
+  const held=en.filter(p=>p.currentHolding>0.5);
+  // Sort by active field — handle nested returns.* fields
+  const s=sortStates['Returns']||{field:'currentHolding',dir:'desc'};
+  const sorted=[...held].sort((a,b)=>{
+    let va=getVal(a,s.field),vb=getVal(b,s.field);
+    if(va==null&&vb==null)return 0;
+    if(va==null)return 1;
+    if(vb==null)return-1;
+    const cmp=typeof va==='string'?va.localeCompare(vb):Number(va)-Number(vb);
+    return s.dir==='asc'?cmp:-cmp;
+  });
+  const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}</td>
-    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
+    <td class="r">${fgbp(p.currentHolding)}</td>
     ${RL.map(l=>{const v=p.returns?.[l];return`<td class="r" style="color:${fc(v)};font-weight:${v!=null?700:400}">${fp(v)}</td>`;}).join('')}
   </tr>`).join('');
   return`
   <div class="card"><div class="card-title">Period Returns — Auto-populated Daily</div>
-    <div class="chart-hint">Fetched automatically each evening from Yahoo Finance. Click column headers to sort. Blank = insufficient price history.</div>
+    <div class="chart-hint">Fetched each evening from Yahoo Finance. Click headers to sort. Blank = insufficient price history.</div>
     <div class="tbl-wrap"><table>
       <thead><tr>
         ${th('Returns','ticker','Ticker')}${th('Returns','category','Sector')}
+        ${thr('Returns','currentHolding','Holding £')}
         ${RL.map(l=>thr('Returns',`returns.${l}`,l)).join('')}
       </tr></thead>
       <tbody>${rows}</tbody>
-    </table></div></div>
+    </table></div>
+  </div>
   <div class="card"><div class="card-title">1-Year Return — Best to Worst</div><div id="ret-wrap" style="position:relative"><canvas id="c-ret"></canvas></div></div>
   <div class="card"><div class="card-title">3-Month Return — Best to Worst</div><div id="ret3m-wrap" style="position:relative"><canvas id="c-ret3m"></canvas></div></div>`;
 }
@@ -511,17 +533,16 @@ function renderReturns(){
 function renderPL(){
   const{en,tpl}=computed();
   const wpl=getSorted(en.filter(p=>p.unrealisedPL!=null&&p.currentHolding>0.5),'P&L','unrealisedPL');
-  const wpct=getSorted(en.filter(p=>p.unrealisedPLPct!=null&&p.currentHolding>0.5),'P&L','unrealisedPLPct');
   const rows=wpl.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
-    <td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${fgbp(p.currentHolding)}</td>
     <td class="r">${p.costBasis?fgbp(p.costBasis):'—'}</td>
     <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL>=0?'+':'-'}${fgbp(p.unrealisedPL)}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
   </tr>`).join('');
   return`
-  <div class="card"><div class="card-title">Unrealised P&L by Position (£) — Live</div>
+  <div class="card"><div class="card-title">Unrealised P&L (£) — Live</div>
     <div class="chart-hint">Portfolio total: <strong style="color:${tpl>=0?POS:NEG}">${tpl>=0?'+':''}${fgbp(tpl)}</strong> &nbsp;·&nbsp; Click headers to sort</div>
     <div id="pl-wrap" style="position:relative"><canvas id="c-pl"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
@@ -529,7 +550,7 @@ function renderPL(){
       <tbody>${rows}</tbody>
     </table></div>
   </div>
-  <div class="card"><div class="card-title">Unrealised P&L % — Best to Worst</div><div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
+  <div class="card"><div class="card-title">P&L % — Best to Worst</div><div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
 }
 
 function renderDCA(){
@@ -544,34 +565,66 @@ function renderDCA(){
       </div>
     </div>
     <div id="dca-table-wrap"></div>
-    <div class="chart-hint" style="margin-top:12px;margin-bottom:0">Only tickers with a Target % and a positive gap (underweight) are included.</div>
+    <div class="chart-hint" style="margin-top:12px;margin-bottom:0">Only tickers with a Target % and positive gap shown.</div>
+  </div>`;
+}
+
+function renderCategoryManager(){
+  const rows=categories.map(c=>`
+    <div class="cat-row" id="catrow-${c.id}">
+      <input type="color" class="cat-swatch" value="${c.color}" onchange="updCat('${c.id}','color',this.value)" title="Colour">
+      <input class="inp cat-inp-full" value="${c.fullName}" onblur="updCat('${c.id}','fullName',this.value)" placeholder="Full category name">
+      <input class="inp cat-inp-short" value="${c.shortName}" onblur="updCat('${c.id}','shortName',this.value)" placeholder="Short label">
+      <button class="btn btn-red btn-sm" onclick="delCat('${c.id}')">✕</button>
+    </div>`).join('');
+  return`
+  <div class="cat-section" id="cat-section">
+    <div class="cat-header" onclick="toggleCatPanel()">
+      <span class="cat-header-title">⚙ Category Manager — ${categories.length} categories &nbsp;(click to ${catOpen?'collapse':'expand'})</span>
+      <span style="font-size:12px;color:#94A3B8">${catOpen?'▲':'▼'}</span>
+    </div>
+    <div class="cat-body${catOpen?' open':''}" id="cat-body">
+      <div style="font-size:11px;color:#94A3B8;margin-bottom:10px">Edit names, short labels and colours. Changes apply instantly across all charts and tables. Deleting a category does not remove tickers already assigned to it.</div>
+      ${rows}
+      <div class="cat-add-row">
+        <input type="color" id="new-cat-color" value="#6366F1" class="cat-swatch">
+        <input class="inp inp-lg" id="new-cat-full" placeholder="New category full name">
+        <input class="inp cat-inp-short" id="new-cat-short" placeholder="Short label">
+        <button class="btn btn-blue btn-sm" onclick="addCat()">+ Add Category</button>
+        <button class="btn btn-grey btn-sm" onclick="resetCats()">↺ Reset to defaults</button>
+      </div>
+    </div>
   </div>`;
 }
 
 function renderEditor(){
-  const rows=portfolio.map(p=>`<tr>
-    <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
-    <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${CATS.map(c=>`<option value="${c}"${c===p.category?' selected':''}>${SS[c]}</option>`).join('')}</select></td>
-    <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
-    <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
-    <td><input class="inp" value="${p.costBasis??''}" onblur="upd(${p.id},'costBasis',this.value)" placeholder="£ invested"></td>
-    <td><input class="inp" value="${p.plannedTotal??''}" onblur="upd(${p.id},'plannedTotal',this.value)"></td>
-    <td><input class="inp inp-xs" value="${p.targetPct??''}" onblur="upd(${p.id},'targetPct',this.value)"></td>
-    <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
-  </tr>`).join('');
+  const rows=portfolio.map(p=>{
+    const catOpts=categories.map(c=>`<option value="${c.fullName}"${c.fullName===p.category?' selected':''}>${c.shortName}</option>`).join('');
+    return`<tr>
+      <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
+      <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${catOpts}</select></td>
+      <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
+      <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
+      <td><input class="inp" value="${p.costBasis??''}" onblur="upd(${p.id},'costBasis',this.value)" placeholder="total invested"></td>
+      <td><input class="inp" value="${p.plannedTotal??''}" onblur="upd(${p.id},'plannedTotal',this.value)"></td>
+      <td><input class="inp inp-xs" value="${p.targetPct??''}" onblur="upd(${p.id},'targetPct',this.value)"></td>
+      <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
+    </tr>`;
+  }).join('');
   return`<div class="card">
+    ${renderCategoryManager()}
     <div class="ed-field-guide">
-      <strong>Shares</strong> → enter your share count. Holding value auto-calculates daily as shares × live price × GBP rate.<br>
-      <strong style="color:#7C3AED">Manual £</strong> → <em>overrides</em> the shares calculation. Use this for tickers where Trading 212 shows a different value than the auto-calc (e.g. ARKX, ALOY, FLY, NVA). Update manually when your position changes.<br>
-      <strong>Cost Basis £</strong> → total amount you invested (not current value). Used to calculate unrealised P&L. Find this in T212 → tap the position → scroll to "Invested".<br>
-      <strong>Planned £</strong> → your target holding value. Drives the buy/sell signals in Planned vs Current tab.<br>
-      <strong>Target %</strong> → your target portfolio allocation %. Drives gap analysis and DCA planner.
+      <strong>Shares</strong> → share count held. Holding = shares × live price × GBP rate, updated daily.<br>
+      <strong style="color:#7C3AED">Manual £ ⚡</strong> → <em>overrides</em> shares calc. Use for tickers where T212 shows a different value (ARKX, ALOY, FLY, NVA). Update when your position changes.<br>
+      <strong>Cost Basis £</strong> → total you invested (find in T212 → position → "Invested"). Used for P&L.<br>
+      <strong>Planned £</strong> → target holding value. Drives buy/sell signals.<br>
+      <strong>Target %</strong> → target portfolio allocation. Drives gap analysis and DCA planner.
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div class="card-title" style="margin-bottom:0">Portfolio Editor</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-blue" onclick="addRow()">+ Add Ticker</button>
-        <button class="btn btn-green" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="btn btn-green" onclick="exportCSV()">↓ CSV</button>
         <button class="btn btn-grey" onclick="exportPortfolioJSON()">↓ portfolio.json</button>
         <button class="btn btn-grey" onclick="resetData()">↺ Reset</button>
       </div>
@@ -579,22 +632,55 @@ function renderEditor(){
     <div style="overflow-x:auto"><table>
       <thead><tr>
         <th>Ticker</th><th>Category</th>
-        <th title="Number of shares held — value auto-calculates from live price">Shares</th>
-        <th title="Manual £ override — overrides shares calc (highlighted purple when active)" style="color:#7C3AED">Manual £ ⚡</th>
-        <th title="Total amount invested (not current value)">Cost Basis £</th>
-        <th>Planned £</th><th>Tgt%</th><th></th>
+        <th title="Share count — holding auto-calculates from live price">Shares</th>
+        <th title="Overrides shares calc — highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
+        <th>Cost Basis £</th><th>Planned £</th><th>Tgt%</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
-    <div class="ed-tip">Changes auto-save to your browser. Use <strong>↓ portfolio.json</strong> to download and commit to GitHub as a backup.</div>
+    <div class="ed-tip">Changes auto-save to browser. <strong>↓ portfolio.json</strong> downloads your config to commit to GitHub.</div>
   </div>`;
 }
+
+// ── Category manager actions ───────────────────────────────────────────────
+window.toggleCatPanel=function(){catOpen=!catOpen;setTab('Editor');};
+window.updCat=function(id,field,val){
+  const c=categories.find(x=>x.id===id);if(!c)return;
+  const old=c.fullName;
+  c[field]=val;
+  if(field==='fullName'&&old!==val){
+    portfolio.forEach(p=>{if(p.category===old)p.category=val;});
+    savePortfolio();
+  }
+  saveCategories();updateStats();setTab('Editor');
+};
+window.delCat=function(id){
+  if(!confirm('Delete this category?'))return;
+  categories=categories.filter(c=>c.id!==id);
+  saveCategories();setTab('Editor');
+};
+window.addCat=function(){
+  const full=document.getElementById('new-cat-full').value.trim();
+  const short=document.getElementById('new-cat-short').value.trim();
+  const color=document.getElementById('new-cat-color').value;
+  if(!full){alert('Please enter a category name');return;}
+  const id='c'+Date.now();
+  categories.push({id,fullName:full,shortName:short||full.slice(0,8),color});
+  saveCategories();setTab('Editor');
+};
+window.resetCats=function(){
+  if(confirm('Reset categories to defaults? Custom categories will be lost.')){
+    categories=DEFAULT_CATS.map(c=>({...c}));
+    saveCategories();setTab('Editor');
+  }
+};
 
 // ── Chart drawing ──────────────────────────────────────────────────────────
 function destroyCharts(){Object.values(charts).forEach(c=>{try{c.destroy();}catch{}});charts={};}
 
 function mkBarH(id,labels,data,colors,cbFn){
-  return new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:cbFn}}},scales:{x:{...CB.scales.x,ticks:TS},y:{...CB.scales.y,ticks:TS}}}});
+  const el=document.getElementById(id);if(!el)return null;
+  return new Chart(el,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:cbFn}}},scales:{x:{...CB.scales.x,ticks:TS},y:{...CB.scales.y,ticks:TS}}}});
 }
 
 function drawCharts(){
@@ -606,15 +692,12 @@ function drawCharts(){
     const cs=agg(en,p=>p.curPct),ts=agg(en,p=>p.targetPct||0);
     const held=en.filter(p=>p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
     const tkTgt=en.filter(p=>(p.targetPct||0)>0);
-    const sC=Object.values(en.reduce((m,p)=>{if(!m[p.category])m[p.category]={name:SS[p.category],cur:0,tgt:0};m[p.category].cur+=p.curPct;m[p.category].tgt+=(p.targetPct||0);return m;},{}));
-
+    const sC=Object.values(en.reduce((m,p)=>{const k=p.category;if(!m[k])m[k]={name:getCatShort(k),cur:0,tgt:0};m[k].cur+=p.curPct;m[k].tgt+=(p.targetPct||0);return m;},{}));
     charts.cp=new Chart(document.getElementById('c-cp'),{type:'doughnut',data:{labels:cs.map(s=>s.name),datasets:[{data:cs.map(s=>s.value),backgroundColor:cs.map(s=>s.color),borderWidth:2,borderColor:'#fff'}]},options:doO});
+    charts.tkp=new Chart(document.getElementById('c-tkp'),{type:'doughnut',data:{labels:held.map(p=>p.ticker),datasets:[{data:held.map(p=>p.curPct),backgroundColor:held.map(p=>getCatColor(p.category)),borderWidth:2,borderColor:'#fff'}]},options:doO});
     charts.tp=new Chart(document.getElementById('c-tp'),{type:'doughnut',data:{labels:ts.map(s=>s.name),datasets:[{data:ts.map(s=>s.value),backgroundColor:ts.map(s=>s.color+'99'),borderWidth:2,borderColor:'#fff'}]},options:doO});
-    charts.tkp=new Chart(document.getElementById('c-tkp'),{type:'doughnut',data:{labels:held.map(p=>p.ticker),datasets:[{data:held.map(p=>p.curPct),backgroundColor:held.map(p=>SC[p.category]),borderWidth:2,borderColor:'#fff'}]},options:doO});
-    charts.tkp2=new Chart(document.getElementById('c-tkp2'),{type:'doughnut',data:{labels:tkTgt.map(p=>p.ticker),datasets:[{data:tkTgt.map(p=>p.targetPct),backgroundColor:tkTgt.map(p=>SC[p.category]+'99'),borderWidth:2,borderColor:'#fff'}]},options:doO});
+    charts.tkp2=new Chart(document.getElementById('c-tkp2'),{type:'doughnut',data:{labels:tkTgt.map(p=>p.ticker),datasets:[{data:tkTgt.map(p=>p.targetPct),backgroundColor:tkTgt.map(p=>getCatColor(p.category)+'99'),borderWidth:2,borderColor:'#fff'}]},options:doO});
     charts.sb=new Chart(document.getElementById('c-sb'),{type:'bar',data:{labels:sC.map(s=>s.name),datasets:[{label:'Current %',data:sC.map(s=>+s.cur.toFixed(2)),backgroundColor:ACCENT+'CC',borderRadius:4},{label:'Target %',data:sC.map(s=>+s.tgt.toFixed(2)),backgroundColor:POS+'CC',borderRadius:4}]},options:{...CB,plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%`}}},scales:{x:{...CB.scales.x,ticks:{...TS,autoSkip:false}},y:{...CB.scales.y,ticks:{...TS,callback:v=>v+'%'}}}}});
-
-    // Ticker bar chart
     const tkAll=en.filter(p=>p.currentHolding>0.5||(p.targetPct||0)>0).sort((a,b)=>b.currentHolding-a.currentHolding);
     document.getElementById('c-tkbar-wrap').style.height=Math.max(tkAll.length*32+60,200)+'px';
     charts.tkbar=new Chart(document.getElementById('c-tkbar'),{type:'bar',data:{labels:tkAll.map(p=>p.ticker),datasets:[{label:'Current %',data:tkAll.map(p=>+p.curPct.toFixed(2)),backgroundColor:ACCENT+'CC',borderRadius:3},{label:'Target %',data:tkAll.map(p=>+(p.targetPct||0).toFixed(2)),backgroundColor:POS+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)}%`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>v+'%'}},y:{...CB.scales.y,ticks:TS}}}});
@@ -627,18 +710,22 @@ function drawCharts(){
   else if(activeTab==='Upside'){
     const ud=en.filter(p=>p.upside!=null).sort((a,b)=>b.upside-a.upside);
     document.getElementById('up-wrap').style.height=Math.max(ud.length*28+50,150)+'px';
-    mkBarH('c-up',ud.map(p=>p.ticker),ud.map(p=>+p.upside.toFixed(1)),ud.map(p=>p.upside>=0?(SC[p.category]||ACCENT)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>0?'+':''}${v.toFixed(1)}%`;});
+    mkBarH('c-up',ud.map(p=>p.ticker),ud.map(p=>+p.upside.toFixed(1)),ud.map(p=>p.upside>=0?getCatColor(p.category)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>0?'+':''}${v.toFixed(1)}%`;});
   }
   else if(activeTab==='ATH Analysis'){
-    const ad=en.filter(p=>p.athHoldingValue&&p.currentHolding>0.5).sort((a,b)=>b.athHoldingValue-a.athHoldingValue);
-    document.getElementById('ath-wrap').style.height=Math.max(ad.length*40+60,150)+'px';
-    charts.ath=new Chart(document.getElementById('c-ath'),{type:'bar',data:{labels:ad.map(p=>p.ticker),datasets:[{label:'ATH',data:ad.map(p=>p.athHoldingValue),backgroundColor:NEG+'88',borderRadius:3},{label:'Current',data:ad.map(p=>p.currentHolding),backgroundColor:ACCENT+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(0)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
+    const ad=en.filter(p=>p.athHoldingValue!=null&&p.athHoldingValue>0&&p.currentHolding>0.5).sort((a,b)=>b.athHoldingValue-a.athHoldingValue);
+    if(ad.length>0){
+      document.getElementById('ath-wrap').style.height=Math.max(ad.length*40+60,150)+'px';
+      charts.ath=new Chart(document.getElementById('c-ath'),{type:'bar',data:{labels:ad.map(p=>p.ticker),datasets:[{label:'ATH',data:ad.map(p=>Math.round(p.athHoldingValue)),backgroundColor:NEG+'88',borderRadius:3},{label:'Current',data:ad.map(p=>Math.round(p.currentHolding)),backgroundColor:ACCENT+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(0)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
+    }else{
+      document.getElementById('ath-wrap').innerHTML=`<div class="empty">No ATH data yet.<br><span>Run the GitHub Action to auto-calculate from price history.</span></div>`;
+    }
   }
   else if(activeTab==='Planned vs Current'){
     const pd=en.filter(p=>(p.plannedTotal||0)>0||p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
     const bsd=pd.filter(p=>Math.abs(p.buyNeeded)>0.5).sort((a,b)=>b.buyNeeded-a.buyNeeded);
     document.getElementById('pvc-wrap').style.height=Math.max(pd.length*40+60,150)+'px';
-    charts.pvc=new Chart(document.getElementById('c-pvc'),{type:'bar',data:{labels:pd.map(p=>p.ticker),datasets:[{label:'Current',data:pd.map(p=>p.currentHolding),backgroundColor:ACCENT+'CC',borderRadius:3},{label:'Planned',data:pd.map(p=>p.plannedTotal||0),backgroundColor:POS+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(1)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
+    charts.pvc=new Chart(document.getElementById('c-pvc'),{type:'bar',data:{labels:pd.map(p=>p.ticker),datasets:[{label:'Current',data:pd.map(p=>Math.round(p.currentHolding)),backgroundColor:ACCENT+'CC',borderRadius:3},{label:'Planned',data:pd.map(p=>Math.round(p.plannedTotal||0)),backgroundColor:POS+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(1)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
     const bsW=document.getElementById('bs-wrap');
     if(bsd.length>0){
       bsW.style.height=Math.max(bsd.length*28+50,80)+'px';
@@ -651,10 +738,11 @@ function drawCharts(){
     const mkR=(id,wrapId,period)=>{
       const wd=en.filter(p=>p.currentHolding>0.5&&p.returns?.[period]!=null).sort((a,b)=>b.returns[period]-a.returns[period]);
       const w=document.getElementById(wrapId);
+      if(!w)return null;
       if(wd.length>0){
         w.style.height=Math.max(wd.length*28+50,100)+'px';
-        return mkBarH(id,wd.map(p=>p.ticker),wd.map(p=>p.returns[period]),wd.map(p=>p.returns[period]>=0?(SC[p.category]||ACCENT)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${period}: ${v>0?'+':''}${v.toFixed(1)}%`;});
-      }else{w.innerHTML=`<div class="empty">No ${period} data yet. <span>Run the GitHub Action first.</span></div>`;return null;}
+        return mkBarH(id,wd.map(p=>p.ticker),wd.map(p=>p.returns[period]),wd.map(p=>p.returns[period]>=0?getCatColor(p.category)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${period}: ${v>0?'+':''}${v.toFixed(1)}%`;});
+      }else{w.innerHTML=`<div class="empty">No ${period} data yet.<span>Run the GitHub Action first.</span></div>`;return null;}
     };
     charts.ret=mkR('c-ret','ret-wrap','1Y');
     charts.ret3m=mkR('c-ret3m','ret3m-wrap','3M');
@@ -665,21 +753,21 @@ function drawCharts(){
     document.getElementById('pl-wrap').style.height=Math.max(wpl.length*28+50,100)+'px';
     document.getElementById('plpct-wrap').style.height=Math.max(wpct.length*28+50,100)+'px';
     mkBarH('c-pl',wpl.map(p=>p.ticker),wpl.map(p=>p.unrealisedPL),wpl.map(p=>p.unrealisedPL>=0?POS+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>=0?'+':'-'}${fgbp(Math.abs(v))}`;});
-    mkBarH('c-plpct',wpct.map(p=>p.ticker),wpct.map(p=>p.unrealisedPLPct),wpct.map(p=>p.unrealisedPLPct>=0?(SC[p.category]||POS)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>=0?'+':''}${v.toFixed(2)}%`;});
+    mkBarH('c-plpct',wpct.map(p=>p.ticker),wpct.map(p=>p.unrealisedPLPct),wpct.map(p=>p.unrealisedPLPct>=0?getCatColor(p.category)+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>=0?'+':''}${v.toFixed(2)}%`;});
   }
 }
 
-// ── DCA ────────────────────────────────────────────────────────────────────
+// ── DCA ───────────────────────────────────────────────────────────────────
 window.renderDCATable=function(){
   const{en}=computed();
   const budget=parseFloat(document.getElementById('dca-budget').value)||0;
   const method=document.getElementById('dca-method').value;
   const uw=en.filter(p=>(p.targetPct||0)>0&&p.gap>0.1).sort((a,b)=>b.gap-a.gap);
-  if(!uw.length){document.getElementById('dca-table-wrap').innerHTML=`<div class="empty">No underweight positions. <span>Set target % in Editor.</span></div>`;return;}
-  const totalGap=uw.reduce((s,p)=>s+p.gap,0);
+  if(!uw.length){document.getElementById('dca-table-wrap').innerHTML=`<div class="empty">No underweight positions. <span>Set Target % in Editor.</span></div>`;return;}
+  const tg=uw.reduce((s,p)=>s+p.gap,0);
   const rows=uw.map(p=>{
-    const al=method==='gap'?budget*(p.gap/totalGap):budget/uw.length;
-    return`<tr><td><span class="tk-chip">${p.ticker}</span></td><td class="muted" style="font-size:9px">${SS[p.category]}</td>
+    const al=method==='gap'?budget*(p.gap/tg):budget/uw.length;
+    return`<tr><td><span class="tk-chip">${p.ticker}</span></td><td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
       <td class="r">${p.curPct.toFixed(2)}%</td><td class="r">${p.targetPct.toFixed(1)}%</td>
       <td class="r pos">+${p.gap.toFixed(2)}%</td>
       <td class="r" style="font-weight:700;color:${ACCENT}">£${al.toFixed(2)}</td>
@@ -690,7 +778,7 @@ window.renderDCATable=function(){
     <tbody>${rows}</tbody></table></div>`;
 };
 
-// ── Tab routing ────────────────────────────────────────────────────────────
+// ── Tab routing ───────────────────────────────────────────────────────────
 function setTab(t){
   activeTab=t;
   document.querySelectorAll('.tab').forEach(el=>el.className='tab'+(el.dataset.tab===t?' active':''));
@@ -700,29 +788,20 @@ function setTab(t){
   else if(t!=='Editor')setTimeout(drawCharts,40);
 }
 
-// ── CRUD ───────────────────────────────────────────────────────────────────
-function savePortfolio(){localStorage.setItem('craigside-portfolio-v1',JSON.stringify(portfolio));}
-
+// ── CRUD ──────────────────────────────────────────────────────────────────
+function savePortfolio(){localStorage.setItem('t212-portfolio-v1',JSON.stringify(portfolio));}
 window.upd=function(id,field,val){
   const nf=['shares','manualHolding','costBasis','plannedTotal','targetPct','athHoldingValue'];
   const v=nf.includes(field)?(val===''||val==null?null:parseFloat(val)||0):val;
   const p=portfolio.find(x=>x.id===id);if(p)p[field]=v;
   updateStats();savePortfolio();
 };
-
 window.addRow=function(){
-  portfolio.push({id:nextId++,ticker:'NEW',category:CATS[0],shares:null,costBasis:null,plannedTotal:0,targetPct:0,athHoldingValue:null,manualHolding:null});
+  portfolio.push({id:nextId++,ticker:'NEW',category:categories[0]?.fullName||'',shares:null,costBasis:null,plannedTotal:0,targetPct:0,athHoldingValue:null,manualHolding:null});
   setTab('Editor');updateStats();savePortfolio();
 };
-
-window.delRow=function(id){
-  portfolio=portfolio.filter(p=>p.id!==id);
-  setTab('Editor');updateStats();savePortfolio();
-};
-
-window.resetData=function(){
-  if(confirm('Reset to original data?')){portfolio=INIT_PORTFOLIO.map(p=>({...p}));nextId=31;updateStats();setTab('Editor');savePortfolio();}
-};
+window.delRow=function(id){portfolio=portfolio.filter(p=>p.id!==id);setTab('Editor');updateStats();savePortfolio();};
+window.resetData=function(){if(confirm('Reset portfolio to original data?')){portfolio=INIT_PORTFOLIO.map(p=>({...p}));nextId=31;updateStats();setTab('Editor');savePortfolio();}};
 
 window.exportCSV=function(){
   const{en}=computed();
@@ -730,36 +809,32 @@ window.exportCSV=function(){
   const rows=en.sort((a,b)=>b.currentHolding-a.currentHolding).map(p=>[
     p.ticker,p.category,p.shares??'',p.currentHolding.toFixed(2),p.costBasis??'',
     p.unrealisedPL!=null?p.unrealisedPL.toFixed(2):'',p.unrealisedPLPct!=null?p.unrealisedPLPct.toFixed(2):'',
-    p.plannedTotal??'',p.targetPct??'',p.athHoldingValue?.toFixed(2)??'',
+    p.plannedTotal??'',p.targetPct??'',p.athHoldingValue!=null?p.athHoldingValue.toFixed(2):'',
     p.price??'',p.analystTarget??'',p.upside!=null?p.upside.toFixed(2):'',p.mktCapB??'',
     ...RL.map(l=>p.returns?.[l]??'')
   ].join(','));
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([h.join(','),...rows].join('\n'));a.download='craigside_portfolio.csv';a.click();
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([h.join(','),...rows].join('\n'));a.download='t212_portfolio.csv';a.click();
 };
-
 window.exportPortfolioJSON=function(){
-  const data={version:1,holdings:portfolio.map(({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue,manualHolding})=>({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue:athHoldingValue||null,manualHolding:manualHolding||null}))};
+  const data={version:2,categories,holdings:portfolio.map(({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue,manualHolding})=>({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue:athHoldingValue||null,manualHolding:manualHolding||null}))};
   const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='portfolio.json';a.click();
 };
 
-// ── Live data ──────────────────────────────────────────────────────────────
+// ── Live data ─────────────────────────────────────────────────────────────
 async function fetchLiveData(){
-  try{
-    const r=await fetch('./data.json?t='+Date.now());
-    if(!r.ok)throw new Error('not found');
-    liveData=await r.json();
-  }catch(e){console.warn('data.json unavailable:',e.message);liveData=null;}
+  try{const r=await fetch('./data.json?t='+Date.now());if(!r.ok)throw new Error();liveData=await r.json();}
+  catch{liveData=null;}
 }
-
 window.refreshData=async function(){
   document.getElementById('live-badge').className='live-badge loading';
   document.getElementById('live-badge').innerHTML='<span class="live-dot"></span>Refreshing…';
   await fetchLiveData();updateBadge();updateStats();setTab(activeTab);
 };
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────
 async function init(){
-  const saved=localStorage.getItem('craigside-portfolio-v1');
+  loadCategories();
+  const saved=localStorage.getItem('t212-portfolio-v1');
   portfolio=saved?JSON.parse(saved):INIT_PORTFOLIO.map(p=>({...p}));
   nextId=Math.max(...portfolio.map(p=>p.id))+1;
   await fetchLiveData();
