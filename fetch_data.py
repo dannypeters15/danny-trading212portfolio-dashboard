@@ -2,15 +2,9 @@
 """
 Craigside Portfolio — Daily Data Fetcher
 =========================================
-Fetches live prices, period returns, market cap, and analyst targets
-for all portfolio tickers. Runs daily via GitHub Actions and writes
-the result to data.json, which the dashboard reads on load.
-
-Handles:
-  - USD, EUR, GBP denominated stocks
-  - GBP/USD and EUR/USD FX rates
-  - Graceful fallback to last known price if a fetch fails
-  - 7 return periods: 1W, 1M, 3M, 6M, 1Y, 3Y, 5Y
+Fetches live prices, period returns, market cap, analyst targets,
+and all-time high prices for all portfolio tickers.
+Runs daily via GitHub Actions and writes the result to data.json.
 """
 
 import yfinance as yf
@@ -21,42 +15,41 @@ import time
 
 # ── Ticker registry ──────────────────────────────────────────────────────────
 # Maps portfolio ticker → yfinance symbol.
-# If a stock trades on a non-US exchange you may need a suffix:
-#   .L  = London Stock Exchange
-#   .AX = ASX (Australia)
-#   .ST = Stockholm / Nasdaq Nordic
-# Leave as-is for US-listed stocks.
+# NOTE: Some tickers on Trading 212 UK use different share classes or
+# GBX (pence) pricing vs the US-listed equivalent. If a ticker's
+# auto-calculated holding doesn't match T212, use the manual override
+# field in the dashboard Editor tab.
 TICKER_MAP = {
-    "APLD":  "APLD",   # Applied Digital
-    "ORCL":  "ORCL",   # Oracle
-    "IREN":  "IREN",   # IREN Ltd (Nasdaq)
-    "NKE":   "NKE",    # Nike
-    "MSFT":  "MSFT",   # Microsoft
-    "ADBE":  "ADBE",   # Adobe
-    "AAPL":  "AAPL",   # Apple
-    "GOOGL": "GOOGL",  # Alphabet
-    "AMZN":  "AMZN",   # Amazon
-    "META":  "META",   # Meta
-    "SHOP":  "SHOP",   # Shopify
-    "SNAP":  "SNAP",   # Snap
-    "NFLX":  "NFLX",   # Netflix
-    "ALOY":  "ALOY",   # REalloys (may be unavailable — try ALOY.ST if needed)
+    "APLD":  "APLD",
+    "ORCL":  "ORCL",
+    "IREN":  "IREN",
+    "NKE":   "NKE",
+    "MSFT":  "MSFT",
+    "ADBE":  "ADBE",
+    "AAPL":  "AAPL",
+    "GOOGL": "GOOGL",
+    "AMZN":  "AMZN",
+    "META":  "META",
+    "SHOP":  "SHOP",
+    "SNAP":  "SNAP",
+    "NFLX":  "NFLX",
+    "ALOY":  "ALOY",   # REalloys — try ALOY.ST if unavailable
     "FLY":   "FLY",    # Firefly Aerospace
-    "ARKX":  "ARKX",   # ARK Space & Defence ETF
-    "HOOD":  "HOOD",   # Robinhood
-    "SOFI":  "SOFI",   # SoFi Technologies
-    "TTWO":  "TTWO",   # Take-Two Interactive
-    "SMR":   "SMR",    # NuScale Power
-    "OKLO":  "OKLO",   # Oklo
-    "LTBR":  "LTBR",   # Lightbridge
-    "NVA":   "NVA",    # Nova Minerals (try NVA.AX if this fails)
-    "UEC":   "UEC",    # Uranium Energy Corp
-    "UUUU":  "UUUU",   # Energy Fuels
-    "LEU":   "LEU",    # Centrus Energy
-    "XE":    "XE",     # X-Energy
-    "NVDA":  "NVDA",   # Nvidia
-    "AVGO":  "AVGO",   # Broadcom
-    "ASML":  "ASML",   # ASML Holding
+    "ARKX":  "ARKX",   # ARK Space ETF — T212 UK may use different denomination
+    "HOOD":  "HOOD",
+    "SOFI":  "SOFI",
+    "TTWO":  "TTWO",
+    "SMR":   "SMR",
+    "OKLO":  "OKLO",
+    "LTBR":  "LTBR",
+    "NVA":   "NVA",    # Try NVA.AX if unavailable
+    "UEC":   "UEC",
+    "UUUU":  "UUUU",
+    "LEU":   "LEU",
+    "XE":    "XE",
+    "NVDA":  "NVDA",
+    "AVGO":  "AVGO",
+    "ASML":  "ASML",
 }
 
 # Return periods: (label, calendar_days_back)
@@ -71,10 +64,10 @@ PERIODS = [
 ]
 
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 
 def calc_return(hist, days_back):
-    """% price return over last N calendar days. Returns None if not enough history."""
+    """% price return over last N calendar days."""
     if hist is None or len(hist) < 2:
         return None
     try:
@@ -92,7 +85,7 @@ def calc_return(hist, days_back):
 
 
 def fetch_rate(symbol, fallback):
-    """Fetch an FX rate (e.g. GBPUSD=X) from yfinance with a fallback."""
+    """Fetch an FX rate from yfinance."""
     try:
         info = yf.Ticker(symbol).info or {}
         rate = info.get("regularMarketPrice") or info.get("previousClose")
@@ -106,23 +99,26 @@ def fetch_rate(symbol, fallback):
 
 def fetch_ticker(symbol):
     """
-    Fetch price, currency, market cap, analyst target, and period returns
-    for one ticker. Returns a dict; sets stale=True if price unavailable.
+    Fetch all data for one ticker including:
+    - Current price, currency, market cap, analyst target
+    - Period returns (1W through 5Y)
+    - All-time high price (athPrice) — dashboard calculates ATH holding as shares × athPrice
     """
     result = {
-        "price":          None,
-        "currency":       "USD",
-        "mktCapB":        None,
-        "analystTarget":  None,
-        "returns":        {label: None for label, _ in PERIODS},
-        "stale":          False,
+        "price":         None,
+        "currency":      "USD",
+        "mktCapB":       None,
+        "analystTarget": None,
+        "athPrice":      None,   # All-time high closing price
+        "returns":       {label: None for label, _ in PERIODS},
+        "stale":         False,
     }
 
     try:
         ticker = yf.Ticker(symbol)
         info   = ticker.info or {}
 
-        # Price (try multiple fields for robustness)
+        # Current price
         price = (info.get("currentPrice")
                  or info.get("regularMarketPrice")
                  or info.get("navPrice")
@@ -136,16 +132,27 @@ def fetch_ticker(symbol):
         if mc:
             result["mktCapB"] = round(mc / 1e9, 3)
 
-        # Historical data for return calculations (up to 5 years)
-        hist = ticker.history(period="5y", auto_adjust=True)
-        if hasattr(hist.columns, "levels"):
-            hist.columns = hist.columns.get_level_values(0)
+        # 5-year history for period return calculations
+        hist5y = ticker.history(period="5y", auto_adjust=True)
+        if hasattr(hist5y.columns, "levels"):
+            hist5y.columns = hist5y.columns.get_level_values(0)
 
         for label, days in PERIODS:
-            result["returns"][label] = calc_return(hist, days)
+            result["returns"][label] = calc_return(hist5y, days)
+
+        # All-time high — fetch full history, find max closing price
+        try:
+            hist_max = ticker.history(period="max", auto_adjust=True)
+            if hasattr(hist_max.columns, "levels"):
+                hist_max.columns = hist_max.columns.get_level_values(0)
+            if hist_max is not None and len(hist_max) > 0:
+                result["athPrice"] = round(float(hist_max["Close"].max()), 4)
+        except Exception as e:
+            print(f"    ⚠ ATH fetch failed for {symbol}: {e}")
 
         pct_1y = result["returns"].get("1Y")
-        print(f"  ✓ {symbol:<6}  ${result['price']}  1Y={pct_1y}%")
+        ath    = result["athPrice"]
+        print(f"  ✓ {symbol:<6}  ${result['price']}  1Y={pct_1y}%  ATH=${ath}")
 
     except Exception as e:
         result["stale"] = True
@@ -154,7 +161,7 @@ def fetch_ticker(symbol):
     return result
 
 
-# ── Main ─────────────────────────────────────────────────────────────────────
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     print("=" * 55)
@@ -162,7 +169,7 @@ def main():
     print(f"  {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
     print("=" * 55)
 
-    # Load existing data.json so we can fall back on cached prices
+    # Load existing data.json for fallback prices
     existing_tickers = {}
     if os.path.exists("data.json"):
         try:
@@ -185,18 +192,19 @@ def main():
     for port_sym, yf_sym in TICKER_MAP.items():
         data = fetch_ticker(yf_sym)
 
-        # If price failed, fall back to last known value
+        # Fall back to cached values if fetch failed
         if data["price"] is None and port_sym in existing_tickers:
             cached = existing_tickers[port_sym]
             data["price"]         = cached.get("price")
             data["currency"]      = cached.get("currency", "USD")
             data["mktCapB"]       = cached.get("mktCapB")
             data["analystTarget"] = cached.get("analystTarget")
+            data["athPrice"]      = cached.get("athPrice")
             data["stale"]         = True
             print(f"    ↳ Cached price used: {data['price']}")
 
         tickers_out[port_sym] = data
-        time.sleep(0.4)   # gentle rate limiting
+        time.sleep(0.5)  # gentle rate limiting
 
     # Write output
     output = {
