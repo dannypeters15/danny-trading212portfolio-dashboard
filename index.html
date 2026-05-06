@@ -797,8 +797,11 @@ window.upd=function(id,field,val){
   updateStats();savePortfolio();
 };
 window.addRow=function(){
-  portfolio.push({id:nextId++,ticker:'NEW',category:categories[0]?.fullName||'',shares:null,costBasis:null,plannedTotal:0,targetPct:0,athHoldingValue:null,manualHolding:null});
-  setTab('Editor');updateStats();savePortfolio();
+  const defCat=categories.length>0?categories[0].fullName:(INIT_PORTFOLIO[0]?.category||'');
+  const newId=nextId++;
+  portfolio.push({id:newId,ticker:'NEW',category:defCat,shares:null,costBasis:null,plannedTotal:0,targetPct:0,athHoldingValue:null,manualHolding:null});
+  savePortfolio();updateStats();setTab('Editor');
+  setTimeout(()=>{const w=document.querySelector('.tbl-wrap');if(w)w.scrollTop=w.scrollHeight;},80);
 };
 window.delRow=function(id){portfolio=portfolio.filter(p=>p.id!==id);setTab('Editor');updateStats();savePortfolio();};
 window.resetData=function(){if(confirm('Reset portfolio to original data?')){portfolio=INIT_PORTFOLIO.map(p=>({...p}));nextId=31;updateStats();setTab('Editor');savePortfolio();}};
@@ -834,9 +837,19 @@ window.refreshData=async function(){
 // ── Init ──────────────────────────────────────────────────────────────────
 async function init(){
   loadCategories();
-  const saved=localStorage.getItem('t212-portfolio-v1');
-  portfolio=saved?JSON.parse(saved):INIT_PORTFOLIO.map(p=>({...p}));
-  nextId=Math.max(...portfolio.map(p=>p.id))+1;
+  // Migrate from older localStorage keys if present
+  const raw=localStorage.getItem('t212-portfolio-v1')
+    ||localStorage.getItem('craigside-portfolio-v1')
+    ||localStorage.getItem('cp-v3')
+    ||localStorage.getItem('cp-file-v1');
+  try{
+    portfolio=raw?JSON.parse(raw).map(p=>({...p})):INIT_PORTFOLIO.map(p=>({...p}));
+  }catch{
+    portfolio=INIT_PORTFOLIO.map(p=>({...p}));
+  }
+  // Robust nextId — handles missing/NaN ids
+  const ids=portfolio.map(p=>parseInt(p.id)).filter(n=>!isNaN(n));
+  nextId=(ids.length?Math.max(...ids):30)+1;
   await fetchLiveData();
   document.getElementById('loading-overlay').style.display='none';
   updateBadge();
