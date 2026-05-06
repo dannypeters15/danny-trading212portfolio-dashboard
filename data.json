@@ -1,7 +1,488 @@
 {
-  "lastUpdated": "1970-01-01T00:00:00Z",
-  "gbpusd": 1.26,
-  "eurusd": 1.08,
-  "gbpeur": 1.1667,
-  "tickers": {}
+  "lastUpdated": "2026-05-06T08:10:29Z",
+  "gbpusd": 1.3597,
+  "eurusd": 1.1738,
+  "gbpeur": 1.1584,
+  "tickers": {
+    "APLD": {
+      "price": 39.88,
+      "currency": "USD",
+      "mktCapB": 11.396,
+      "analystTarget": 53.91,
+      "returns": {
+        "1W": 24.2,
+        "1M": 62.38,
+        "3M": 14.6,
+        "6M": 21.33,
+        "1Y": 671.37,
+        "3Y": 1076.4,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "ORCL": {
+      "price": 185.35,
+      "currency": "USD",
+      "mktCapB": 533.075,
+      "analystTarget": 241.58,
+      "returns": {
+        "1W": 11.68,
+        "1M": 27.06,
+        "3M": 16.2,
+        "6M": -27.68,
+        "1Y": 25.4,
+        "3Y": 98.02,
+        "5Y": 148.7
+      },
+      "stale": false
+    },
+    "IREN": {
+      "price": 54.74,
+      "currency": "USD",
+      "mktCapB": 18.16,
+      "analystTarget": 70.4,
+      "returns": {
+        "1W": 23.18,
+        "1M": 57.43,
+        "3M": 3.13,
+        "6M": -19.2,
+        "1Y": 784.33,
+        "3Y": 1367.56,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "NKE": {
+      "price": 43.06,
+      "currency": "USD",
+      "mktCapB": 63.767,
+      "analystTarget": 61.68,
+      "returns": {
+        "1W": -4.37,
+        "1M": -2.56,
+        "3M": -30.29,
+        "6M": -30.37,
+        "1Y": -23.03,
+        "3Y": -64.0,
+        "5Y": -65.2
+      },
+      "stale": false
+    },
+    "MSFT": {
+      "price": 411.38,
+      "currency": "USD",
+      "mktCapB": 3055.91,
+      "analystTarget": 559.85,
+      "returns": {
+        "1W": -4.16,
+        "1M": 10.15,
+        "3M": -2.61,
+        "6M": -20.1,
+        "1Y": -4.96,
+        "3Y": 35.56,
+        "5Y": 71.67
+      },
+      "stale": false
+    },
+    "ADBE": {
+      "price": 255.62,
+      "currency": "USD",
+      "mktCapB": 103.322,
+      "analystTarget": 327.95,
+      "returns": {
+        "1W": 5.11,
+        "1M": 5.23,
+        "3M": -12.87,
+        "6M": -24.25,
+        "1Y": -32.92,
+        "3Y": -26.63,
+        "5Y": -47.14
+      },
+      "stale": false
+    },
+    "AAPL": {
+      "price": 284.18,
+      "currency": "USD",
+      "mktCapB": 4173.853,
+      "analystTarget": 303.38,
+      "returns": {
+        "1W": 4.98,
+        "1M": 11.04,
+        "3M": 5.35,
+        "6M": 5.82,
+        "1Y": 43.51,
+        "3Y": 66.1,
+        "5Y": 124.89
+      },
+      "stale": false
+    },
+    "GOOGL": {
+      "price": 388.43,
+      "currency": "USD",
+      "mktCapB": 4706.002,
+      "analystTarget": 421.73,
+      "returns": {
+        "1W": 11.05,
+        "1M": 31.33,
+        "3M": 13.1,
+        "6M": 37.09,
+        "1Y": 137.36,
+        "3Y": 270.98,
+        "5Y": 235.11
+      },
+      "stale": false
+    },
+    "AMZN": {
+      "price": 273.55,
+      "currency": "USD",
+      "mktCapB": 2942.607,
+      "analystTarget": 309.52,
+      "returns": {
+        "1W": 5.33,
+        "1M": 30.4,
+        "3M": 12.59,
+        "6M": 7.7,
+        "1Y": 46.79,
+        "3Y": 158.9,
+        "5Y": 65.47
+      },
+      "stale": false
+    },
+    "META": {
+      "price": 604.96,
+      "currency": "USD",
+      "mktCapB": 1535.645,
+      "analystTarget": 828.97,
+      "returns": {
+        "1W": -9.89,
+        "1M": 5.31,
+        "3M": -14.29,
+        "6M": -4.98,
+        "1Y": 1.26,
+        "3Y": 161.92,
+        "5Y": 90.52
+      },
+      "stale": false
+    },
+    "SHOP": {
+      "price": 107.63,
+      "currency": "USD",
+      "mktCapB": 139.744,
+      "analystTarget": 159.49,
+      "returns": {
+        "1W": -11.81,
+        "1M": -8.98,
+        "3M": -18.59,
+        "6M": -37.76,
+        "1Y": 9.4,
+        "3Y": 73.51,
+        "5Y": -1.34
+      },
+      "stale": false
+    },
+    "SNAP": {
+      "price": 6.11,
+      "currency": "USD",
+      "mktCapB": 10.319,
+      "analystTarget": 7.91,
+      "returns": {
+        "1W": 2.69,
+        "1M": 31.97,
+        "3M": -8.26,
+        "6M": -21.87,
+        "1Y": -28.54,
+        "3Y": -25.76,
+        "5Y": -88.38
+      },
+      "stale": false
+    },
+    "NFLX": {
+      "price": 87.89,
+      "currency": "USD",
+      "mktCapB": 370.087,
+      "analystTarget": 114.56,
+      "returns": {
+        "1W": -4.75,
+        "1M": -10.92,
+        "3M": 6.2,
+        "6M": -20.11,
+        "1Y": -22.5,
+        "3Y": 172.31,
+        "5Y": 75.94
+      },
+      "stale": false
+    },
+    "ALOY": {
+      "price": 9.43,
+      "currency": "USD",
+      "mktCapB": 0.564,
+      "analystTarget": null,
+      "returns": {
+        "1W": 5.01,
+        "1M": 2.61,
+        "3M": -16.99,
+        "6M": 14.03,
+        "1Y": 191.05,
+        "3Y": 215.38,
+        "5Y": -5.7
+      },
+      "stale": false
+    },
+    "FLY": {
+      "price": 31.52,
+      "currency": "USD",
+      "mktCapB": 5.051,
+      "analystTarget": 43.14,
+      "returns": {
+        "1W": -7.88,
+        "1M": -4.28,
+        "3M": 37.88,
+        "6M": 32.55,
+        "1Y": null,
+        "3Y": null,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "ARKX": {
+      "price": 32.26,
+      "currency": "USD",
+      "mktCapB": null,
+      "analystTarget": null,
+      "returns": {
+        "1W": -1.32,
+        "1M": 6.4,
+        "3M": 1.86,
+        "6M": 3.53,
+        "1Y": 67.24,
+        "3Y": 140.57,
+        "5Y": 59.39
+      },
+      "stale": false
+    },
+    "HOOD": {
+      "price": 77.03,
+      "currency": "USD",
+      "mktCapB": 69.366,
+      "analystTarget": 98.44,
+      "returns": {
+        "1W": -6.14,
+        "1M": 11.8,
+        "3M": -14.33,
+        "6M": -47.63,
+        "1Y": 60.31,
+        "3Y": 770.4,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "SOFI": {
+      "price": 16.02,
+      "currency": "USD",
+      "mktCapB": 20.549,
+      "analystTarget": 21.7,
+      "returns": {
+        "1W": -12.75,
+        "1M": 1.07,
+        "3M": -27.45,
+        "6M": -47.7,
+        "1Y": 24.57,
+        "3Y": 210.47,
+        "5Y": 6.8
+      },
+      "stale": false
+    },
+    "TTWO": {
+      "price": 223.11,
+      "currency": "USD",
+      "mktCapB": 41.314,
+      "analystTarget": 277.63,
+      "returns": {
+        "1W": 4.74,
+        "1M": 11.63,
+        "3M": 0.59,
+        "6M": -12.73,
+        "1Y": -0.98,
+        "3Y": 79.19,
+        "5Y": 32.3
+      },
+      "stale": false
+    },
+    "SMR": {
+      "price": 11.87,
+      "currency": "USD",
+      "mktCapB": 3.843,
+      "analystTarget": 17.0,
+      "returns": {
+        "1W": 0.42,
+        "1M": 16.95,
+        "3M": -27.97,
+        "6M": -70.93,
+        "1Y": -30.63,
+        "3Y": 47.27,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "OKLO": {
+      "price": 68.38,
+      "currency": "USD",
+      "mktCapB": 11.893,
+      "analystTarget": 91.36,
+      "returns": {
+        "1W": -1.03,
+        "1M": 42.07,
+        "3M": -7.12,
+        "6M": -46.02,
+        "1Y": 168.47,
+        "3Y": 564.53,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "LTBR": {
+      "price": 13.0,
+      "currency": "USD",
+      "mktCapB": 0.427,
+      "analystTarget": null,
+      "returns": {
+        "1W": 3.67,
+        "1M": 17.22,
+        "3M": -13.22,
+        "6M": -47.54,
+        "1Y": 41.46,
+        "3Y": 290.39,
+        "5Y": 180.78
+      },
+      "stale": false
+    },
+    "NVA": {
+      "price": 6.02,
+      "currency": "USD",
+      "mktCapB": 0.229,
+      "analystTarget": 10.0,
+      "returns": {
+        "1W": 4.33,
+        "1M": 0.84,
+        "3M": -26.76,
+        "6M": -12.5,
+        "1Y": 135.86,
+        "3Y": null,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "UEC": {
+      "price": 14.5,
+      "currency": "USD",
+      "mktCapB": 7.108,
+      "analystTarget": 19.17,
+      "returns": {
+        "1W": 0.28,
+        "1M": 6.85,
+        "3M": -11.15,
+        "6M": 3.57,
+        "1Y": 176.72,
+        "3Y": 441.04,
+        "5Y": 347.53
+      },
+      "stale": false
+    },
+    "UUUU": {
+      "price": 21.04,
+      "currency": "USD",
+      "mktCapB": 5.223,
+      "analystTarget": 26.55,
+      "returns": {
+        "1W": 2.19,
+        "1M": 18.54,
+        "3M": 0.14,
+        "6M": 18.2,
+        "1Y": 364.46,
+        "3Y": 253.02,
+        "5Y": 252.43
+      },
+      "stale": false
+    },
+    "LEU": {
+      "price": 206.04,
+      "currency": "USD",
+      "mktCapB": 4.053,
+      "analystTarget": 269.38,
+      "returns": {
+        "1W": 0.22,
+        "1M": 12.46,
+        "3M": -22.89,
+        "6M": -39.93,
+        "1Y": 187.52,
+        "3Y": 616.41,
+        "5Y": 738.93
+      },
+      "stale": false
+    },
+    "XE": {
+      "price": 28.46,
+      "currency": "USD",
+      "mktCapB": 7.782,
+      "analystTarget": null,
+      "returns": {
+        "1W": -16.56,
+        "1M": null,
+        "3M": null,
+        "6M": null,
+        "1Y": null,
+        "3Y": null,
+        "5Y": null
+      },
+      "stale": false
+    },
+    "NVDA": {
+      "price": 196.5,
+      "currency": "USD",
+      "mktCapB": 4775.932,
+      "analystTarget": 269.17,
+      "returns": {
+        "1W": -7.82,
+        "1M": 10.77,
+        "3M": 5.87,
+        "6M": -5.01,
+        "1Y": 72.68,
+        "3Y": 585.75,
+        "5Y": 1256.44
+      },
+      "stale": false
+    },
+    "AVGO": {
+      "price": 427.36,
+      "currency": "USD",
+      "mktCapB": 2023.408,
+      "analystTarget": 475.49,
+      "returns": {
+        "1W": 6.89,
+        "1M": 35.86,
+        "3M": 29.34,
+        "6M": 18.35,
+        "1Y": 114.64,
+        "3Y": 605.76,
+        "5Y": 953.0
+      },
+      "stale": false
+    },
+    "ASML": {
+      "price": 1442.92,
+      "currency": "USD",
+      "mktCapB": 556.127,
+      "analystTarget": 1663.48,
+      "returns": {
+        "1W": 4.22,
+        "1M": 9.78,
+        "3M": 0.46,
+        "6M": 35.73,
+        "1Y": 112.81,
+        "3Y": 127.68,
+        "5Y": 134.41
+      },
+      "stale": false
+    }
+  }
 }
