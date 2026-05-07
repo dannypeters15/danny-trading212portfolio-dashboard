@@ -598,11 +598,13 @@ function renderCategoryManager(){
 }
 
 function renderEditor(){
-  const rows=portfolio.map(p=>{
+  const st=sortStates.editor||{};let items=computed();if(st.field){const f=st.field,asc=st.asc;items=[...items].sort((a,b)=>{const va=getVal(a,f),vb=getVal(b,f);return asc?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
+  const rows=items.map(p=>{
     const catOpts=categories.map(c=>`<option value="${c.fullName}"${c.fullName===p.category?' selected':''}>${c.shortName}</option>`).join('');
     return`<tr>
       <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
       <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${catOpts}</select></td>
+      <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:12px;white-space:nowrap">£${(p.currentHolding||0).toFixed(2)}</td>
       <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
       <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
       <td><input class="inp" value="${p.costBasis??''}" onblur="upd(${p.id},'costBasis',this.value)" placeholder="total invested"></td>
@@ -631,10 +633,11 @@ function renderEditor(){
     </div>
     <div style="overflow-x:auto"><table>
       <thead><tr>
-        <th>Ticker</th><th>Category</th>
+        <th onclick="sortBy('editor','ticker')" class="sortable">Ticker</th><th onclick="sortBy('editor','category')" class="sortable">Category</th>
+              <th onclick="sortBy('editor','currentHolding')" class="sortable">Holding £</th>
         <th title="Share count — holding auto-calculates from live price">Shares</th>
         <th title="Overrides shares calc — highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
-        <th>Cost Basis £</th><th>Planned £</th><th>Tgt%</th><th></th>
+        <th onclick="sortBy('editor','costBasis')" class="sortable">Cost Basis £</th><th onclick="sortBy('editor','plannedTotal')" class="sortable">Planned £</th><th onclick="sortBy('editor','targetPct')" class="sortable">Tgt%</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
