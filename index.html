@@ -598,7 +598,7 @@ function renderCategoryManager(){
 }
 
 function renderEditor(){
-  const st=sortStates.editor||{};let items=computed();if(st.field){const f=st.field,asc=st.asc;items=[...items].sort((a,b)=>{const va=getVal(a,f),vb=getVal(b,f);return asc?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
+  const st=sortStates.editor||{};let items=computed().en;if(st.field){const f=st.field,asc=st.asc;items=[...items].sort((a,b)=>{const va=getVal(a,f),vb=getVal(b,f);return asc?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
   const rows=items.map(p=>{
     const catOpts=categories.map(c=>`<option value="${c.fullName}"${c.fullName===p.category?' selected':''}>${c.shortName}</option>`).join('');
     return`<tr>
