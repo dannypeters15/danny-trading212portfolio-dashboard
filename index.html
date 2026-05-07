@@ -601,7 +601,7 @@ function renderEditor(){
   const st=sortStates.editor||{};let items=computed().en;if(st.field){const f=st.field,asc=st.asc;items=[...items].sort((a,b)=>{const va=getVal(a,f),vb=getVal(b,f);return asc?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
   const rows=items.map(p=>{
     const catOpts=categories.map(c=>`<option value="${c.fullName}"${c.fullName===p.category?' selected':''}>${c.shortName}</option>`).join('');
-    return`<tr>
+    return`<tr data-id="${p.id}">
       <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
       <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${catOpts}</select></td>
       <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:12px;white-space:nowrap">£${(p.currentHolding||0).toFixed(2)}</td>
@@ -797,7 +797,7 @@ window.upd=function(id,field,val){
   const nf=['shares','manualHolding','costBasis','plannedTotal','targetPct','athHoldingValue'];
   const v=nf.includes(field)?(val===''||val==null?null:parseFloat(val)||0):val;
   const p=portfolio.find(x=>x.id===id);if(p)p[field]=v;
-  updateStats();savePortfolio();
+  updateStats();savePortfolio();const _row=document.querySelector(`tr[data-id="${id}"] .holding-cell`);if(_row){const _c=computed().en.find(x=>x.id===id);if(_c)_row.textContent="£"+(_c.currentHolding||0).toFixed(2);}
 };
 window.addRow=function(){
   const defCat=categories.length>0?categories[0].fullName:(INIT_PORTFOLIO[0]?.category||'');
