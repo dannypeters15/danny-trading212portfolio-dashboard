@@ -275,11 +275,11 @@ function agg(en,fn){
 
 function mkLeg(items){return`<div class="leg">${items.map(i=>`<span><span class="leg-sq" style="background:${i.color}"></span>${i.name}</span>`).join('')}</div>`;}
 function sCard(l,v,c,w){return`<div class="stat${w?' warn':''}"><div class="stat-lbl">${l}</div><div class="stat-val" style="color:${c||TEXT}">${v}</div></div>`;}
-function fp(v){return v==null?'—':(v>0?'+':'')+v.toFixed(1)+'%';}
+function fp(v){return v==null?'-':(v>0?'+':'')+v.toFixed(1)+'%';}
 function fc(v){return v==null?MUTED:v>0?POS:v<0?NEG:MUTED;}
 function fgbp(v){return'£'+Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
 
-// ── Sort helpers — supports nested paths like "returns.1Y" ────────────────
+// ── Sort helpers - supports nested paths like "returns.1Y" ────────────────
 function getVal(obj,path){
   // Handles dot-notation paths e.g. "returns.1Y"
   return path.split('.').reduce((o,k)=>o==null?null:o[k],obj);
@@ -318,19 +318,19 @@ function updateBadge(){
   b.className='live-badge'+(age>26?' stale':'');
   b.innerHTML=`<span class="live-dot"></span>${age>26?'Stale':'Live'}`;
   lu.textContent='Updated '+upd.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})+' '+upd.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  if(liveData.gbpusd)document.getElementById('fx-display').textContent=`GBP/USD ${liveData.gbpusd} · GBP/EUR ${liveData.gbpeur||'—'}`;
+  if(liveData.gbpusd)document.getElementById('fx-display').textContent=`GBP/USD ${liveData.gbpusd} · GBP/EUR ${liveData.gbpeur||'-'}`;
 }
 function updateAlerts(){
   const{en,tt}=computed();
   const al=[];
-  if(Math.abs(tt-100)>0.5)al.push({t:`⚠ Target % = ${tt.toFixed(1)}% — ${(100-tt).toFixed(1)}% unallocated`,c:'red'});
+  if(Math.abs(tt-100)>0.5)al.push({t:`⚠ Target % = ${tt.toFixed(1)}% - ${(100-tt).toFixed(1)}% unallocated`,c:'red'});
   en.forEach(p=>{if(p.curPct>10)al.push({t:`⚠ ${p.ticker} = ${p.curPct.toFixed(1)}% of portfolio`,c:'red'});});
   const top=en.filter(p=>p.upside!=null&&p.upside>50&&p.currentHolding>0.5);
-  if(top.length)al.push({t:`★ ${top.map(p=>p.ticker).join(', ')} — 50%+ analyst upside`,c:'green'});
+  if(top.length)al.push({t:`★ ${top.map(p=>p.ticker).join(', ')} - 50%+ analyst upside`,c:'green'});
   const losing=en.filter(p=>p.unrealisedPLPct!=null&&p.unrealisedPLPct<-20&&p.currentHolding>100);
-  if(losing.length)al.push({t:`↓ ${losing.map(p=>p.ticker).join(', ')} — down 20%+ from cost`,c:'amber'});
+  if(losing.length)al.push({t:`↓ ${losing.map(p=>p.ticker).join(', ')} - down 20%+ from cost`,c:'amber'});
   const manual=en.filter(p=>p.usingManual&&p.currentHolding>0.5);
-  if(manual.length)al.push({t:`🔒 Manual override: ${manual.map(p=>p.ticker).join(', ')} — update £ when holdings change`,c:'amber'});
+  if(manual.length)al.push({t:`🔒 Manual override: ${manual.map(p=>p.ticker).join(', ')} - update £ when holdings change`,c:'amber'});
   document.getElementById('alerts').innerHTML=al.slice(0,6).map(a=>`<div class="alert ${a.c}">${a.t}</div>`).join('');
 }
 function updateStats(){
@@ -365,17 +365,17 @@ function renderOverview(){
   const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}${p.usingManual?'<span class="manual-chip">manual</span>':''}</td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${p.shares!=null?p.shares.toFixed(3):'—'}</td>
-    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'—'}</td>
+    <td class="r">${p.shares!=null?p.shares.toFixed(3):'-'}</td>
+    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'-'}</td>
     <td class="r">${p.curPct.toFixed(2)}%</td>
-    <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'—'}</td>
+    <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'-'}</td>
     <td class="r" style="color:${p.gap>.2?POS:p.gap<-.2?NEG:MUTED};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
-    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'—'}</td>
+    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'-'}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
-    <td class="r">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
-    <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'—'}</td>
+    <td class="r">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
+    <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'-'}</td>
     <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
-    <td class="r" style="font-size:10px;color:${MUTED}">${p.mktCapB!=null?'$'+p.mktCapB+'B':'—'}</td>
+    <td class="r" style="font-size:10px;color:${MUTED}">${p.mktCapB!=null?'$'+p.mktCapB+'B':'-'}</td>
   </tr>`).join('');
   return`
   <div class="g2">
@@ -415,7 +415,7 @@ function renderGap(){
       <td><span class="tk-chip">${p.ticker}</span></td>
       <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
       <td class="r">${p.curPct.toFixed(2)}%</td>
-      <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'—'}</td>
+      <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'-'}</td>
       <td class="r" style="color:${gC};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
       <td class="r" style="color:${gC};font-weight:700">${fgbp(Math.abs(p.gap/100*tc))}</td>
     </tr>`;
@@ -436,10 +436,10 @@ function renderUpside(){
   const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
-    <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'—'}</td>
+    <td class="r">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
+    <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'-'}</td>
     <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
-    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'—'}</td>
+    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'-'}</td>
   </tr>`).join('');
   return`<div class="card"><div class="card-title">Analyst Price Target Upside</div>
     <div class="chart-hint">Colour-coded by sector &nbsp;·&nbsp; Click headers to sort &nbsp;·&nbsp; No coverage excluded</div>
@@ -461,19 +461,19 @@ function renderATH(){
     <td class="r">${fgbp(p.currentHolding)}</td>
     <td class="r" style="color:${NEG};font-weight:700">${fgbp(p.athHoldingValue)}</td>
     <td class="r" style="color:${NEG};font-weight:700">${fp(p.drawdown)}</td>
-    <td class="r" style="font-size:10px;color:${MUTED}">${p.price>0?'$'+p.price.toFixed(2):'—'}</td>
+    <td class="r" style="font-size:10px;color:${MUTED}">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
   </tr>`).join('');
   const noATH=en.filter(p=>p.currentHolding>0.5&&(p.athHoldingValue==null||p.athHoldingValue<=0)).map(p=>p.ticker).join(', ');
   return`<div class="card"><div class="card-title">ATH Holding Value vs Current (£)</div>
     <div class="chart-hint">
       <span style="color:${NEG}">■</span> All-time high (auto-updated from price history × shares once GitHub Action runs) &nbsp;·&nbsp; <span style="color:${ACCENT}">■</span> Current live value<br>
-      ${noATH?`<span style="color:${MUTED}">No ATH data yet for: ${noATH} — run the GitHub Action to populate</span>`:''}
+      ${noATH?`<span style="color:${MUTED}">No ATH data yet for: ${noATH} - run the GitHub Action to populate</span>`:''}
     </div>
     ${mkLeg([{name:'ATH Value',color:NEG},{name:'Current',color:ACCENT}])}
     <div id="ath-wrap" style="position:relative"><canvas id="c-ath"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
       <thead><tr>${th('ATH Analysis','ticker','Ticker')}${th('ATH Analysis','category','Sector')}${thr('ATH Analysis','currentHolding','Current £')}${thr('ATH Analysis','athHoldingValue','ATH £')}${thr('ATH Analysis','drawdown','Drawdown %')}${thr('ATH Analysis','price','Price')}</tr></thead>
-      <tbody>${rows.length?rows:`<tr><td colspan="6" style="text-align:center;color:${MUTED};padding:20px">No ATH data available — run the GitHub Action to populate</td></tr>`}</tbody>
+      <tbody>${rows.length?rows:`<tr><td colspan="6" style="text-align:center;color:${MUTED};padding:20px">No ATH data available - run the GitHub Action to populate</td></tr>`}</tbody>
     </table></div>
   </div>`;
 }
@@ -486,7 +486,7 @@ function renderPlanned(){
     <td><span class="tk-chip">${p.ticker}</span></td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${fgbp(p.currentHolding)}</td>
-    <td class="r">${p.plannedTotal?fgbp(p.plannedTotal):'—'}</td>
+    <td class="r">${p.plannedTotal?fgbp(p.plannedTotal):'-'}</td>
     <td class="r" style="color:${fc(p.buyNeeded)};font-weight:700">${p.buyNeeded>0.5?'+':''}${fgbp(p.buyNeeded)}</td>
   </tr>`).join('');
   return`
@@ -507,7 +507,7 @@ function renderPlanned(){
 function renderReturns(){
   const{en}=computed();
   const held=en.filter(p=>p.currentHolding>0.5);
-  // Sort by active field — handle nested returns.* fields
+  // Sort by active field - handle nested returns.* fields
   const s=sortStates['Returns']||{field:'currentHolding',dir:'desc'};
   const sorted=[...held].sort((a,b)=>{
     let va=getVal(a,s.field),vb=getVal(b,s.field);
@@ -524,7 +524,7 @@ function renderReturns(){
     ${RL.map(l=>{const v=p.returns?.[l];return`<td class="r" style="color:${fc(v)};font-weight:${v!=null?700:400}">${fp(v)}</td>`;}).join('')}
   </tr>`).join('');
   return`
-  <div class="card"><div class="card-title">Period Returns — Auto-populated Daily</div>
+  <div class="card"><div class="card-title">Period Returns - Auto-populated Daily</div>
     <div class="chart-hint">Fetched each evening from Yahoo Finance. Click headers to sort. Blank = insufficient price history.</div>
     <div class="tbl-wrap"><table>
       <thead><tr>
@@ -535,8 +535,8 @@ function renderReturns(){
       <tbody>${rows}</tbody>
     </table></div>
   </div>
-  <div class="card"><div class="card-title">1-Year Return — Best to Worst</div><div id="ret-wrap" style="position:relative"><canvas id="c-ret"></canvas></div></div>
-  <div class="card"><div class="card-title">3-Month Return — Best to Worst</div><div id="ret3m-wrap" style="position:relative"><canvas id="c-ret3m"></canvas></div></div>`;
+  <div class="card"><div class="card-title">1-Year Return - Best to Worst</div><div id="ret-wrap" style="position:relative"><canvas id="c-ret"></canvas></div></div>
+  <div class="card"><div class="card-title">3-Month Return - Best to Worst</div><div id="ret3m-wrap" style="position:relative"><canvas id="c-ret3m"></canvas></div></div>`;
 }
 
 function renderPL(){
@@ -546,12 +546,12 @@ function renderPL(){
     <td><span class="tk-chip">${p.ticker}</span></td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${fgbp(p.currentHolding)}</td>
-    <td class="r">${p.costBasis?fgbp(p.costBasis):'—'}</td>
+    <td class="r">${p.costBasis?fgbp(p.costBasis):'-'}</td>
     <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL>=0?'+':'-'}${fgbp(p.unrealisedPL)}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
   </tr>`).join('');
   return`
-  <div class="card"><div class="card-title">Unrealised P&L (£) — Live</div>
+  <div class="card"><div class="card-title">Unrealised P&L (£) - Live</div>
     <div class="chart-hint">Portfolio total: <strong style="color:${tpl>=0?POS:NEG}">${tpl>=0?'+':''}${fgbp(tpl)}</strong> &nbsp;·&nbsp; Click headers to sort</div>
     <div id="pl-wrap" style="position:relative"><canvas id="c-pl"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
@@ -559,7 +559,7 @@ function renderPL(){
       <tbody>${rows}</tbody>
     </table></div>
   </div>
-  <div class="card"><div class="card-title">P&L % — Best to Worst</div><div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
+  <div class="card"><div class="card-title">P&L % - Best to Worst</div><div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
 }
 
 function renderDCA(){
@@ -589,8 +589,8 @@ function renderCategoryManager(){
   return`
   <div class="cat-section" id="cat-section">
     <div class="cat-header" onclick="toggleCatPanel()">
-      <span class="cat-header-title">⚙ Category Manager — ${categories.length} categories &nbsp;(click to ${catOpen?'collapse':'expand'})</span>
-      <span style="font-size:12px;color:#94A3B8">${catOpen?'▲':'▼'}</span>
+      <span class="cat-header-title">⚙ Category Manager - ${categories.length} categories &nbsp;(click to ${catOpen?'collapse':'expand'})</span>
+      <span style="font-size:12px;color:#94A3B8">${catOpen?'^':'v'}</span>
     </div>
     <div class="cat-body${catOpen?' open':''}" id="cat-body">
       <div style="font-size:11px;color:#94A3B8;margin-bottom:10px">Edit names, short labels and colours. Changes apply instantly across all charts and tables. Deleting a category does not remove tickers already assigned to it.</div>
@@ -644,8 +644,8 @@ function renderEditor(){
       <thead><tr>
         <th onclick="sortBy('Editor','ticker')" class="sortable">Ticker</th><th onclick="sortBy('Editor','category')" class="sortable">Category</th>
               <th onclick="sortBy('Editor','currentHolding')" class="sortable">Holding £</th>
-        <th title="Share count — holding auto-calculates from live price">Shares</th>
-        <th title="Overrides shares calc — highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
+        <th title="Share count - holding auto-calculates from live price">Shares</th>
+        <th title="Overrides shares calc - highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
         <th onclick="sortBy('Editor','costBasis')" class="sortable">Cost Basis £</th><th onclick="sortBy('Editor','plannedTotal')" class="sortable">Planned £</th><th onclick="sortBy('Editor','targetPct')" class="sortable">Tgt%</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
@@ -859,7 +859,7 @@ async function init(){
   }catch{
     portfolio=INIT_PORTFOLIO.map(p=>({...p}));
   }
-  // Robust nextId — handles missing/NaN ids
+  // Robust nextId - handles missing/NaN ids
   const ids=portfolio.map(p=>parseInt(p.id)).filter(n=>!isNaN(n));
   nextId=(ids.length?Math.max(...ids):30)+1;
   await fetchLiveData();
@@ -889,8 +889,8 @@ function saveWlPortfolio(p){wlSaveRaw(p);wlSetTab(wlActiveTab);}
 function wlData(t){return (liveData&&liveData.watchlist&&liveData.watchlist[t])||{};}
 function wlAutoCategory(t){const s=(wlData(t).sector||'');const m={'Technology':'Technology','Information Technology':'Technology','Healthcare':'Healthcare','Financial Services':'Financials','Consumer Cyclical':'Consumer','Consumer Defensive':'Consumer','Energy':'Energy','Utilities':'Utilities','Basic Materials':'Materials','Communication Services':'Comms','Industrials':'Industrials','Real Estate':'Real Estate'};return m[s]||s||'Other';}
 function heatColor(v){if(v===null||v===undefined)return '';const a=Math.min(Math.abs(v),30)/30*0.7+0.15;return v>=0?'rgba(22,163,74,'+a.toFixed(2)+')':'rgba(220,38,38,'+a.toFixed(2)+')';}
-function heatTd(v){if(v===null||v===undefined)return '<td class="heat-td" style="color:#94A3B8">—</td>';const bg=heatColor(v);const fc=Math.abs(v)>15?'#fff':'#0F172A';return '<td class="heat-td" style="background:'+bg+';color:'+fc+'">'+(v>=0?'+':'')+v.toFixed(2)+'%</td>';}
-function thSort(tab,field,label,align){const st=wlSortStates[tab]||{};const arr=st.field===field?(st.dir==='asc'?'▲':'▼'):'';return '<th onclick="wlSortBy(''+tab+'',''+field+'')" class="sortable" style="text-align:'+align+';padding:9px 8px;cursor:pointer">'+label+' '+arr+'</th>';}
+function heatTd(v){if(v===null||v===undefined)return '<td class="heat-td" style="color:#94A3B8">-</td>';const bg=heatColor(v);const fc=Math.abs(v)>15?'#fff':'#0F172A';return '<td class="heat-td" style="background:'+bg+';color:'+fc+'">'+(v>=0?'+':'')+v.toFixed(2)+'%</td>';}
+function thSort(tab,field,label,align){const st=wlSortStates[tab]||{};const arr=st.field===field?(st.dir==='asc'?'^':'v'):'';return '<th onclick="wlSortBy(''+tab+'',''+field+'')" class="sortable" style="text-align:'+align+';padding:9px 8px;cursor:pointer">'+label+' '+arr+'</th>';}
 function wlApplySort(items,tab,def){const st=wlSortStates[tab]||{field:def,dir:'desc'};return [...items].sort(function(a,b){const get=function(o,f){return f.split('.').reduce(function(x,k){return x&&x[k];},o);};let va=get(a,st.field),vb=get(b,st.field);va=va===null||va===undefined?-Infinity:va;vb=vb===null||vb===undefined?-Infinity:vb;return st.dir==='asc'?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
 
 function setMode(mode){
@@ -913,7 +913,7 @@ function renderWlOverview(){
   const bycat={};p.forEach(function(item){const cat=item.category||'Other';if(!bycat[cat])bycat[cat]=[];bycat[cat].push(wlData(item.ticker).returns||{});});
   const hmHead=WL_PERIODS.map(function(per){return '<th style="text-align:center;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">'+per+'</th>';}).join('');
   const hmRows=Object.entries(bycat).map(function(e){const cat=e[0],rets=e[1];const cells=WL_PERIODS.map(function(per){const vals=rets.map(function(r){return r[per];}).filter(function(v){return v!==null&&v!==undefined;});return heatTd(vals.length?vals.reduce(function(a,b){return a+b;},0)/vals.length:null);}).join('');return '<tr><td style="padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap">'+cat+'</td>'+cells+'</tr>';}).join('');
-  const tkRows=p.map(function(item){const d=wlData(item.ticker);const cells=WL_PERIODS.map(function(per){return heatTd((d.returns||{})[per]);}).join('');return '<tr><td style="padding:5px 10px"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:5px 8px">'+(item.category||'—')+'</td>'+cells+'</tr>';}).join('');
+  const tkRows=p.map(function(item){const d=wlData(item.ticker);const cells=WL_PERIODS.map(function(per){return heatTd((d.returns||{})[per]);}).join('');return '<tr><td style="padding:5px 10px"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:5px 8px">'+(item.category||'-')+'</td>'+cells+'</tr>';}).join('');
   const total=p.reduce(function(s,x){return s+(+x.targetPct||0);},0);
   const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';
   const sliders=p.map(function(item){return '<div class="wl-slider-row"><span class="tk-chip" style="min-width:54px;text-align:center">'+item.ticker+'</span><input type="range" min="0" max="100" step="1" value="'+(+item.targetPct||0)+'" oninput="wlUpdSlider('+item.id+',+this.value)" style="flex:1;margin:0 10px;accent-color:#1D4ED8"><span id="wl-sl-'+item.id+'" style="width:40px;text-align:right;font-weight:700;font-size:12px">'+(+item.targetPct||0)+'%</span></div>';}).join('');
@@ -925,7 +925,7 @@ function wlNormalize(){const p=wlPortfolio();if(!p.length)return;const each=Math
 
 function renderWlReturns(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
-  const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);return {ticker:item.ticker,category:item.category||'—',returns:d.returns||{}};}), 'Returns','returns.1M');
+  const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);return {ticker:item.ticker,category:item.category||'-',returns:d.returns||{}};}), 'Returns','returns.1M');
   const rows=items.map(function(item){return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:6px 8px">'+item.category+'</td>'+WL_RET_PERIODS.map(function(per){return heatTd(item.returns[per]!==undefined?item.returns[per]:null);}).join('')+'</tr>';}).join('');
   const thP=WL_RET_PERIODS.map(function(per){return thSort('Returns','returns.'+per,per,'center');}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC">'+thSort('Returns','ticker','TICKER','left')+thSort('Returns','category','SECTOR','left')+thP+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
@@ -933,15 +933,15 @@ function renderWlReturns(){
 
 function renderWlUpside(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
-  const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);const price=d.price||null;const target=d.analystTarget||null;const upside=(price&&target)?+((target-price)/price*100).toFixed(1):null;return {ticker:item.ticker,category:item.category||'—',price:price,target:target,upside:upside};}), 'Upside','upside');
-  const rows=items.map(function(item){const uc=item.upside!==null?'<td class="heat-td" style="background:'+heatColor(item.upside)+';color:'+(Math.abs(item.upside||0)>20?'#fff':'#0F172A')+'">'+(item.upside>=0?'+':'')+item.upside+'%</td>':'<td class="heat-td" style="color:#94A3B8">—</td>';return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:6px 8px">'+item.category+'</td><td style="text-align:right;padding:6px 10px">'+(item.price?'$'+item.price.toFixed(2):'—')+'</td><td style="text-align:right;padding:6px 10px">'+(item.target?'$'+item.target.toFixed(2):'—')+'</td>'+uc+'</tr>';}).join('');
+  const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);const price=d.price||null;const target=d.analystTarget||null;const upside=(price&&target)?+((target-price)/price*100).toFixed(1):null;return {ticker:item.ticker,category:item.category||'-',price:price,target:target,upside:upside};}), 'Upside','upside');
+  const rows=items.map(function(item){const uc=item.upside!==null?'<td class="heat-td" style="background:'+heatColor(item.upside)+';color:'+(Math.abs(item.upside||0)>20?'#fff':'#0F172A')+'">'+(item.upside>=0?'+':'')+item.upside+'%</td>':'<td class="heat-td" style="color:#94A3B8">-</td>';return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:6px 8px">'+item.category+'</td><td style="text-align:right;padding:6px 10px">'+(item.price?'$'+item.price.toFixed(2):'-')+'</td><td style="text-align:right;padding:6px 10px">'+(item.target?'$'+item.target.toFixed(2):'-')+'</td>'+uc+'</tr>';}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC">'+thSort('Upside','ticker','TICKER','left')+thSort('Upside','category','SECTOR','left')+thSort('Upside','price','PRICE','right')+thSort('Upside','target','TARGET','right')+thSort('Upside','upside','UPSIDE %','center')+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
 
 function renderWlEditor(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   const cats=[...(new Set([...p.map(function(x){return x.category;}),'Technology','Healthcare','Financials','Consumer','Energy','Materials','Comms','Industrials','Real Estate','Other'].filter(Boolean)))].sort();
-  const rows=p.map(function(item){const d=wlData(item.ticker);const opts=cats.map(function(c){return '<option value="'+c+'"'+(item.category===c?' selected':'')+'>'+c+'</option>';}).join('');return '<tr><td style="padding:6px 8px"><input value="'+item.ticker+'" style="width:72px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px" onchange="wlEditField('+item.id+','ticker',this.value.toUpperCase().trim())"></td><td style="padding:6px 8px"><select onchange="wlEditField('+item.id+','category',this.value)" style="font-family:'Courier New',monospace;font-size:11px;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px">'+opts+'</select><button class="btn btn-grey btn-sm" onclick="wlAutoAssignCat('+item.id+')" style="margin-left:6px;font-size:10px" title="Auto from yfinance sector">Auto</button></td><td style="padding:6px 10px;font-size:12px;color:#64748B">'+(d.price?'$'+d.price.toFixed(2):'—')+'</td><td style="padding:6px 8px"><button class="btn btn-grey btn-sm" onclick="wlRemove('+item.id+')" style="color:#DC2626">✕</button></td></tr>';}).join('');
+  const rows=p.map(function(item){const d=wlData(item.ticker);const opts=cats.map(function(c){return '<option value="'+c+'"'+(item.category===c?' selected':'')+'>'+c+'</option>';}).join('');return '<tr><td style="padding:6px 8px"><input value="'+item.ticker+'" style="width:72px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px" onchange="wlEditField('+item.id+','ticker',this.value.toUpperCase().trim())"></td><td style="padding:6px 8px"><select onchange="wlEditField('+item.id+','category',this.value)" style="font-family:'Courier New',monospace;font-size:11px;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px">'+opts+'</select><button class="btn btn-grey btn-sm" onclick="wlAutoAssignCat('+item.id+')" style="margin-left:6px;font-size:10px" title="Auto from yfinance sector">Auto</button></td><td style="padding:6px 10px;font-size:12px;color:#64748B">'+(d.price?'$'+d.price.toFixed(2):'-')+'</td><td style="padding:6px 8px"><button class="btn btn-grey btn-sm" onclick="wlRemove('+item.id+')" style="color:#DC2626">✕</button></td></tr>';}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC;font-size:10px;color:#64748B;text-transform:uppercase"><th style="padding:9px 8px;text-align:left">TICKER</th><th style="padding:9px 8px;text-align:left">CATEGORY</th><th style="padding:9px 8px;text-align:left">PRICE</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><input id="wl-new-ticker" placeholder="e.g. TSLA" style="font-family:'Courier New',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:8px;padding:6px 10px;width:150px" onkeydown="if(event.key==='Enter')wlAddTicker()"><button class="btn" onclick="wlAddTicker()" style="background:#1D4ED8;color:#fff">+ Add Ticker</button><button class="btn btn-grey" onclick="wlExportJSON()">⬇ Download watchlist.json</button></div></div>';
 }
 function wlEditField(id,field,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item){item[field]=val;saveWlPortfolio(p);}}
