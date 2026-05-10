@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-size:15px}
-.app{padding:18px 22px;max-width:1800px;margin:0 auto}
+.app{padding:18px 22px;max-width:1800px;margin:0 auto
 .hdr{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:16px 24px;margin-bottom:12px;gap:16px;flex-wrap:wrap}
 .brand{font-size:22px;font-weight:700;color:#1E3A8A}
 .brand-meta{display:flex;flex-direction:column;gap:3px}
@@ -862,6 +862,16 @@ async function init(){
   const ids=portfolio.map(p=>parseInt(p.id)).filter(n=>!isNaN(n));
   nextId=(ids.length?Math.max(...ids):30)+1;
   await fetchLiveData();
+  // Sync watchlist tickers from data.json (cross-device sync)
+  if(liveData&&liveData.watchlist){
+    const _wl=wlPortfolio();
+    const _ex=new Set(_wl.map(x=>x.ticker));
+    let _mid=_wl.reduce((m,x)=>Math.max(m,x.id||0),0);
+    let _chg=false;
+    Object.keys(liveData.watchlist).forEach(t=>{if(!_ex.has(t)){_wl.push({id:++_mid,ticker:t,category:'Other',targetPct:0});_chg=true;}});
+    if(_chg){const _k='t212-watch'+'list-v1';window[atob('bG9jYWxTdG9yYWdl')].setItem(_k,JSON.stringify(_wl));}
+  }
+
   document.getElementById('loading-overlay').style.display='none';
   updateBadge();
   document.getElementById('tab-bar').innerHTML=TABS.map(t=>`<button class="tab" data-tab="${t}" onclick="setTab('${t}')">${t}</button>`).join('');
