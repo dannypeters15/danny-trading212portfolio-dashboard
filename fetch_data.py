@@ -38,6 +38,8 @@ TICKER_MAP = {
     "PLTR":  "PLTR",
     "CRWV":  "CRWV",
     "NOW":   "NOW",
+    "TTWO":  "TTWO",
+    "XE":    "XE",
 }
 
 # Return periods: (label, calendar_days_back)
