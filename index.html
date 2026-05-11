@@ -109,6 +109,7 @@ canvas{display:block}
 .loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.88);display:flex;align-items:center;justify-content:center;z-index:100;font-size:15px;color:#1D4ED8;font-family:inherit}
 .loading-spinner{width:22px;height:22px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.privacy-on .priv{filter:blur(5px);user-select:none;pointer-events:none;}
 
 .wl-slider-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #F1F5F9;font-size:12px}</style>
 </head>
@@ -128,6 +129,7 @@ canvas{display:block}
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <button class="btn btn-grey btn-sm" onclick="refreshData()">⟳ Refresh</button>
+      <button class="btn btn-grey btn-sm" id="privacy-btn" onclick="togglePrivacy()">🫣 Hide</button>
       <div class="pval-wrap">
         <div class="pval-label">Portfolio Value</div>
         <div class="pval-num" id="total-val">£0</div>
@@ -176,7 +178,7 @@ const CB={
 };
 
 // ── State ─────────────────────────────────────────────────────────────────
-let portfolio=[],liveData=null,activeTab='Overview',charts={},nextId=31,sortStates={},catOpen=false;
+let portfolio=[],liveData=null,activeTab='Overview',charts={},nextId=31,sortStates={},catOpen=false,privacyMode=false;
 
 // ── Default portfolio ─────────────────────────────────────────────────────
 const INIT_PORTFOLIO=[
@@ -269,6 +271,7 @@ function sCard(l,v,c,w){return`<div class="stat${w?' warn':''}"><div class="stat
 function fp(v){return v==null?'-':(v>0?'+':'')+v.toFixed(1)+'%';}
 function fc(v){return v==null?MUTED:v>0?POS:v<0?NEG:MUTED;}
 function fgbp(v){return'£'+Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pw(v){return'<span class="priv">'+v+'</span>';}
 
 // ── Sort helpers - supports nested paths like "returns.1Y" ────────────────
 function getVal(obj,path){
@@ -325,11 +328,11 @@ function updateAlerts(){
 }
 function updateStats(){
   const{tc,pos,tath,tpl,avgUp}=computed();
-  document.getElementById('total-val').textContent='£'+tc.toLocaleString(undefined,{maximumFractionDigits:0});
+  document.getElementById('total-val').innerHTML=pw('£'+tc.toLocaleString(undefined,{maximumFractionDigits:0}));
   document.getElementById('stats-band').innerHTML=
     sCard('Positions',pos,TEXT)+
-    sCard('Unrealised P&L',(tpl>=0?'+':'')+fgbp(tpl),tpl>=0?POS:NEG)+
-    sCard('Total ATH Value','£'+Math.round(tath).toLocaleString(),MUTED)+
+    sCard('Unrealised P&L',pw((tpl>=0?'+':'')+fgbp(tpl)),tpl>=0?POS:NEG)+
+    sCard('Total ATH Value',pw('£'+Math.round(tath).toLocaleString()),MUTED)+
     sCard('Wtd Avg Upside',fp(avgUp),avgUp>=0?POS:NEG);
   updateAlerts();
 }
@@ -345,9 +348,9 @@ function renderOverview(){
     <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}${p.usingManual?'<span class="manual-chip">manual</span>':''}</td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
     <td class="r">${p.shares!=null?p.shares.toFixed(3):'-'}</td>
-    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'-'}</td>
+    <td class="r">${p.currentHolding>0.5?pw(fgbp(p.currentHolding)):'-'}</td>
     <td class="r">${p.curPct.toFixed(2)}%</td>
-    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'-'}</td>
+    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?pw((p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL)):'-'}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
     <td class="r">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
     <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'-'}</td>
@@ -383,7 +386,7 @@ function renderUpside(){
     <td class="r">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
     <td class="r">${p.analystTarget?'$'+p.analystTarget.toFixed(2):'-'}</td>
     <td class="r" style="color:${fc(p.upside)};font-weight:700">${fp(p.upside)}</td>
-    <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'-'}</td>
+    <td class="r">${p.currentHolding>0.5?pw(fgbp(p.currentHolding)):'-'}</td>
   </tr>`).join('');
   return`<div class="card"><div class="card-title">Analyst Price Target Upside</div>
     <div class="chart-hint">Colour-coded by sector &nbsp;·&nbsp; Click headers to sort &nbsp;·&nbsp; No coverage excluded</div>
@@ -402,8 +405,8 @@ function renderATH(){
   const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${fgbp(p.currentHolding)}</td>
-    <td class="r" style="color:${NEG};font-weight:700">${fgbp(p.athHoldingValue)}</td>
+    <td class="r">${pw(fgbp(p.currentHolding))}</td>
+    <td class="r" style="color:${NEG};font-weight:700">${pw(fgbp(p.athHoldingValue))}</td>
     <td class="r" style="color:${NEG};font-weight:700">${fp(p.drawdown)}</td>
     <td class="r" style="font-size:10px;color:${MUTED}">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
   </tr>`).join('');
@@ -438,7 +441,7 @@ function renderReturns(){
   const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}</td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${fgbp(p.currentHolding)}</td>
+    <td class="r">${pw(fgbp(p.currentHolding))}</td>
     ${RL.map(l=>{const v=p.returns?.[l];return`<td class="r" style="color:${fc(v)};font-weight:${v!=null?700:400}">${fp(v)}</td>`;}).join('')}
   </tr>`).join('');
   return`
@@ -463,14 +466,14 @@ function renderPL(){
   const rows=wpl.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span></td>
     <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${fgbp(p.currentHolding)}</td>
-    <td class="r">${p.costBasis?fgbp(p.costBasis):'-'}</td>
-    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL>=0?'+':'-'}${fgbp(p.unrealisedPL)}</td>
+    <td class="r">${pw(fgbp(p.currentHolding))}</td>
+    <td class="r">${p.costBasis?pw(fgbp(p.costBasis)):'-'}</td>
+    <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${pw((p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL))}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
   </tr>`).join('');
   return`
   <div class="card"><div class="card-title">Unrealised P&L (£) - Live</div>
-    <div class="chart-hint">Portfolio total: <strong style="color:${tpl>=0?POS:NEG}">${tpl>=0?'+':''}${fgbp(tpl)}</strong> &nbsp;·&nbsp; Click headers to sort</div>
+    <div class="chart-hint">Portfolio total: <strong style="color:${tpl>=0?POS:NEG}">${pw((tpl>=0?'+':'')+fgbp(tpl))}</strong> &nbsp;·&nbsp; Click headers to sort</div>
     <div id="pl-wrap" style="position:relative"><canvas id="c-pl"></canvas></div>
     <div class="tbl-wrap" style="margin-top:16px"><table>
       <thead><tr>${th('P&L','ticker','Ticker')}${th('P&L','category','Sector')}${thr('P&L','currentHolding','Holding £')}${thr('P&L','costBasis','Cost Basis £')}${thr('P&L','unrealisedPL','P&L £')}${thr('P&L','unrealisedPLPct','P&L %')}</tr></thead>
@@ -516,10 +519,10 @@ function renderEditor(){
     return`<tr data-id="${p.id}">
       <td><input class="inp inp-tk" value="${p.ticker}" onblur="upd(${p.id},'ticker',this.value)"></td>
       <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${catOpts}</select></td>
-      <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:12px;white-space:nowrap">£${(p.currentHolding||0).toFixed(2)}</td>
+      <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:12px;white-space:nowrap">${pw('£'+(p.currentHolding||0).toFixed(2))}</td>
       <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
       <td><input class="inp inp-sm" value="${p.avgPriceGBP??''}" onblur="upd(${p.id},'avgPriceGBP',this.value)" placeholder="avg £"></td>
-      <td class="cb-cell r" style="color:#64748B;padding:7px 10px;font-size:12px;white-space:nowrap">${p.costBasis!=null?'£'+p.costBasis.toFixed(2):'-'}</td>
+      <td class="cb-cell r" style="color:#64748B;padding:7px 10px;font-size:12px;white-space:nowrap">${p.costBasis!=null?pw('£'+p.costBasis.toFixed(2)):'-'}</td>
       <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
       <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
     </tr>`;
@@ -662,7 +665,7 @@ window.upd=function(id,field,val){
   if((field==='avgPriceGBP'||field==='shares')&&p.avgPriceGBP!=null&&p.shares!=null){
     p.costBasis=Math.round(p.avgPriceGBP*p.shares*100)/100;
     const _cb=document.querySelector(`tr[data-id="${id}"] .cb-cell`);
-    if(_cb)_cb.textContent='£'+p.costBasis.toFixed(2);
+    if(_cb)_cb.innerHTML=pw('£'+p.costBasis.toFixed(2));
   }
   updateStats();savePortfolio();const _row=document.querySelector(`tr[data-id="${id}"] .holding-cell`);if(_row){const _c=computed().en.find(x=>x.id===id);if(_c)_row.textContent="£"+(_c.currentHolding||0).toFixed(2);}
 };
@@ -698,6 +701,14 @@ async function fetchLiveData(){
   try{const r=await fetch('./data.json?t='+Date.now());if(!r.ok)throw new Error();liveData=await r.json();}
   catch{liveData=null;}
 }
+window.togglePrivacy=function(){
+  privacyMode=!privacyMode;
+  document.querySelector('.app').classList.toggle('privacy-on',privacyMode);
+  const btn=document.getElementById('privacy-btn');
+  if(btn)btn.textContent=privacyMode?'👁 Show':'🫣 Hide';
+  updateStats();
+  if(wlMode)wlSetTab(wlActiveTab);else setTab(activeTab);
+};
 window.refreshData=async function(){
   document.getElementById('live-badge').className='live-badge loading';
   document.getElementById('live-badge').innerHTML='<span class="live-dot"></span>Refreshing…';
@@ -829,11 +840,11 @@ function renderWlOverview(){
     wlPieChart=new Chart(ctx,{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,borderWidth:1}]},options:{responsive:true,scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'bottom',labels:{font:{family:"'Courier New',monospace",size:10},boxWidth:12}}}}});
   },50);
 }
-function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.textContent=wlFmtGbp(val,wlTotalVal);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.getElementById('wl-total-pct');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}}
+function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.innerHTML=wlFmtGbp(val,wlTotalVal);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.getElementById('wl-total-pct');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}}
 function wlNormalize(){const p=wlPortfolio();const n=p.length+1;if(!n)return;const each=Math.floor(100/n);const extra=100-each*n;p.forEach(function(x,i){x.targetPct=each+(i<extra?1:0);});const cashNew=each+(p.length<extra?1:0);wlCashAmount=wlTotalVal>0?+(cashNew/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);saveWlPortfolio(p);}
-function wlFmtGbp(pct,total){if(!total)return '';return '£'+Math.round((+pct||0)/100*total).toLocaleString();}
-window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.textContent=wlFmtGbp(item.targetPct,wlTotalVal);});const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;};
-window.wlSetCash=function(val){wlCashAmount=val||0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
+function wlFmtGbp(pct,total){if(!total)return '';return pw('£'+Math.round((+pct||0)/100*total).toLocaleString());}
+window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.innerHTML=wlFmtGbp(item.targetPct,wlTotalVal);});const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.innerHTML=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;};
+window.wlSetCash=function(val){wlCashAmount=val||0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.innerHTML=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
 window.wlUpdCashSlider=function(val){wlCashAmount=wlTotalVal>0?+(val/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(val,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=(+val).toFixed(1)+'%';const ci=document.getElementById('wl-cash-inp');if(ci)ci.value=Math.round(wlCashAmount)||'';if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),+val];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+(+val)).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
 window.wlSyncFromPortfolio=function(){const holdings=computed().en;const equityTotal=holdings.reduce(function(s,h){return s+(h.currentHolding||0);},0);const totalWithCash=equityTotal+wlCashAmount;wlTotalVal=+totalWithCash.toFixed(2);localStorage.setItem('t212-wl-total-v1',wlTotalVal);const portMap={};holdings.forEach(function(h){portMap[h.ticker]=h.currentHolding||0;});const p=wlPortfolio();p.forEach(function(item){const holding=portMap[item.ticker]||0;item.targetPct=totalWithCash>0?+((holding/totalWithCash)*100).toFixed(1):0;});saveWlPortfolio(p);};
 window.wlReset=function(){const p=wlPortfolio();p.forEach(function(x){x.targetPct=0;});wlCashAmount=0;localStorage.setItem('t212-cash-v1',0);saveWlPortfolio(p);};
