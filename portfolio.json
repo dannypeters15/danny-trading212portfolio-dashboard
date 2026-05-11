@@ -3,7 +3,7 @@
   "holdings": [
     {"id":1,  "ticker":"APLD", "category":"AI Infrastructure & Data Centres", "shares":13.48938095,  "costBasis":299.55,   "plannedTotal":394,   "targetPct":0,   "athHoldingValue":null},
     {"id":2,  "ticker":"ORCL", "category":"AI Infrastructure & Data Centres", "shares":13.69528169,  "costBasis":1524.85,  "plannedTotal":1307,  "targetPct":6.5, "athHoldingValue":2784},
-    {"id":3,  "ticker":"IREN", "category":"AI Infrastructure & Data Centres", "shares":63.20356429,  "costBasis":2703.93,  "plannedTotal":612,   "targetPct":3.0, "athHoldingValue":308},
+    {"id":3,  "ticker":"IREN", "category":"AI Infrastructure & Data Centres", "shares":75.34401957,  "costBasis":3202.87,  "plannedTotal":612,   "targetPct":3.0, "athHoldingValue":308},
     {"id":5,  "ticker":"MSFT", "category":"Consumer Internet / Platforms",    "shares":4.94976036,   "costBasis":1408.22,  "plannedTotal":1488,  "targetPct":5.0, "athHoldingValue":1671},
     {"id":6,  "ticker":"ADBE", "category":"Consumer Internet / Platforms",    "shares":1.14122038,   "costBasis":199.70,   "plannedTotal":214,   "targetPct":0,   "athHoldingValue":608},
     {"id":8,  "ticker":"GOOGL","category":"Consumer Internet / Platforms",    "shares":2.75381883,   "costBasis":577.31,   "plannedTotal":800,   "targetPct":7.0, "athHoldingValue":1005},
@@ -22,6 +22,7 @@
     {"id":29, "ticker":"AVGO", "category":"Semiconductors & Hardware",        "shares":1.68475808,   "costBasis":380.20,   "plannedTotal":534,   "targetPct":5.0, "athHoldingValue":915},
     {"id":31, "ticker":"PLTR", "category":"AI Infrastructure & Data Centres", "shares":50.03546248,  "costBasis":4992.50,  "plannedTotal":0,     "targetPct":0,   "athHoldingValue":null},
     {"id":32, "ticker":"CRWV", "category":"AI Infrastructure & Data Centres", "shares":11.96354018,  "costBasis":998.50,   "plannedTotal":0,     "targetPct":0,   "athHoldingValue":null},
-    {"id":33, "ticker":"AVAV", "category":"Defence & Aerospace",              "shares":4.03305757,   "costBasis":499.25,   "plannedTotal":0,     "targetPct":0,   "athHoldingValue":null}
+    {"id":33, "ticker":"AVAV", "category":"Defence & Aerospace",              "shares":4.03305757,   "costBasis":499.25,   "plannedTotal":0,     "targetPct":0,   "athHoldingValue":null},
+    {"id":34, "ticker":"NOW",  "category":"Consumer Internet / Platforms",    "shares":14.80314319,  "costBasis":998.47,   "plannedTotal":0,     "targetPct":0,   "athHoldingValue":null}
   ]
 }
