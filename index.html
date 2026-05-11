@@ -950,7 +950,11 @@ function wlRemove(id){if(!confirm('Remove this ticker?'))return;saveWlPortfolio(
 function wlAddTicker(){const inp=document.getElementById('wl-new-ticker');const t=(inp.value||'').toUpperCase().trim();if(!t)return;const p=wlPortfolio();const maxId=p.reduce(function(m,x){return Math.max(m,x.id||0);},0);p.push({id:maxId+1,ticker:t,category:wlAutoCategory(t),targetPct:0});saveWlPortfolio(p);inp.value='';}
 function wlExportJSON(){const tickers=wlPortfolio().map(function(x){return x.ticker;});const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(tickers,null,2));a.download='watchlist.json';a.click();}
 
-init();
+init().catch(err=>{
+  const ov=document.getElementById('loading-overlay');
+  if(ov){ov.style.background='#fff';ov.innerHTML='<div style="color:#DC2626;font-family:monospace;padding:24px;max-width:800px;white-space:pre-wrap"><strong>Dashboard error — please report this:</strong>\n'+err.stack+'</div>';}
+  console.error('init() failed:',err);
+});
 </script>
 </body>
 </html>
