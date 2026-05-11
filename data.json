@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-05-11T22:26:21Z",
+  "lastUpdated": "2026-05-11T23:19:04Z",
   "gbpusd": 1.3609,
-  "eurusd": 1.1791,
-  "gbpeur": 1.1542,
+  "eurusd": 1.1788,
+  "gbpeur": 1.1545,
   "tickers": {
     "APLD": {
       "price": 44.59,
@@ -438,6 +438,44 @@
         "1Y": -53.32,
         "3Y": 0.49,
         "5Y": -1.56
+      },
+      "stale": false
+    },
+    "TTWO": {
+      "price": 221.47,
+      "currency": "USD",
+      "mktCapB": 41.011,
+      "analystTarget": 277.06,
+      "athPrice": 262.29,
+      "sector": "Communication Services",
+      "returns": {
+        "1D": 0.46,
+        "1W": -1.65,
+        "1M": 12.38,
+        "3M": 13.23,
+        "6M": -4.54,
+        "1Y": -2.24,
+        "3Y": 76.81,
+        "5Y": 34.83
+      },
+      "stale": false
+    },
+    "XE": {
+      "price": 33.11,
+      "currency": "USD",
+      "mktCapB": 9.054,
+      "analystTarget": null,
+      "athPrice": 35.98,
+      "sector": "Industrials",
+      "returns": {
+        "1D": 9.71,
+        "1W": 11.26,
+        "1M": null,
+        "3M": null,
+        "6M": null,
+        "1Y": null,
+        "3Y": null,
+        "5Y": null
       },
       "stale": false
     }
@@ -915,6 +953,25 @@
         "1Y": -52.9,
         "3Y": 623.03,
         "5Y": 261.59
+      },
+      "stale": false
+    },
+    "NOW": {
+      "price": 91.49,
+      "currency": "USD",
+      "mktCapB": 94.354,
+      "analystTarget": 145.27,
+      "athPrice": 234.078,
+      "sector": "Technology",
+      "returns": {
+        "1D": 0.34,
+        "1W": -0.52,
+        "1M": 10.23,
+        "3M": -9.18,
+        "6M": -46.92,
+        "1Y": -53.32,
+        "3Y": 0.49,
+        "5Y": -1.56
       },
       "stale": false
     }
