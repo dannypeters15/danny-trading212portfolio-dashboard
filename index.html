@@ -21,7 +21,7 @@ body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-s
 .pval-label{font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:1px}
 .pval-num{font-size:28px;font-weight:700}
 .pval-fx{font-size:11px;color:#94A3B8;margin-top:2px}
-.stats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
 @media(max-width:900px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .stat{background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:10px 14px}
 .stat.warn{border-color:#FCA5A5;background:#FEF2F2}
@@ -165,7 +165,7 @@ function getCatColor(fullName){return categories.find(c=>c.fullName===fullName)?
 function getCatShort(fullName){return categories.find(c=>c.fullName===fullName)?.shortName||fullName;}
 
 // ── Constants ─────────────────────────────────────────────────────────────
-const TABS=['Overview','Gap Analysis','Upside','ATH Analysis','Planned vs Current','Returns','P&L','DCA Planner','Editor'];
+const TABS=['Overview','Upside','ATH Analysis','Returns','P&L','Editor'];
 const RL=['1W','1M','3M','6M','1Y','3Y','5Y'];
 const POS='#16A34A',NEG='#DC2626',ACCENT='#1D4ED8',TEXT='#0F172A',MUTED='#64748B',BORDER='#CBD5E1',GC='rgba(203,213,225,.5)';
 const TS={color:MUTED,font:{family:"'Courier New',monospace",size:11}};
@@ -247,8 +247,6 @@ function computed(){
       analystTarget,mktCapB,returns,upside,stale:live.stale||false};
   });
   const tc=en.reduce((s,p)=>s+(p.currentHolding||0),0);
-  const tp=portfolio.reduce((s,p)=>s+(p.plannedTotal||0),0);
-  const tt=portfolio.reduce((s,p)=>s+(p.targetPct||0),0);
   const pos=en.filter(p=>p.currentHolding>0.5).length;
   const tath=en.reduce((s,p)=>s+(p.athHoldingValue||0),0);
   const tpl=en.reduce((s,p)=>s+(p.unrealisedPL||0),0);
@@ -257,11 +255,9 @@ function computed(){
   const avgUp=wt>0?wu.reduce((s,p)=>s+p.upside*p.currentHolding,0)/wt:0;
   const fin=en.map(p=>({...p,
     curPct:tc>0?p.currentHolding/tc*100:0,
-    gap:(p.targetPct||0)-(tc>0?p.currentHolding/tc*100:0),
-    buyNeeded:(p.plannedTotal||0)-p.currentHolding,
     drawdown:p.athHoldingValue>0?((p.currentHolding-p.athHoldingValue)/p.athHoldingValue)*100:null
   }));
-  return{tc,tp,tt,pos,net:tp-tc,tath,tpl,avgUp,en:fin};
+  return{tc,pos,tath,tpl,avgUp,en:fin};
 }
 
 function agg(en,fn){
@@ -323,7 +319,6 @@ function updateBadge(){
 function updateAlerts(){
   const{en,tt}=computed();
   const al=[];
-  if(Math.abs(tt-100)>0.5)al.push({t:`⚠ Target % = ${tt.toFixed(1)}% - ${(100-tt).toFixed(1)}% unallocated`,c:'red'});
   en.forEach(p=>{if(p.curPct>10)al.push({t:`⚠ ${p.ticker} = ${p.curPct.toFixed(1)}% of portfolio`,c:'red'});});
   const top=en.filter(p=>p.upside!=null&&p.upside>50&&p.currentHolding>0.5);
   if(top.length)al.push({t:`★ ${top.map(p=>p.ticker).join(', ')} - 50%+ analyst upside`,c:'green'});
@@ -334,14 +329,10 @@ function updateAlerts(){
   document.getElementById('alerts').innerHTML=al.slice(0,6).map(a=>`<div class="alert ${a.c}">${a.t}</div>`).join('');
 }
 function updateStats(){
-  const{tc,tp,tt,pos,net,tath,tpl,avgUp}=computed();
-  const toff=Math.abs(tt-100)>0.5;
+  const{tc,pos,tath,tpl,avgUp}=computed();
   document.getElementById('total-val').textContent='£'+tc.toLocaleString(undefined,{maximumFractionDigits:0});
   document.getElementById('stats-band').innerHTML=
     sCard('Positions',pos,TEXT)+
-    sCard('Planned Total','£'+Math.round(tp).toLocaleString(),TEXT)+
-    sCard('Target % Sum',tt.toFixed(1)+'%',toff?NEG:POS,toff)+
-    sCard(net>=0?'Net to Buy':'Net to Sell','£'+Math.abs(Math.round(net)).toLocaleString(),net>0?POS:net<0?NEG:TEXT)+
     sCard('Unrealised P&L',(tpl>=0?'+':'')+fgbp(tpl),tpl>=0?POS:NEG)+
     sCard('Total ATH Value','£'+Math.round(tath).toLocaleString(),MUTED)+
     sCard('Wtd Avg Upside',fp(avgUp),avgUp>=0?POS:NEG);
@@ -351,16 +342,9 @@ function updateStats(){
 // ── Renderers ─────────────────────────────────────────────────────────────
 function renderOverview(){
   const{en}=computed();
-  const cs=agg(en,p=>p.curPct),ts=agg(en,p=>p.targetPct||0);
+  const cs=agg(en,p=>p.curPct);
   const held=en.filter(p=>p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
-  const tkTgt=en.filter(p=>(p.targetPct||0)>0);
-  const sC=Object.values(en.reduce((m,p)=>{
-    const k=p.category;
-    if(!m[k])m[k]={name:getCatShort(k),cur:0,tgt:0};
-    m[k].cur+=p.curPct;m[k].tgt+=(p.targetPct||0);return m;
-  },{}));
   const tkLegCur=`<div class="tk-leg">${held.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${getCatColor(p.category)}"></div><span class="tk-txt">${p.ticker} ${p.curPct.toFixed(1)}%</span></div>`).join('')}</div>`;
-  const tkLegTgt=`<div class="tk-leg">${tkTgt.map(p=>`<div class="tk-item"><div class="tk-dot" style="background:${getCatColor(p.category)}"></div><span class="tk-txt">${p.ticker} ${p.targetPct}%</span></div>`).join('')}</div>`;
   const sorted=getSorted(en,'Overview','currentHolding');
   const rows=sorted.map(p=>`<tr>
     <td><span class="tk-chip">${p.ticker}</span>${p.stale?'<span class="stale-chip">stale</span>':''}${p.usingManual?'<span class="manual-chip">manual</span>':''}</td>
@@ -368,8 +352,6 @@ function renderOverview(){
     <td class="r">${p.shares!=null?p.shares.toFixed(3):'-'}</td>
     <td class="r">${p.currentHolding>0.5?fgbp(p.currentHolding):'-'}</td>
     <td class="r">${p.curPct.toFixed(2)}%</td>
-    <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'-'}</td>
-    <td class="r" style="color:${p.gap>.2?POS:p.gap<-.2?NEG:MUTED};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
     <td class="r" style="color:${fc(p.unrealisedPL)};font-weight:700">${p.unrealisedPL!=null?(p.unrealisedPL>=0?'+':'-')+fgbp(p.unrealisedPL):'-'}</td>
     <td class="r" style="color:${fc(p.unrealisedPLPct)};font-weight:700">${fp(p.unrealisedPLPct)}</td>
     <td class="r">${p.price>0?'$'+p.price.toFixed(2):'-'}</td>
@@ -382,49 +364,16 @@ function renderOverview(){
     <div class="card" style="margin-bottom:0"><div class="card-title">Current by Sector</div>${mkLeg(cs.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:240px"><canvas id="c-cp"></canvas></div></div>
     <div class="card" style="margin-bottom:0"><div class="card-title">Current by Ticker</div><div style="position:relative;height:240px"><canvas id="c-tkp"></canvas></div>${tkLegCur}</div>
   </div>
-  <div class="g2">
-    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Sector</div>${mkLeg(ts.map(s=>({name:s.name,color:s.color})))}<div style="position:relative;height:240px"><canvas id="c-tp"></canvas></div></div>
-    <div class="card" style="margin-bottom:0"><div class="card-title">Target by Ticker</div><div style="position:relative;height:240px"><canvas id="c-tkp2"></canvas></div>${tkLegTgt}</div>
-  </div>
-  <div class="card"><div class="card-title">Sector: Current % vs Target %</div>${mkLeg([{name:'Current %',color:ACCENT},{name:'Target %',color:POS}])}<div style="position:relative;height:230px"><canvas id="c-sb"></canvas></div></div>
-  <div class="card"><div class="card-title">Ticker: Current % vs Target %</div>${mkLeg([{name:'Current %',color:ACCENT},{name:'Target %',color:POS}])}<div id="c-tkbar-wrap" style="position:relative"><canvas id="c-tkbar"></canvas></div></div>
   <div class="card"><div class="card-title">All Positions</div>
     <div class="tbl-wrap"><table>
       <thead><tr>
         ${th('Overview','ticker','Ticker')}${th('Overview','category','Sector')}
         ${thr('Overview','shares','Shares')}${thr('Overview','currentHolding','Holding £')}
-        ${thr('Overview','curPct','Cur%')}${thr('Overview','targetPct','Tgt%')}
-        ${thr('Overview','gap','Gap')}${thr('Overview','unrealisedPL','P&L £')}
+        ${thr('Overview','curPct','Cur%')}${thr('Overview','unrealisedPL','P&L £')}
         ${thr('Overview','unrealisedPLPct','P&L %')}${thr('Overview','price','Price')}
         ${thr('Overview','analystTarget','Analyst')}${thr('Overview','upside','Upside')}
         ${thr('Overview','mktCapB','Mkt Cap')}
       </tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>
-  </div>`;
-}
-
-function renderGap(){
-  const{en}=computed();
-  const all=en.filter(p=>(p.targetPct||0)>0||p.curPct>0.1);
-  const sorted=getSorted(all,'Gap Analysis','gap');
-  const tc=en.reduce((s,p)=>s+(p.currentHolding||0),0);
-  const rows=sorted.map(p=>{
-    const gC=p.gap>=0?POS:NEG;
-    return`<tr>
-      <td><span class="tk-chip">${p.ticker}</span></td>
-      <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-      <td class="r">${p.curPct.toFixed(2)}%</td>
-      <td class="r">${p.targetPct>0?p.targetPct.toFixed(1)+'%':'-'}</td>
-      <td class="r" style="color:${gC};font-weight:700">${p.gap>.05?'+':''}${p.gap.toFixed(2)}%</td>
-      <td class="r" style="color:${gC};font-weight:700">${fgbp(Math.abs(p.gap/100*tc))}</td>
-    </tr>`;
-  }).join('');
-  return`<div class="card"><div class="card-title">Gap to Target % per Ticker</div>
-    <div class="chart-hint"><span style="color:${POS}">■</span> Underweight &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Overweight &nbsp;·&nbsp; Click headers to sort</div>
-    <div id="gap-wrap" style="position:relative"><canvas id="c-gap"></canvas></div>
-    <div class="tbl-wrap" style="margin-top:16px"><table>
-      <thead><tr>${th('Gap Analysis','ticker','Ticker')}${th('Gap Analysis','category','Sector')}${thr('Gap Analysis','curPct','Cur%')}${thr('Gap Analysis','targetPct','Tgt%')}${thr('Gap Analysis','gap','Gap %')}${thr('Gap Analysis','gap','Gap £')}</tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
   </div>`;
@@ -475,32 +424,6 @@ function renderATH(){
       <thead><tr>${th('ATH Analysis','ticker','Ticker')}${th('ATH Analysis','category','Sector')}${thr('ATH Analysis','currentHolding','Current £')}${thr('ATH Analysis','athHoldingValue','ATH £')}${thr('ATH Analysis','drawdown','Drawdown %')}${thr('ATH Analysis','price','Price')}</tr></thead>
       <tbody>${rows.length?rows:`<tr><td colspan="6" style="text-align:center;color:${MUTED};padding:20px">No ATH data available - run the GitHub Action to populate</td></tr>`}</tbody>
     </table></div>
-  </div>`;
-}
-
-function renderPlanned(){
-  const{en}=computed();
-  const sorted=getSorted(en.filter(p=>(p.plannedTotal||0)>0||p.currentHolding>0.5),'Planned vs Current','currentHolding');
-  const bsd=getSorted(sorted.filter(p=>Math.abs(p.buyNeeded)>0.5),'Planned vs Current','buyNeeded');
-  const rows=sorted.map(p=>`<tr>
-    <td><span class="tk-chip">${p.ticker}</span></td>
-    <td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-    <td class="r">${fgbp(p.currentHolding)}</td>
-    <td class="r">${p.plannedTotal?fgbp(p.plannedTotal):'-'}</td>
-    <td class="r" style="color:${fc(p.buyNeeded)};font-weight:700">${p.buyNeeded>0.5?'+':''}${fgbp(p.buyNeeded)}</td>
-  </tr>`).join('');
-  return`
-  <div class="card"><div class="card-title">Planned Total vs Current Holding (£)</div>
-    ${mkLeg([{name:'Current',color:ACCENT},{name:'Planned',color:POS}])}
-    <div id="pvc-wrap" style="position:relative"><canvas id="c-pvc"></canvas></div>
-    <div class="tbl-wrap" style="margin-top:16px"><table>
-      <thead><tr>${th('Planned vs Current','ticker','Ticker')}${th('Planned vs Current','category','Sector')}${thr('Planned vs Current','currentHolding','Current £')}${thr('Planned vs Current','plannedTotal','Planned £')}${thr('Planned vs Current','buyNeeded','Δ')}</tr></thead>
-      <tbody>${rows}</tbody>
-    </table></div>
-  </div>
-  <div class="card"><div class="card-title">Buy / Sell Required (£)</div>
-    <div class="chart-hint"><span style="color:${POS}">■</span> Buy &nbsp;·&nbsp; <span style="color:${NEG}">■</span> Sell / trim</div>
-    <div id="bs-wrap" style="position:relative"><canvas id="c-bs"></canvas></div>
   </div>`;
 }
 
@@ -562,21 +485,6 @@ function renderPL(){
   <div class="card"><div class="card-title">P&L % - Best to Worst</div><div id="plpct-wrap" style="position:relative"><canvas id="c-plpct"></canvas></div></div>`;
 }
 
-function renderDCA(){
-  return`<div class="card"><div class="card-title">DCA Planner</div>
-    <div class="dca-row">
-      <div class="dca-grp"><div class="dca-lbl">Monthly budget</div><input class="dca-inp" id="dca-budget" type="number" value="500" min="0" oninput="renderDCATable()"></div>
-      <div class="dca-grp"><div class="dca-lbl">Method</div>
-        <select class="dca-inp" id="dca-method" onchange="renderDCATable()">
-          <option value="gap">Proportional to gap</option>
-          <option value="equal">Equal split</option>
-        </select>
-      </div>
-    </div>
-    <div id="dca-table-wrap"></div>
-    <div class="chart-hint" style="margin-top:12px;margin-bottom:0">Only tickers with a Target % and positive gap shown.</div>
-  </div>`;
-}
 
 function renderCategoryManager(){
   const rows=categories.map(c=>`
@@ -617,8 +525,6 @@ function renderEditor(){
       <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
       <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
       <td><input class="inp" value="${p.costBasis??''}" onblur="upd(${p.id},'costBasis',this.value)" placeholder="total invested"></td>
-      <td><input class="inp" value="${p.plannedTotal??''}" onblur="upd(${p.id},'plannedTotal',this.value)"></td>
-      <td><input class="inp inp-xs" value="${p.targetPct??''}" onblur="upd(${p.id},'targetPct',this.value)"></td>
       <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
     </tr>`;
   }).join('');
@@ -627,9 +533,7 @@ function renderEditor(){
     <div class="ed-field-guide">
       <strong>Shares</strong> → share count held. Holding = shares × live price × GBP rate, updated daily.<br>
       <strong style="color:#7C3AED">Manual £ ⚡</strong> → <em>overrides</em> shares calc. Use for tickers where T212 shows a different value (ARKX, ALOY, FLY, NVA). Update when your position changes.<br>
-      <strong>Cost Basis £</strong> → total you invested (find in T212 → position → "Invested"). Used for P&L.<br>
-      <strong>Planned £</strong> → target holding value. Drives buy/sell signals.<br>
-      <strong>Target %</strong> → target portfolio allocation. Drives gap analysis and DCA planner.
+      <strong>Cost Basis £</strong> → total you invested (find in T212 → position → "Invested"). Used for P&L.
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div class="card-title" style="margin-bottom:0">Portfolio Editor</div>
@@ -646,7 +550,7 @@ function renderEditor(){
               <th onclick="sortBy('Editor','currentHolding')" class="sortable">Holding £</th>
         <th title="Share count - holding auto-calculates from live price">Shares</th>
         <th title="Overrides shares calc - highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
-        <th onclick="sortBy('Editor','costBasis')" class="sortable">Cost Basis £</th><th onclick="sortBy('Editor','plannedTotal')" class="sortable">Planned £</th><th onclick="sortBy('Editor','targetPct')" class="sortable">Tgt%</th><th></th>
+        <th onclick="sortBy('Editor','costBasis')" class="sortable">Cost Basis £</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
@@ -701,23 +605,10 @@ function drawCharts(){
   const doO={...CB,cutout:'60%',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed.toFixed(1)}%`}}},scales:{x:{display:false},y:{display:false}}};
 
   if(activeTab==='Overview'){
-    const cs=agg(en,p=>p.curPct),ts=agg(en,p=>p.targetPct||0);
+    const cs=agg(en,p=>p.curPct);
     const held=en.filter(p=>p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
-    const tkTgt=en.filter(p=>(p.targetPct||0)>0);
-    const sC=Object.values(en.reduce((m,p)=>{const k=p.category;if(!m[k])m[k]={name:getCatShort(k),cur:0,tgt:0};m[k].cur+=p.curPct;m[k].tgt+=(p.targetPct||0);return m;},{}));
     charts.cp=new Chart(document.getElementById('c-cp'),{type:'doughnut',data:{labels:cs.map(s=>s.name),datasets:[{data:cs.map(s=>s.value),backgroundColor:cs.map(s=>s.color),borderWidth:2,borderColor:'#fff'}]},options:doO});
     charts.tkp=new Chart(document.getElementById('c-tkp'),{type:'doughnut',data:{labels:held.map(p=>p.ticker),datasets:[{data:held.map(p=>p.curPct),backgroundColor:held.map(p=>getCatColor(p.category)),borderWidth:2,borderColor:'#fff'}]},options:doO});
-    charts.tp=new Chart(document.getElementById('c-tp'),{type:'doughnut',data:{labels:ts.map(s=>s.name),datasets:[{data:ts.map(s=>s.value),backgroundColor:ts.map(s=>s.color+'99'),borderWidth:2,borderColor:'#fff'}]},options:doO});
-    charts.tkp2=new Chart(document.getElementById('c-tkp2'),{type:'doughnut',data:{labels:tkTgt.map(p=>p.ticker),datasets:[{data:tkTgt.map(p=>p.targetPct),backgroundColor:tkTgt.map(p=>getCatColor(p.category)+'99'),borderWidth:2,borderColor:'#fff'}]},options:doO});
-    charts.sb=new Chart(document.getElementById('c-sb'),{type:'bar',data:{labels:sC.map(s=>s.name),datasets:[{label:'Current %',data:sC.map(s=>+s.cur.toFixed(2)),backgroundColor:ACCENT+'CC',borderRadius:4},{label:'Target %',data:sC.map(s=>+s.tgt.toFixed(2)),backgroundColor:POS+'CC',borderRadius:4}]},options:{...CB,plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}%`}}},scales:{x:{...CB.scales.x,ticks:{...TS,autoSkip:false}},y:{...CB.scales.y,ticks:{...TS,callback:v=>v+'%'}}}}});
-    const tkAll=en.filter(p=>p.currentHolding>0.5||(p.targetPct||0)>0).sort((a,b)=>b.currentHolding-a.currentHolding);
-    document.getElementById('c-tkbar-wrap').style.height=Math.max(tkAll.length*32+60,200)+'px';
-    charts.tkbar=new Chart(document.getElementById('c-tkbar'),{type:'bar',data:{labels:tkAll.map(p=>p.ticker),datasets:[{label:'Current %',data:tkAll.map(p=>+p.curPct.toFixed(2)),backgroundColor:ACCENT+'CC',borderRadius:3},{label:'Target %',data:tkAll.map(p=>+(p.targetPct||0).toFixed(2)),backgroundColor:POS+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)}%`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>v+'%'}},y:{...CB.scales.y,ticks:TS}}}});
-  }
-  else if(activeTab==='Gap Analysis'){
-    const gd=en.filter(p=>(p.targetPct||0)>0||p.curPct>0.1).sort((a,b)=>b.gap-a.gap);
-    document.getElementById('gap-wrap').style.height=Math.max(gd.length*28+50,150)+'px';
-    mkBarH('c-gap',gd.map(p=>p.ticker),gd.map(p=>+p.gap.toFixed(2)),gd.map(p=>p.gap>=0?POS+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>0?'+':''}${v.toFixed(2)}%`;});
   }
   else if(activeTab==='Upside'){
     const ud=en.filter(p=>p.upside!=null).sort((a,b)=>b.upside-a.upside);
@@ -731,19 +622,6 @@ function drawCharts(){
       charts.ath=new Chart(document.getElementById('c-ath'),{type:'bar',data:{labels:ad.map(p=>p.ticker),datasets:[{label:'ATH',data:ad.map(p=>Math.round(p.athHoldingValue)),backgroundColor:NEG+'88',borderRadius:3},{label:'Current',data:ad.map(p=>Math.round(p.currentHolding)),backgroundColor:ACCENT+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(0)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
     }else{
       document.getElementById('ath-wrap').innerHTML=`<div class="empty">No ATH data yet.<br><span>Run the GitHub Action to auto-calculate from price history.</span></div>`;
-    }
-  }
-  else if(activeTab==='Planned vs Current'){
-    const pd=en.filter(p=>(p.plannedTotal||0)>0||p.currentHolding>0.5).sort((a,b)=>b.currentHolding-a.currentHolding);
-    const bsd=pd.filter(p=>Math.abs(p.buyNeeded)>0.5).sort((a,b)=>b.buyNeeded-a.buyNeeded);
-    document.getElementById('pvc-wrap').style.height=Math.max(pd.length*40+60,150)+'px';
-    charts.pvc=new Chart(document.getElementById('c-pvc'),{type:'bar',data:{labels:pd.map(p=>p.ticker),datasets:[{label:'Current',data:pd.map(p=>Math.round(p.currentHolding)),backgroundColor:ACCENT+'CC',borderRadius:3},{label:'Planned',data:pd.map(p=>Math.round(p.plannedTotal||0)),backgroundColor:POS+'CC',borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fgbp(ctx.parsed.x)}`}}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:v=>'£'+(v/1000).toFixed(1)+'k'}},y:{...CB.scales.y,ticks:TS}}}});
-    const bsW=document.getElementById('bs-wrap');
-    if(bsd.length>0){
-      bsW.style.height=Math.max(bsd.length*28+50,80)+'px';
-      mkBarH('c-bs',bsd.map(p=>p.ticker),bsd.map(p=>Math.round(p.buyNeeded)),bsd.map(p=>p.buyNeeded>=0?POS+'CC':NEG+'CC'),ctx=>{const v=ctx.parsed.x;return` ${v>=0?'Buy':'Sell'}: ${fgbp(Math.abs(v))}`;});
-    }else{
-      bsW.innerHTML=`<div class="empty">All planned totals match current. <span>Update Planned £ in Editor.</span></div>`;
     }
   }
   else if(activeTab==='Returns'){
@@ -769,41 +647,19 @@ function drawCharts(){
   }
 }
 
-// ── DCA ───────────────────────────────────────────────────────────────────
-window.renderDCATable=function(){
-  const{en}=computed();
-  const budget=parseFloat(document.getElementById('dca-budget').value)||0;
-  const method=document.getElementById('dca-method').value;
-  const uw=en.filter(p=>(p.targetPct||0)>0&&p.gap>0.1).sort((a,b)=>b.gap-a.gap);
-  if(!uw.length){document.getElementById('dca-table-wrap').innerHTML=`<div class="empty">No underweight positions. <span>Set Target % in Editor.</span></div>`;return;}
-  const tg=uw.reduce((s,p)=>s+p.gap,0);
-  const rows=uw.map(p=>{
-    const al=method==='gap'?budget*(p.gap/tg):budget/uw.length;
-    return`<tr><td><span class="tk-chip">${p.ticker}</span></td><td class="muted" style="font-size:10px">${getCatShort(p.category)}</td>
-      <td class="r">${p.curPct.toFixed(2)}%</td><td class="r">${p.targetPct.toFixed(1)}%</td>
-      <td class="r pos">+${p.gap.toFixed(2)}%</td>
-      <td class="r" style="font-weight:700;color:${ACCENT}">£${al.toFixed(2)}</td>
-      <td class="r">${(al/budget*100).toFixed(1)}%</td></tr>`;
-  }).join('');
-  document.getElementById('dca-table-wrap').innerHTML=`<div class="tbl-wrap"><table>
-    <thead><tr><th>Ticker</th><th>Sector</th><th class="r">Cur%</th><th class="r">Tgt%</th><th class="r">Gap</th><th class="r">Allocate</th><th class="r">Of Budget</th></tr></thead>
-    <tbody>${rows}</tbody></table></div>`;
-};
-
 // ── Tab routing ───────────────────────────────────────────────────────────
 function setTab(t){
   activeTab=t;
   document.querySelectorAll('.tab').forEach(el=>el.className='tab'+(el.dataset.tab===t?' active':''));
-  const fn={Overview:renderOverview,'Gap Analysis':renderGap,Upside:renderUpside,'ATH Analysis':renderATH,'Planned vs Current':renderPlanned,Returns:renderReturns,'P&L':renderPL,'DCA Planner':renderDCA,Editor:renderEditor};
+  const fn={Overview:renderOverview,Upside:renderUpside,'ATH Analysis':renderATH,Returns:renderReturns,'P&L':renderPL,Editor:renderEditor};
   document.getElementById('content').innerHTML=fn[t]?fn[t]():'';
-  if(t==='DCA Planner')setTimeout(renderDCATable,20);
-  else if(t!=='Editor')setTimeout(drawCharts,40);
+  if(t!=='Editor')setTimeout(drawCharts,40);
 }
 
 // ── CRUD ──────────────────────────────────────────────────────────────────
 function savePortfolio(){localStorage.setItem('t212-portfolio-v1',JSON.stringify(portfolio));}
 window.upd=function(id,field,val){
-  const nf=['shares','manualHolding','costBasis','plannedTotal','targetPct','athHoldingValue'];
+  const nf=['shares','manualHolding','costBasis','athHoldingValue'];
   const v=nf.includes(field)?(val===''||val==null?null:parseFloat(val)||0):val;
   const p=portfolio.find(x=>x.id===id);if(p)p[field]=v;
   updateStats();savePortfolio();const _row=document.querySelector(`tr[data-id="${id}"] .holding-cell`);if(_row){const _c=computed().en.find(x=>x.id===id);if(_c)_row.textContent="£"+(_c.currentHolding||0).toFixed(2);}
@@ -811,7 +667,7 @@ window.upd=function(id,field,val){
 window.addRow=function(){
   const defCat=categories.length>0?categories[0].fullName:(INIT_PORTFOLIO[0]?.category||'');
   const newId=nextId++;
-  portfolio.push({id:newId,ticker:'NEW',category:defCat,shares:null,costBasis:null,plannedTotal:0,targetPct:0,athHoldingValue:null,manualHolding:null});
+  portfolio.push({id:newId,ticker:'NEW',category:defCat,shares:null,costBasis:null,athHoldingValue:null,manualHolding:null});
   savePortfolio();updateStats();setTab('Editor');
   setTimeout(()=>{const rows=document.querySelectorAll('tbody tr');const last=rows[rows.length-1];if(last)last.scrollIntoView({behavior:'smooth',block:'center'});},80);
 };
@@ -820,18 +676,18 @@ window.resetData=function(){if(confirm('Reset portfolio to original data?')){por
 
 window.exportCSV=function(){
   const{en}=computed();
-  const h=['Ticker','Category','Shares','Holding £','Cost Basis £','P&L £','P&L %','Planned £','Target %','ATH £','Price','Analyst','Upside %','Mkt Cap',...RL.map(l=>l+' %')];
+  const h=['Ticker','Category','Shares','Holding £','Cost Basis £','P&L £','P&L %','ATH £','Price','Analyst','Upside %','Mkt Cap',...RL.map(l=>l+' %')];
   const rows=en.sort((a,b)=>b.currentHolding-a.currentHolding).map(p=>[
     p.ticker,p.category,p.shares??'',p.currentHolding.toFixed(2),p.costBasis??'',
     p.unrealisedPL!=null?p.unrealisedPL.toFixed(2):'',p.unrealisedPLPct!=null?p.unrealisedPLPct.toFixed(2):'',
-    p.plannedTotal??'',p.targetPct??'',p.athHoldingValue!=null?p.athHoldingValue.toFixed(2):'',
+    p.athHoldingValue!=null?p.athHoldingValue.toFixed(2):'',
     p.price??'',p.analystTarget??'',p.upside!=null?p.upside.toFixed(2):'',p.mktCapB??'',
     ...RL.map(l=>p.returns?.[l]??'')
   ].join(','));
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent([h.join(','),...rows].join('\n'));a.download='t212_portfolio.csv';a.click();
 };
 window.exportPortfolioJSON=function(){
-  const data={version:2,categories,holdings:portfolio.map(({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue,manualHolding})=>({id,ticker,category,shares,costBasis,plannedTotal,targetPct,athHoldingValue:athHoldingValue||null,manualHolding:manualHolding||null}))};
+  const data={version:2,categories,holdings:portfolio.map(({id,ticker,category,shares,costBasis,athHoldingValue,manualHolding})=>({id,ticker,category,shares,costBasis,athHoldingValue:athHoldingValue||null,manualHolding:manualHolding||null}))};
   const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='portfolio.json';a.click();
 };
 
