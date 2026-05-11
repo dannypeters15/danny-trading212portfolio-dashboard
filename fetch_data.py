@@ -26,17 +26,17 @@ TICKER_MAP = {
     "NFLX":  "NFLX",
     "ALOY":  "ALOY",
     "FLY":   "FLY",
-    "TTWO":  "TTWO",
+    "AVAV":  "AVAV",
     "SMR":   "SMR",
     "OKLO":  "OKLO",
     "LTBR":  "LTBR",
     "NVA":   "NVA",
     "UEC":   "UEC",
     "LEU":   "LEU",
-    "XE":    "XE",
     "NVDA":  "NVDA",
     "AVGO":  "AVGO",
-    "AVAV":  "AVAV",
+    "PLTR":  "PLTR",
+    "CRWV":  "CRWV",
 }
 
 # Return periods: (label, calendar_days_back)
