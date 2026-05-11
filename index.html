@@ -180,31 +180,31 @@ let portfolio=[],liveData=null,activeTab='Overview',charts={},nextId=31,sortStat
 
 // ── Default portfolio ─────────────────────────────────────────────────────
 const INIT_PORTFOLIO=[
-  {id:1, ticker:'APLD', category:'AI Infrastructure & Data Centres', shares:13.48938095,  costBasis:299.60,  athHoldingValue:null,  manualHolding:null},
-  {id:2, ticker:'ORCL', category:'AI Infrastructure & Data Centres', shares:13.69528169,  costBasis:1524.76, athHoldingValue:2784,  manualHolding:null},
-  {id:3, ticker:'IREN', category:'AI Infrastructure & Data Centres', shares:75.34401957,  costBasis:3202.39, athHoldingValue:308,   manualHolding:null},
-  {id:31,ticker:'PLTR', category:'AI Infrastructure & Data Centres', shares:50.03546248,  costBasis:4992.44, athHoldingValue:null,  manualHolding:null},
-  {id:32,ticker:'CRWV', category:'AI Infrastructure & Data Centres', shares:11.96354018,  costBasis:998.39,  athHoldingValue:null,  manualHolding:null},
-  {id:5, ticker:'MSFT', category:'Consumer Internet / Platforms',    shares:4.94976036,   costBasis:1408.21, athHoldingValue:1671,  manualHolding:null},
-  {id:6, ticker:'ADBE', category:'Consumer Internet / Platforms',    shares:1.14122038,   costBasis:199.70,  athHoldingValue:608,   manualHolding:null},
-  {id:8, ticker:'GOOGL',category:'Consumer Internet / Platforms',    shares:2.75381883,   costBasis:577.26,  athHoldingValue:1005,  manualHolding:null},
-  {id:9, ticker:'AMZN', category:'Consumer Internet / Platforms',    shares:4.29428423,   costBasis:680.97,  athHoldingValue:810,   manualHolding:null},
-  {id:12,ticker:'SNAP', category:'Consumer Internet / Platforms',    shares:66.23226651,  costBasis:249.69,  athHoldingValue:2790,  manualHolding:null},
-  {id:13,ticker:'NFLX', category:'Consumer Internet / Platforms',    shares:7.08247318,   costBasis:506.01,  athHoldingValue:1402,  manualHolding:null},
-  {id:34,ticker:'NOW',  category:'Consumer Internet / Platforms',    shares:14.80314319,  costBasis:998.37,  athHoldingValue:null,  manualHolding:null},
-  {id:14,ticker:'ALOY', category:'Critical Materials',               shares:70.09159585,  costBasis:499.05,  athHoldingValue:null,  manualHolding:494.22},
-  {id:15,ticker:'FLY',  category:'Defence & Aerospace',              shares:13.68887445,  costBasis:374.39,  athHoldingValue:476,   manualHolding:317.67},
-  {id:33,ticker:'AVAV', category:'Defence & Aerospace',              shares:4.03305757,   costBasis:499.37,  athHoldingValue:null,  manualHolding:null},
-  {id:36,ticker:'TTWO', category:'Gaming',                           shares:0.99677276,   costBasis:149.77,  athHoldingValue:null,  manualHolding:null},
-  {id:20,ticker:'SMR',  category:'Nuclear',                          shares:201.42251056, costBasis:1724.17, athHoldingValue:18219, manualHolding:null},
-  {id:21,ticker:'OKLO', category:'Nuclear',                          shares:89.94751842,  costBasis:4344.46, athHoldingValue:12616, manualHolding:null},
-  {id:22,ticker:'LTBR', category:'Nuclear',                          shares:22.76495738,  costBasis:199.65,  athHoldingValue:null,  manualHolding:null},
-  {id:23,ticker:'NVA',  category:'Nuclear',                          shares:47.01514952,  costBasis:199.81,  athHoldingValue:null,  manualHolding:208.32},
-  {id:24,ticker:'UEC',  category:'Nuclear',                          shares:189.84739854, costBasis:1988.70, athHoldingValue:2584,  manualHolding:null},
-  {id:26,ticker:'LEU',  category:'Nuclear',                          shares:34.86910192,  costBasis:5470.07, athHoldingValue:null,  manualHolding:null},
-  {id:35,ticker:'XE',   category:'Nuclear',                          shares:3.6740946,    costBasis:99.84,   athHoldingValue:null,  manualHolding:null},
-  {id:28,ticker:'NVDA', category:'Semiconductors & Hardware',        shares:3.46520585,   costBasis:438.09,  athHoldingValue:586,   manualHolding:null},
-  {id:29,ticker:'AVGO', category:'Semiconductors & Hardware',        shares:1.68475808,   costBasis:380.18,  athHoldingValue:915,   manualHolding:null},
+  {id:1, ticker:'APLD', category:'AI Infrastructure & Data Centres', shares:13.48938095,  avgPriceGBP:22.21,  costBasis:299.60,  athHoldingValue:null,  manualHolding:null},
+  {id:2, ticker:'ORCL', category:'AI Infrastructure & Data Centres', shares:13.69528169,  avgPriceGBP:111.34, costBasis:1524.76, athHoldingValue:2784,  manualHolding:null},
+  {id:3, ticker:'IREN', category:'AI Infrastructure & Data Centres', shares:75.34401957,  avgPriceGBP:42.51,  costBasis:3202.39, athHoldingValue:308,   manualHolding:null},
+  {id:31,ticker:'PLTR', category:'AI Infrastructure & Data Centres', shares:50.03546248,  avgPriceGBP:99.78,  costBasis:4992.44, athHoldingValue:null,  manualHolding:null},
+  {id:32,ticker:'CRWV', category:'AI Infrastructure & Data Centres', shares:11.96354018,  avgPriceGBP:83.46,  costBasis:998.39,  athHoldingValue:null,  manualHolding:null},
+  {id:5, ticker:'MSFT', category:'Consumer Internet / Platforms',    shares:4.94976036,   avgPriceGBP:284.50, costBasis:1408.21, athHoldingValue:1671,  manualHolding:null},
+  {id:6, ticker:'ADBE', category:'Consumer Internet / Platforms',    shares:1.14122038,   avgPriceGBP:174.99, costBasis:199.70,  athHoldingValue:608,   manualHolding:null},
+  {id:8, ticker:'GOOGL',category:'Consumer Internet / Platforms',    shares:2.75381883,   avgPriceGBP:209.64, costBasis:577.26,  athHoldingValue:1005,  manualHolding:null},
+  {id:9, ticker:'AMZN', category:'Consumer Internet / Platforms',    shares:4.29428423,   avgPriceGBP:158.53, costBasis:680.97,  athHoldingValue:810,   manualHolding:null},
+  {id:12,ticker:'SNAP', category:'Consumer Internet / Platforms',    shares:66.23226651,  avgPriceGBP:3.77,   costBasis:249.69,  athHoldingValue:2790,  manualHolding:null},
+  {id:13,ticker:'NFLX', category:'Consumer Internet / Platforms',    shares:7.08247318,   avgPriceGBP:71.44,  costBasis:506.01,  athHoldingValue:1402,  manualHolding:null},
+  {id:34,ticker:'NOW',  category:'Consumer Internet / Platforms',    shares:14.80314319,  avgPriceGBP:67.45,  costBasis:998.37,  athHoldingValue:null,  manualHolding:null},
+  {id:14,ticker:'ALOY', category:'Critical Materials',               shares:70.09159585,  avgPriceGBP:7.12,   costBasis:499.05,  athHoldingValue:null,  manualHolding:494.22},
+  {id:15,ticker:'FLY',  category:'Defence & Aerospace',              shares:13.68887445,  avgPriceGBP:27.35,  costBasis:374.39,  athHoldingValue:476,   manualHolding:317.67},
+  {id:33,ticker:'AVAV', category:'Defence & Aerospace',              shares:4.03305757,   avgPriceGBP:123.79, costBasis:499.37,  athHoldingValue:null,  manualHolding:null},
+  {id:36,ticker:'TTWO', category:'Gaming',                           shares:0.99677276,   avgPriceGBP:150.26, costBasis:149.77,  athHoldingValue:null,  manualHolding:null},
+  {id:20,ticker:'SMR',  category:'Nuclear',                          shares:201.42251056, avgPriceGBP:8.56,   costBasis:1724.17, athHoldingValue:18219, manualHolding:null},
+  {id:21,ticker:'OKLO', category:'Nuclear',                          shares:89.94751842,  avgPriceGBP:48.30,  costBasis:4344.46, athHoldingValue:12616, manualHolding:null},
+  {id:22,ticker:'LTBR', category:'Nuclear',                          shares:22.76495738,  avgPriceGBP:8.77,   costBasis:199.65,  athHoldingValue:null,  manualHolding:null},
+  {id:23,ticker:'NVA',  category:'Nuclear',                          shares:47.01514952,  avgPriceGBP:4.25,   costBasis:199.81,  athHoldingValue:null,  manualHolding:208.32},
+  {id:24,ticker:'UEC',  category:'Nuclear',                          shares:189.84739854, avgPriceGBP:10.47,  costBasis:1988.70, athHoldingValue:2584,  manualHolding:null},
+  {id:26,ticker:'LEU',  category:'Nuclear',                          shares:34.86910192,  avgPriceGBP:156.86, costBasis:5470.07, athHoldingValue:null,  manualHolding:null},
+  {id:35,ticker:'XE',   category:'Nuclear',                          shares:3.6740946,    avgPriceGBP:27.18,  costBasis:99.84,   athHoldingValue:null,  manualHolding:null},
+  {id:28,ticker:'NVDA', category:'Semiconductors & Hardware',        shares:3.46520585,   avgPriceGBP:126.47, costBasis:438.09,  athHoldingValue:586,   manualHolding:null},
+  {id:29,ticker:'AVGO', category:'Semiconductors & Hardware',        shares:1.68475808,   avgPriceGBP:225.67, costBasis:380.18,  athHoldingValue:915,   manualHolding:null},
 ];
 
 // ── Data helpers ──────────────────────────────────────────────────────────
@@ -518,8 +518,9 @@ function renderEditor(){
       <td><select class="inp inp-cat" onchange="upd(${p.id},'category',this.value)">${catOpts}</select></td>
       <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:12px;white-space:nowrap">£${(p.currentHolding||0).toFixed(2)}</td>
       <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
+      <td><input class="inp inp-sm" value="${p.avgPriceGBP??''}" onblur="upd(${p.id},'avgPriceGBP',this.value)" placeholder="avg £"></td>
+      <td class="cb-cell r" style="color:#64748B;padding:7px 10px;font-size:12px;white-space:nowrap">${p.costBasis!=null?'£'+p.costBasis.toFixed(2):'-'}</td>
       <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
-      <td><input class="inp" value="${p.costBasis??''}" onblur="upd(${p.id},'costBasis',this.value)" placeholder="total invested"></td>
       <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
     </tr>`;
   }).join('');
@@ -527,8 +528,8 @@ function renderEditor(){
     ${renderCategoryManager()}
     <div class="ed-field-guide">
       <strong>Shares</strong> → share count held. Holding = shares × live price × GBP rate, updated daily.<br>
-      <strong style="color:#7C3AED">Manual £ ⚡</strong> → <em>overrides</em> shares calc. Use for tickers where T212 shows a different value (ARKX, ALOY, FLY, NVA). Update when your position changes.<br>
-      <strong>Cost Basis £</strong> → total you invested (find in T212 → position → "Invested"). Used for P&L.
+      <strong>Avg Price £</strong> → average price paid per share in GBP (from T212 position details). Cost Basis auto-calculates as avg price × shares.<br>
+      <strong style="color:#7C3AED">Manual £ ⚡</strong> → <em>overrides</em> shares calc. Use for tickers where T212 shows a different value (ALOY, FLY, NVA). Update when your position changes.
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div class="card-title" style="margin-bottom:0">Portfolio Editor</div>
@@ -543,8 +544,9 @@ function renderEditor(){
       <thead><tr>
         <th onclick="sortBy('Editor','ticker')" class="sortable">Ticker</th><th onclick="sortBy('Editor','category')" class="sortable">Category</th><th onclick="sortBy('Editor','currentHolding')" class="sortable r">Holding £</th>
         <th title="Share count - holding auto-calculates from live price">Shares</th>
-        <th title="Overrides shares calc - highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th>
-        <th onclick="sortBy('Editor','costBasis')" class="sortable">Cost Basis £</th><th></th>
+        <th title="Avg price paid per share in GBP — cost basis auto-calculates">Avg Price £</th>
+        <th onclick="sortBy('Editor','costBasis')" class="sortable r" title="Auto-calculated: avg price × shares">Cost Basis £</th>
+        <th title="Overrides shares calc - highlighted purple when active" style="color:#7C3AED">Manual £ ⚡</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table></div>
@@ -653,15 +655,21 @@ function setTab(t){
 // ── CRUD ──────────────────────────────────────────────────────────────────
 function savePortfolio(){localStorage.setItem('t212-portfolio-v1',JSON.stringify(portfolio));}
 window.upd=function(id,field,val){
-  const nf=['shares','manualHolding','costBasis','athHoldingValue'];
-  const v=nf.includes(field)?(val===''||val==null?null:parseFloat(val)||0):val;
-  const p=portfolio.find(x=>x.id===id);if(p)p[field]=v;
+  const nf=['shares','manualHolding','costBasis','athHoldingValue','avgPriceGBP'];
+  const v=nf.includes(field)?(val===''||val==null?null:parseFloat(val)||null):val;
+  const p=portfolio.find(x=>x.id===id);if(!p)return;
+  p[field]=v;
+  if((field==='avgPriceGBP'||field==='shares')&&p.avgPriceGBP!=null&&p.shares!=null){
+    p.costBasis=Math.round(p.avgPriceGBP*p.shares*100)/100;
+    const _cb=document.querySelector(`tr[data-id="${id}"] .cb-cell`);
+    if(_cb)_cb.textContent='£'+p.costBasis.toFixed(2);
+  }
   updateStats();savePortfolio();const _row=document.querySelector(`tr[data-id="${id}"] .holding-cell`);if(_row){const _c=computed().en.find(x=>x.id===id);if(_c)_row.textContent="£"+(_c.currentHolding||0).toFixed(2);}
 };
 window.addRow=function(){
   const defCat=categories.length>0?categories[0].fullName:(INIT_PORTFOLIO[0]?.category||'');
   const newId=nextId++;
-  portfolio.push({id:newId,ticker:'NEW',category:defCat,shares:null,costBasis:null,athHoldingValue:null,manualHolding:null});
+  portfolio.push({id:newId,ticker:'NEW',category:defCat,shares:null,avgPriceGBP:null,costBasis:null,athHoldingValue:null,manualHolding:null});
   savePortfolio();updateStats();setTab('Editor');
   setTimeout(()=>{const rows=document.querySelectorAll('tbody tr');const last=rows[rows.length-1];if(last)last.scrollIntoView({behavior:'smooth',block:'center'});},80);
 };
