@@ -109,7 +109,8 @@ canvas{display:block}
 .loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.88);display:flex;align-items:center;justify-content:center;z-index:100;font-size:15px;color:#1D4ED8;font-family:inherit}
 .loading-spinner{width:22px;height:22px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.privacy-on .priv{filter:blur(5px);user-select:none;pointer-events:none;}
+.priv{display:inline-block;}
+.privacy-on .priv{filter:blur(6px);color:transparent;text-shadow:0 0 8px rgba(0,0,0,0.5);user-select:none;}
 
 .wl-slider-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #F1F5F9;font-size:12px}</style>
 </head>
@@ -703,11 +704,9 @@ async function fetchLiveData(){
 }
 window.togglePrivacy=function(){
   privacyMode=!privacyMode;
-  document.querySelector('.app').classList.toggle('privacy-on',privacyMode);
+  document.body.classList.toggle('privacy-on',privacyMode);
   const btn=document.getElementById('privacy-btn');
   if(btn)btn.textContent=privacyMode?'👁 Show':'🫣 Hide';
-  updateStats();
-  if(wlMode)wlSetTab(wlActiveTab);else setTab(activeTab);
 };
 window.refreshData=async function(){
   document.getElementById('live-badge').className='live-badge loading';
