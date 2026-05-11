@@ -35,7 +35,7 @@ body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-s
 .tab-bar{display:flex;background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:0 6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab{padding:12px 16px;font-size:11px;color:#94A3B8;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
-.tab.active{color:#1D4ED8;border-bottom-color:#1D4ED8;font-weight:700}
+.tab.active{color:#1D4ED8;border-bottom-color:#1D4ED8;font-weight:700;background:#EFF6FF}
 .tab:hover:not(.active){color:#475569}
 .card{background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:18px 22px;margin-bottom:14px}
 .card-title{font-size:12px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
@@ -140,7 +140,7 @@ canvas{display:block}
   <div class="tab-bar" id="tab-bar"></div>
   <div id="content"></div>
 
-<div id="watchlist-section" style="display:none"><div class="card" style="padding:0;margin-bottom:14px"><div class="tab-bar"><button class="tab wl-tab active" data-tab="Overview" onclick="wlSetTab('Overview')">OVERVIEW</button><button class="tab wl-tab" data-tab="Returns" onclick="wlSetTab('Returns')">RETURNS</button><button class="tab wl-tab" data-tab="Upside" onclick="wlSetTab('Upside')">UPSIDE</button><button class="tab wl-tab" data-tab="Editor" onclick="wlSetTab('Editor')">EDITOR</button></div></div><div id="wl-content"></div></div></div>
+<div id="watchlist-section" style="display:none"><div class="card" style="padding:0;margin-bottom:14px"><div class="tab-bar"><button class="tab wl-tab active" data-tab="Overview" onclick="wlSetTab('Overview')">OVERVIEW</button><button class="tab wl-tab" data-tab="Returns" onclick="wlSetTab('Returns')">RETURNS</button><button class="tab wl-tab" data-tab="Upside" onclick="wlSetTab('Upside')">UPSIDE</button><button class="tab wl-tab" data-tab="ATH" onclick="wlSetTab('ATH')">ATH</button><button class="tab wl-tab" data-tab="Editor" onclick="wlSetTab('Editor')">EDITOR</button></div></div><div id="wl-content"></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 // ── Default categories (stored in localStorage, fully editable) ──────────
@@ -728,14 +728,31 @@ async function init(){
 }
 
 // ── Watchlist ──────────────────────────────────────────────────────────────────────────────
-let wlMode=false,wlActiveTab='Overview',wlSortStates={},wlPieChart=null,wlTotalVal=0;
+let wlMode=false,wlActiveTab='Overview',wlSortStates={},wlPieChart=null,wlAthChart=null,wlTotalVal=0,wlCashAmount=0;
 const WL_PERIODS=['1D','1W','1M','3M','6M'];
 const WL_RET_PERIODS=['1D','1W','1M','3M','6M','1Y','3Y','5Y'];
+const WL_CAT_MAP={
+  TSLA:'EV & Clean Energy',RIVN:'EV & Clean Energy',NIO:'EV & Clean Energy',
+  MSTR:'Bitcoin / Crypto',COIN:'Bitcoin / Crypto',
+  SOFI:'Fintech',HOOD:'Fintech',AFRM:'Fintech',SQ:'Fintech',
+  TTWO:'Gaming',EA:'Gaming',ATVI:'Gaming',RBLX:'Gaming',
+  AAPL:'Consumer Internet / Platforms',GOOG:'Consumer Internet / Platforms',GOOGL:'Consumer Internet / Platforms',
+  META:'Consumer Internet / Platforms',MSFT:'Consumer Internet / Platforms',AMZN:'Consumer Internet / Platforms',
+  NFLX:'Consumer Internet / Platforms',SNAP:'Consumer Internet / Platforms',ADBE:'Consumer Internet / Platforms',
+  SHOP:'Consumer Internet / Platforms',NOW:'Consumer Internet / Platforms',CRM:'Consumer Internet / Platforms',
+  NVDA:'Semiconductors & Hardware',AVGO:'Semiconductors & Hardware',AMD:'Semiconductors & Hardware',
+  INTC:'Semiconductors & Hardware',MU:'Semiconductors & Hardware',ASML:'Semiconductors & Hardware',QCOM:'Semiconductors & Hardware',
+  APLD:'AI Infrastructure & Data Centres',ORCL:'AI Infrastructure & Data Centres',IREN:'AI Infrastructure & Data Centres',
+  PLTR:'AI Infrastructure & Data Centres',CRWV:'AI Infrastructure & Data Centres',DDOG:'AI Infrastructure & Data Centres',
+  SMR:'Nuclear',OKLO:'Nuclear',LTBR:'Nuclear',NVA:'Nuclear',UEC:'Nuclear',LEU:'Nuclear',XE:'Nuclear',UUUU:'Nuclear',
+  FLY:'Defence & Aerospace',ARKX:'Defence & Aerospace',AVAV:'Defence & Aerospace',LMT:'Defence & Aerospace',RTX:'Defence & Aerospace',
+  ALOY:'Critical Materials'
+};
 function wlPortfolio(){return JSON.parse(localStorage.getItem('t212-watchlist-v1')||'[]');}
 function wlSaveRaw(p){const k='t212-watch'+'list-v1';window[atob('bG9jYWxTdG9yYWdl')].setItem(k,JSON.stringify(p));}
 function saveWlPortfolio(p){wlSaveRaw(p);wlSetTab(wlActiveTab);}
 function wlData(t){return (liveData&&liveData.watchlist&&liveData.watchlist[t])||{};}
-function wlAutoCategory(t){const s=(wlData(t).sector||'');const m={'Technology':'Technology','Information Technology':'Technology','Healthcare':'Healthcare','Financial Services':'Financials','Consumer Cyclical':'Consumer','Consumer Defensive':'Consumer','Energy':'Energy','Utilities':'Utilities','Basic Materials':'Materials','Communication Services':'Comms','Industrials':'Industrials','Real Estate':'Real Estate'};return m[s]||s||'Other';}
+function wlAutoCategory(t){if(WL_CAT_MAP[t])return WL_CAT_MAP[t];const s=(wlData(t).sector||'');const m={'Technology':'Technology','Information Technology':'Technology','Healthcare':'Healthcare','Financial Services':'Financials','Consumer Cyclical':'Consumer','Consumer Defensive':'Consumer','Energy':'Energy','Utilities':'Utilities','Basic Materials':'Materials','Communication Services':'Comms','Industrials':'Industrials','Real Estate':'Real Estate'};return m[s]||s||'Other';}
 function heatColor(v){if(v===null||v===undefined)return '';const a=Math.min(Math.abs(v),30)/30*0.7+0.15;return v>=0?'rgba(22,163,74,'+a.toFixed(2)+')':'rgba(220,38,38,'+a.toFixed(2)+')';}
 function heatTd(v){if(v===null||v===undefined)return '<td class="heat-td" style="color:#94A3B8">-</td>';const bg=heatColor(v);const fc=Math.abs(v)>15?'#fff':'#0F172A';return '<td class="heat-td" style="background:'+bg+';color:'+fc+'">'+(v>=0?'+':'')+v.toFixed(2)+'%</td>';}
 function thSort(tab,field,label,align){const st=wlSortStates[tab]||{};const arr=st.field===field?(st.dir==='asc'?'^':'v'):'';return '<th onclick="wlSortBy(&#39;'+tab+'&#39;,&#39;'+field+'&#39;)" class="sortable" style="text-align:'+align+';padding:9px 8px;cursor:pointer">'+label+' '+arr+'</th>';}
@@ -748,31 +765,78 @@ function setMode(mode){
   document.getElementById('btn-portfolio').classList.toggle('active',!wlMode);
   document.getElementById('btn-watchlist').classList.toggle('active',wlMode);
   if(wlMode){
-    if(liveData&&liveData.watchlist){const p=wlPortfolio();let chg=false;p.forEach(function(item){if(item.category==='Other'||!item.category){const c=wlAutoCategory(item.ticker);if(c&&c!==item.category){item.category=c;chg=true;}}});if(chg)wlSaveRaw(p);}
+    if(liveData&&liveData.watchlist){const p=wlPortfolio();let chg=false;p.forEach(function(item){const mapped=WL_CAT_MAP[item.ticker];if(mapped&&mapped!==item.category){item.category=mapped;chg=true;}else if(!item.category||item.category==='Other'){const c=wlAutoCategory(item.ticker);if(c&&c!==item.category){item.category=c;chg=true;}}});if(chg)wlSaveRaw(p);}
     wlSetTab(wlActiveTab);
   }
 }
-function wlSetTab(tab){wlActiveTab=tab;document.querySelectorAll('.wl-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab);});if(tab==='Overview')renderWlOverview();else if(tab==='Returns')renderWlReturns();else if(tab==='Upside')renderWlUpside();else if(tab==='Editor')renderWlEditor();}
+function wlSetTab(tab){wlActiveTab=tab;document.querySelectorAll('.wl-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab);});if(wlPieChart){wlPieChart.destroy();wlPieChart=null;}if(wlAthChart){wlAthChart.destroy();wlAthChart=null;}if(tab==='Overview')renderWlOverview();else if(tab==='Returns')renderWlReturns();else if(tab==='Upside')renderWlUpside();else if(tab==='ATH')renderWlATH();else if(tab==='Editor')renderWlEditor();}
 function wlSortBy(tab,field){const cur=wlSortStates[tab];wlSortStates[tab]={field:field,dir:(cur&&cur.field===field&&cur.dir==='desc')?'asc':'desc'};wlSetTab(tab);}
 
 function renderWlOverview(){
   wlTotalVal=+(localStorage.getItem('t212-wl-total-v1')||0);
+  wlCashAmount=+(localStorage.getItem('t212-cash-v1')||0);
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   if(!p.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#64748B">Add tickers in the Editor tab to get started.</div>';return;}
   const bycat={};p.forEach(function(item){const cat=item.category||'Other';if(!bycat[cat])bycat[cat]=[];bycat[cat].push(wlData(item.ticker).returns||{});});
   const hmHead=WL_PERIODS.map(function(per){return '<th style="text-align:center;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">'+per+'</th>';}).join('');
   const hmRows=Object.entries(bycat).map(function(e){const cat=e[0],rets=e[1];const cells=WL_PERIODS.map(function(per){const vals=rets.map(function(r){return r[per];}).filter(function(v){return v!==null&&v!==undefined;});return heatTd(vals.length?vals.reduce(function(a,b){return a+b;},0)/vals.length:null);}).join('');return '<tr><td style="padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap">'+cat+'</td>'+cells+'</tr>';}).join('');
   const tkRows=p.map(function(item){const d=wlData(item.ticker);const cells=WL_PERIODS.map(function(per){return heatTd((d.returns||{})[per]);}).join('');return '<tr><td style="padding:5px 10px"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#64748B;font-size:11px;padding:5px 8px">'+(item.category||'-')+'</td>'+cells+'</tr>';}).join('');
-  const total=p.reduce(function(s,x){return s+(+x.targetPct||0);},0);
+  const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;
+  const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);
   const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';
   const sliders=p.map(function(item){return '<div class="wl-slider-row"><span class="tk-chip" style="min-width:54px;text-align:center">'+item.ticker+'</span><input type="range" min="0" max="100" step="1" value="'+(+item.targetPct||0)+'" oninput="wlUpdSlider('+item.id+',+this.value)" style="flex:1;margin:0 10px;accent-color:#1D4ED8"><span id="wl-sl-'+item.id+'" style="width:40px;text-align:right;font-weight:700;font-size:12px">'+(+item.targetPct||0)+'%</span><span id="wl-gbp-'+item.id+'" style="width:62px;text-align:right;font-size:11px;color:#64748B;padding-left:6px">'+wlFmtGbp(+item.targetPct||0,wlTotalVal)+'</span></div>';}).join('');
-  el.innerHTML='<div class="g2" style="gap:16px;align-items:start"><div class="card"><div class="card-title">Sector Momentum</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+hmRows+'</tbody></table></div><div class="card-title" style="margin-top:18px">Tickers</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">TICKER</th><th style="text-align:left;padding:7px 8px;color:#64748B;font-size:10px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+tkRows+'</tbody></table></div></div><div class="card"><div class="card-title">Experimental Pie</div><div style="text-align:center;margin-bottom:12px;font-size:13px">Total: <strong style="color:'+tcol+'">'+total+'%</strong> <button class="btn btn-grey btn-sm" onclick="wlNormalize()" style="margin-left:8px">Normalise to 100%</button></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px"><span style="font-size:11px;color:#64748B;font-weight:600;white-space:nowrap">Portfolio value</span><span style="font-weight:700;color:#0F172A;font-size:14px">£</span><input type="number" id="wl-total-inp" value="'+(wlTotalVal||'')+'" placeholder="e.g. 20000" oninput="wlSetTotal(+this.value)" style="flex:1;min-width:0;border:1px solid #CBD5E1;border-radius:6px;padding:5px 8px;font-size:14px;font-family:\'Courier New\',monospace;font-weight:700;background:#fff;color:#0F172A"></div><canvas id="wl-pie" style="max-height:260px"></canvas><div style="margin-top:16px">'+sliders+'</div></div></div>';
-  setTimeout(function(){const ctx=document.getElementById('wl-pie');if(!ctx)return;if(wlPieChart)wlPieChart.destroy();const labels=p.map(function(x){return x.ticker;});const data=p.map(function(x){return +x.targetPct||0;});const colors=p.map(function(_,i){return 'hsl('+(i*47%360)+',60%,55%)';});wlPieChart=new Chart(ctx,{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,borderWidth:1}]},options:{responsive:true,scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'bottom',labels:{font:{family:"'Courier New',monospace",size:10},boxWidth:12}}}}});},50);
+  const cashRow='<div class="wl-slider-row" style="border-top:1px solid #E2E8F0;margin-top:8px;padding-top:8px"><span class="tk-chip" style="min-width:54px;text-align:center;background:#15803D;color:#fff;border-color:#15803D">CASH</span><input type="range" min="0" max="100" step="0.1" value="'+cashPct+'" id="wl-cash-slider" oninput="wlUpdCashSlider(+this.value)" style="flex:1;margin:0 10px;accent-color:#15803D"><span id="wl-cash-pct" style="width:40px;text-align:right;font-weight:700;font-size:12px">'+cashPct.toFixed(1)+'%</span><span id="wl-cash-gbp" style="width:62px;text-align:right;font-size:11px;color:#64748B;padding-left:6px">'+wlFmtGbp(cashPct,wlTotalVal)+'</span></div>';
+  el.innerHTML='<div class="g2" style="gap:16px;align-items:start">'
+    +'<div class="card"><div class="card-title">Sector Momentum</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+hmRows+'</tbody></table></div>'
+    +'<div class="card-title" style="margin-top:18px">Tickers</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#64748B;font-size:10px;text-transform:uppercase">TICKER</th><th style="text-align:left;padding:7px 8px;color:#64748B;font-size:10px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+tkRows+'</tbody></table></div></div>'
+    +'<div class="card"><div class="card-title">Experimental Pie</div>'
+    +'<div style="text-align:center;margin-bottom:10px;font-size:13px">Total: <strong id="wl-total-pct" style="color:'+tcol+'">'+total+'%</strong></div>'
+    +'<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;justify-content:center">'
+    +'<button class="btn btn-grey btn-sm" onclick="wlNormalize()">Normalise to 100%</button>'
+    +'<button class="btn btn-grey btn-sm" onclick="wlSyncFromPortfolio()">⟳ Sync from Portfolio</button>'
+    +'<button class="btn btn-grey btn-sm" onclick="wlReset()" style="color:#DC2626">↺ Reset to 0%</button>'
+    +'</div>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:8px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px">'
+    +'<span style="font-size:11px;color:#64748B;font-weight:600;white-space:nowrap">Total value</span>'
+    +'<span style="font-weight:700;color:#0F172A;font-size:14px">£</span>'
+    +'<input type="number" id="wl-total-inp" value="'+(wlTotalVal||'')+'" placeholder="e.g. 39353" oninput="wlSetTotal(+this.value)" style="flex:1;min-width:0;border:1px solid #CBD5E1;border-radius:6px;padding:5px 8px;font-size:14px;font-family:\'Courier New\',monospace;font-weight:700;background:#fff;color:#0F172A">'
+    +'</div>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px">'
+    +'<span style="font-size:11px;color:#15803D;font-weight:600;white-space:nowrap">Cash £</span>'
+    +'<input type="number" id="wl-cash-inp" value="'+(wlCashAmount||'')+'" placeholder="e.g. 6556" oninput="wlSetCash(+this.value)" style="flex:1;min-width:0;border:1px solid #86EFAC;border-radius:6px;padding:5px 8px;font-size:14px;font-family:\'Courier New\',monospace;font-weight:700;background:#fff;color:#15803D">'
+    +'</div>'
+    +'<canvas id="wl-pie" style="max-height:260px"></canvas>'
+    +'<div style="margin-top:16px">'+sliders+cashRow+'</div>'
+    +'</div></div>';
+  setTimeout(function(){
+    const ctx=document.getElementById('wl-pie');if(!ctx)return;
+    if(wlPieChart)wlPieChart.destroy();
+    const labels=[...p.map(function(x){return x.ticker;}),'CASH'];
+    const data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];
+    const colors=[...p.map(function(_,i){return 'hsl('+(i*47%360)+',60%,55%)';}), '#15803D'];
+    wlPieChart=new Chart(ctx,{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,borderWidth:1}]},options:{responsive:true,scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'bottom',labels:{font:{family:"'Courier New',monospace",size:10},boxWidth:12}}}}});
+  },50);
 }
-function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.textContent=wlFmtGbp(val,wlTotalVal);const total=p.reduce(function(s,x){return s+(+x.targetPct||0);},0);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.querySelector('#wl-content strong');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=p.map(function(x){return +x.targetPct||0;});wlPieChart.update();}}
-function wlNormalize(){const p=wlPortfolio();if(!p.length)return;const each=Math.floor(100/p.length);const rem=100-each*p.length;p.forEach(function(x,i){x.targetPct=each+(i===0?rem:0);});saveWlPortfolio(p);}
+function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.textContent=wlFmtGbp(val,wlTotalVal);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.getElementById('wl-total-pct');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}}
+function wlNormalize(){const p=wlPortfolio();const n=p.length+1;if(!n)return;const each=Math.floor(100/n);const extra=100-each*n;p.forEach(function(x,i){x.targetPct=each+(i<extra?1:0);});const cashNew=each+(p.length<extra?1:0);wlCashAmount=wlTotalVal>0?+(cashNew/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);saveWlPortfolio(p);}
 function wlFmtGbp(pct,total){if(!total)return '';return '£'+Math.round((+pct||0)/100*total).toLocaleString();}
-window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.textContent=wlFmtGbp(item.targetPct,wlTotalVal);});};
+window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.textContent=wlFmtGbp(item.targetPct,wlTotalVal);});const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;};
+window.wlSetCash=function(val){wlCashAmount=val||0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
+window.wlUpdCashSlider=function(val){wlCashAmount=wlTotalVal>0?+(val/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(val,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=(+val).toFixed(1)+'%';const ci=document.getElementById('wl-cash-inp');if(ci)ci.value=Math.round(wlCashAmount)||'';if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),+val];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+(+val)).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
+window.wlSyncFromPortfolio=function(){const holdings=computed().en;const equityTotal=holdings.reduce(function(s,h){return s+(h.currentHolding||0);},0);const totalWithCash=equityTotal+wlCashAmount;wlTotalVal=+totalWithCash.toFixed(2);localStorage.setItem('t212-wl-total-v1',wlTotalVal);const portMap={};holdings.forEach(function(h){portMap[h.ticker]=h.currentHolding||0;});const p=wlPortfolio();p.forEach(function(item){const holding=portMap[item.ticker]||0;item.targetPct=totalWithCash>0?+((holding/totalWithCash)*100).toFixed(1):0;});saveWlPortfolio(p);};
+window.wlReset=function(){const p=wlPortfolio();p.forEach(function(x){x.targetPct=0;});wlCashAmount=0;localStorage.setItem('t212-cash-v1',0);saveWlPortfolio(p);};
+
+function renderWlATH(){
+  const p=wlPortfolio();const el=document.getElementById('wl-content');
+  const items=p.map(function(item){const d=wlData(item.ticker);const ath=d.athPrice,price=d.price;const pct=(ath&&price)?+((price-ath)/ath*100).toFixed(1):null;return{ticker:item.ticker,category:item.category||'-',price:price,ath:ath,pct:pct};}).filter(function(x){return x.pct!==null;}).sort(function(a,b){return a.pct-b.pct;});
+  if(!items.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#64748B">No ATH price data available yet.<br><span style="font-size:12px">Run the GitHub Action to fetch ATH prices.</span></div>';return;}
+  el.innerHTML='<div class="card"><div class="card-title">% Below All-Time High</div><div id="wl-ath-wrap" style="position:relative;height:'+Math.max(items.length*28+60,150)+'px"><canvas id="c-wl-ath"></canvas></div></div>';
+  setTimeout(function(){
+    const ctx=document.getElementById('c-wl-ath');if(!ctx)return;
+    const colors=items.map(function(x){return x.pct>-10?'#EAB308CC':x.pct>-25?'#F97316CC':NEG+'CC';});
+    wlAthChart=new Chart(ctx,{type:'bar',data:{labels:items.map(function(x){return x.ticker;}),datasets:[{data:items.map(function(x){return x.pct;}),backgroundColor:colors,borderRadius:3}]},options:{...CB,indexAxis:'y',plugins:{...CB.plugins,tooltip:{...CB.plugins.tooltip,callbacks:{label:function(ctx){return' '+ctx.parsed.x.toFixed(1)+'% from ATH';}}},legend:{display:false}},scales:{x:{...CB.scales.x,ticks:{...TS,callback:function(v){return v+'%';}}},y:{...CB.scales.y,ticks:TS}}}});
+  },40);
+}
 
 function renderWlReturns(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
@@ -791,7 +855,7 @@ function renderWlUpside(){
 
 function renderWlEditor(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
-  const cats=[...(new Set([...p.map(function(x){return x.category;}),'Technology','Healthcare','Financials','Consumer','Energy','Materials','Comms','Industrials','Real Estate','Other'].filter(Boolean)))].sort();
+  const cats=[...(new Set([...p.map(function(x){return x.category;}),'AI Infrastructure & Data Centres','Consumer Internet / Platforms','Critical Materials','Defence & Aerospace','Nuclear','Semiconductors & Hardware','EV & Clean Energy','Bitcoin / Crypto','Fintech','Gaming','Other'].filter(Boolean)))].sort();
   const rows=p.map(function(item){const d=wlData(item.ticker);const opts=cats.map(function(c){return '<option value="'+c+'"'+(item.category===c?' selected':'')+'>'+c+'</option>';}).join('');return '<tr><td style="padding:6px 8px"><input value="'+item.ticker+'" style="width:72px;font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px" onchange="wlEditField('+item.id+',&#39;ticker&#39;,this.value.toUpperCase().trim())"></td><td style="padding:6px 8px"><select onchange="wlEditField('+item.id+',&#39;category&#39;,this.value)" style="font-family:\'Courier New\',monospace;font-size:11px;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px">'+opts+'</select><button class="btn btn-grey btn-sm" onclick="wlAutoAssignCat('+item.id+')" style="margin-left:6px;font-size:10px" title="Auto from yfinance sector">Auto</button></td><td style="padding:6px 10px;font-size:12px;color:#64748B">'+(d.price?'$'+d.price.toFixed(2):'-')+'</td><td style="padding:6px 8px"><button class="btn btn-grey btn-sm" onclick="wlRemove('+item.id+')" style="color:#DC2626">✕</button></td></tr>';}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC;font-size:10px;color:#64748B;text-transform:uppercase"><th style="padding:9px 8px;text-align:left">TICKER</th><th style="padding:9px 8px;text-align:left">CATEGORY</th><th style="padding:9px 8px;text-align:left">PRICE</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><input id="wl-new-ticker" placeholder="e.g. TSLA" style="font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:8px;padding:6px 10px;width:150px" onkeydown="if(event.key===&#39;Enter&#39;)wlAddTicker()"><button class="btn" onclick="wlAddTicker()" style="background:#1D4ED8;color:#fff">+ Add Ticker</button><button class="btn btn-grey" onclick="wlExportJSON()">⬇ Download watchlist.json</button></div></div>';
 }
