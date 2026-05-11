@@ -109,8 +109,8 @@ canvas{display:block}
 .loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.88);display:flex;align-items:center;justify-content:center;z-index:100;font-size:15px;color:#1D4ED8;font-family:inherit}
 .loading-spinner{width:22px;height:22px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.priv{display:inline-block;}
-.privacy-on .priv{filter:blur(6px);color:transparent;text-shadow:0 0 8px rgba(0,0,0,0.5);user-select:none;}
+.privacy-btn{background:transparent;border:1px solid #CBD5E1;border-radius:6px;padding:5px 12px;font-size:11px;font-family:inherit;font-weight:700;cursor:pointer;color:#64748B;margin-left:auto;flex-shrink:0}
+.privacy-btn:hover{background:#F8FAFC}
 
 .wl-slider-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #F1F5F9;font-size:12px}</style>
 </head>
@@ -119,7 +119,7 @@ canvas{display:block}
   <div class="loading-spinner"></div>Loading live market data…
 </div>
 <div class="app">
-  <div class="mode-toggle"><button class="mode-btn active" id="btn-portfolio" onclick="setMode('portfolio')">◎ Portfolio</button><button class="mode-btn" id="btn-watchlist" onclick="setMode('watchlist')">◉ Watchlist</button></div>
+  <div class="mode-toggle" style="display:flex;align-items:center"><button class="mode-btn active" id="btn-portfolio" onclick="setMode('portfolio')">◎ Portfolio</button><button class="mode-btn" id="btn-watchlist" onclick="setMode('watchlist')">◉ Watchlist</button><button class="privacy-btn" onclick="togglePrivacy()">🫣 Hide £</button></div>
 <div class="hdr">
     <div class="brand-meta">
       <div class="brand">TRADING 212 PORTFOLIO</div>
@@ -130,7 +130,6 @@ canvas{display:block}
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <button class="btn btn-grey btn-sm" onclick="refreshData()">⟳ Refresh</button>
-      <button class="btn btn-grey btn-sm" id="privacy-btn" onclick="togglePrivacy()">🫣 Hide</button>
       <div class="pval-wrap">
         <div class="pval-label">Portfolio Value</div>
         <div class="pval-num" id="total-val">£0</div>
@@ -272,7 +271,7 @@ function sCard(l,v,c,w){return`<div class="stat${w?' warn':''}"><div class="stat
 function fp(v){return v==null?'-':(v>0?'+':'')+v.toFixed(1)+'%';}
 function fc(v){return v==null?MUTED:v>0?POS:v<0?NEG:MUTED;}
 function fgbp(v){return'£'+Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});}
-function pw(v){return'<span class="priv">'+v+'</span>';}
+function pw(v){return privacyMode?'•••••':v;}
 
 // ── Sort helpers - supports nested paths like "returns.1Y" ────────────────
 function getVal(obj,path){
@@ -329,7 +328,7 @@ function updateAlerts(){
 }
 function updateStats(){
   const{tc,pos,tath,tpl,avgUp}=computed();
-  document.getElementById('total-val').innerHTML=pw('£'+tc.toLocaleString(undefined,{maximumFractionDigits:0}));
+  document.getElementById('total-val').textContent=pw('£'+tc.toLocaleString(undefined,{maximumFractionDigits:0}));
   document.getElementById('stats-band').innerHTML=
     sCard('Positions',pos,TEXT)+
     sCard('Unrealised P&L',pw((tpl>=0?'+':'')+fgbp(tpl)),tpl>=0?POS:NEG)+
@@ -666,7 +665,7 @@ window.upd=function(id,field,val){
   if((field==='avgPriceGBP'||field==='shares')&&p.avgPriceGBP!=null&&p.shares!=null){
     p.costBasis=Math.round(p.avgPriceGBP*p.shares*100)/100;
     const _cb=document.querySelector(`tr[data-id="${id}"] .cb-cell`);
-    if(_cb)_cb.innerHTML=pw('£'+p.costBasis.toFixed(2));
+    if(_cb)_cb.textContent=pw('£'+p.costBasis.toFixed(2));
   }
   updateStats();savePortfolio();const _row=document.querySelector(`tr[data-id="${id}"] .holding-cell`);if(_row){const _c=computed().en.find(x=>x.id===id);if(_c)_row.textContent="£"+(_c.currentHolding||0).toFixed(2);}
 };
@@ -704,9 +703,9 @@ async function fetchLiveData(){
 }
 window.togglePrivacy=function(){
   privacyMode=!privacyMode;
-  document.body.classList.toggle('privacy-on',privacyMode);
-  const btn=document.getElementById('privacy-btn');
-  if(btn)btn.textContent=privacyMode?'👁 Show':'🫣 Hide';
+  document.querySelectorAll('.privacy-btn').forEach(function(b){b.textContent=privacyMode?'👁 Show £':'🫣 Hide £';});
+  updateStats();
+  if(wlMode)wlSetTab(wlActiveTab);else setTab(activeTab);
 };
 window.refreshData=async function(){
   document.getElementById('live-badge').className='live-badge loading';
@@ -839,11 +838,11 @@ function renderWlOverview(){
     wlPieChart=new Chart(ctx,{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,borderWidth:1}]},options:{responsive:true,scales:{x:{display:false},y:{display:false}},plugins:{legend:{position:'bottom',labels:{font:{family:"'Courier New',monospace",size:10},boxWidth:12}}}}});
   },50);
 }
-function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.innerHTML=wlFmtGbp(val,wlTotalVal);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.getElementById('wl-total-pct');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}}
+function wlUpdSlider(id,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item)item.targetPct=val;wlSaveRaw(p);const sp=document.getElementById('wl-sl-'+id);if(sp)sp.textContent=val+'%';const gp=document.getElementById('wl-gbp-'+id);if(gp)gp.textContent=wlFmtGbp(val,wlTotalVal);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const totEl=document.getElementById('wl-total-pct');if(totEl){totEl.textContent=total+'%';totEl.style.color=tcol;}if(wlPieChart){wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}}
 function wlNormalize(){const p=wlPortfolio();const n=p.length+1;if(!n)return;const each=Math.floor(100/n);const extra=100-each*n;p.forEach(function(x,i){x.targetPct=each+(i<extra?1:0);});const cashNew=each+(p.length<extra?1:0);wlCashAmount=wlTotalVal>0?+(cashNew/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);saveWlPortfolio(p);}
 function wlFmtGbp(pct,total){if(!total)return '';return pw('£'+Math.round((+pct||0)/100*total).toLocaleString());}
-window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.innerHTML=wlFmtGbp(item.targetPct,wlTotalVal);});const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.innerHTML=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;};
-window.wlSetCash=function(val){wlCashAmount=val||0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.innerHTML=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
+window.wlSetTotal=function(val){wlTotalVal=val||0;localStorage.setItem('t212-wl-total-v1',wlTotalVal);const p=wlPortfolio();p.forEach(function(item){const el=document.getElementById('wl-gbp-'+item.id);if(el)el.textContent=wlFmtGbp(item.targetPct,wlTotalVal);});const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;};
+window.wlSetCash=function(val){wlCashAmount=val||0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(cashPct,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=cashPct.toFixed(1)+'%';const cs=document.getElementById('wl-cash-slider');if(cs)cs.value=cashPct;if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),cashPct];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
 window.wlUpdCashSlider=function(val){wlCashAmount=wlTotalVal>0?+(val/100*wlTotalVal):0;localStorage.setItem('t212-cash-v1',wlCashAmount);const cg=document.getElementById('wl-cash-gbp');if(cg)cg.textContent=wlFmtGbp(val,wlTotalVal);const cp=document.getElementById('wl-cash-pct');if(cp)cp.textContent=(+val).toFixed(1)+'%';const ci=document.getElementById('wl-cash-inp');if(ci)ci.value=Math.round(wlCashAmount)||'';if(wlPieChart){const p=wlPortfolio();wlPieChart.data.datasets[0].data=[...p.map(function(x){return +x.targetPct||0;}),+val];wlPieChart.update();}const p=wlPortfolio();const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+(+val)).toFixed(1);const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';const te=document.getElementById('wl-total-pct');if(te){te.textContent=total+'%';te.style.color=tcol;}};
 window.wlSyncFromPortfolio=function(){const holdings=computed().en;const equityTotal=holdings.reduce(function(s,h){return s+(h.currentHolding||0);},0);const totalWithCash=equityTotal+wlCashAmount;wlTotalVal=+totalWithCash.toFixed(2);localStorage.setItem('t212-wl-total-v1',wlTotalVal);const portMap={};holdings.forEach(function(h){portMap[h.ticker]=h.currentHolding||0;});const p=wlPortfolio();p.forEach(function(item){const holding=portMap[item.ticker]||0;item.targetPct=totalWithCash>0?+((holding/totalWithCash)*100).toFixed(1):0;});saveWlPortfolio(p);};
 window.wlReset=function(){const p=wlPortfolio();p.forEach(function(x){x.targetPct=0;});wlCashAmount=0;localStorage.setItem('t212-cash-v1',0);saveWlPortfolio(p);};
