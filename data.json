@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-05-11T23:19:04Z",
-  "gbpusd": 1.3609,
-  "eurusd": 1.1788,
-  "gbpeur": 1.1545,
+  "lastUpdated": "2026-05-12T00:18:05Z",
+  "gbpusd": 1.3604,
+  "eurusd": 1.178,
+  "gbpeur": 1.1548,
   "tickers": {
     "APLD": {
       "price": 44.59,
@@ -66,7 +66,7 @@
       "currency": "USD",
       "mktCapB": 3065.418,
       "analystTarget": 561.56,
-      "athPrice": 539.8253,
+      "athPrice": 539.8252,
       "sector": "Technology",
       "returns": {
         "1D": -0.59,
