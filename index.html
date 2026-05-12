@@ -16,16 +16,16 @@ body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-s
 .live-badge.stale{background:#FEF3C7;border-color:#FCD34D;color:#92400E}
 .live-badge.loading{background:#EFF6FF;border-color:#BFDBFE;color:#1D4ED8}
 .live-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-.brand-sub{font-size:12px;color:#475569}
+.brand-sub{font-size:12px;color:#334155}
 .pval-wrap{text-align:right}
-.pval-label{font-size:12px;color:#475569;text-transform:uppercase;letter-spacing:1px}
+.pval-label{font-size:12px;color:#334155;text-transform:uppercase;letter-spacing:1px}
 .pval-num{font-size:28px;font-weight:700}
-.pval-fx{font-size:12px;color:#475569;margin-top:2px}
+.pval-fx{font-size:12px;color:#334155;margin-top:2px}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:12px}
 @media(max-width:900px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .stat{background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:10px 14px}
 .stat.warn{border-color:#FCA5A5;background:#FEF2F2}
-.stat-lbl{font-size:10px;color:#475569;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.stat-lbl{font-size:10px;color:#334155;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
 .stat-val{font-size:18px;font-weight:700}
 .alerts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .alert{border-radius:6px;padding:7px 13px;font-size:12px}
@@ -34,23 +34,23 @@ body{background:#F1F5F9;font-family:'Courier New',monospace;color:#0F172A;font-s
 .alert.green{background:#F0FDF4;border:1px solid #86EFAC;color:#14532D}
 .tab-bar{display:flex;background:#fff;border:1px solid #CBD5E1;border-radius:8px;padding:0 6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab{padding:12px 16px;font-size:12px;color:#475569;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
+.tab{padding:12px 16px;font-size:12px;color:#334155;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;margin-bottom:-1px;flex-shrink:0;transition:color .15s}
 .tab.active{color:#1D4ED8;border-bottom-color:#1D4ED8;font-weight:700;background:#EFF6FF}
-.tab:hover:not(.active){color:#334155}
+.tab:hover:not(.active){color:#1E293B}
 .card{background:#fff;border:1px solid #CBD5E1;border-radius:12px;padding:18px 22px;margin-bottom:14px}
-.card-title{font-size:13px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
-.chart-hint{font-size:12px;color:#475569;margin-bottom:12px;line-height:1.6}
+.card-title{font-size:13px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.chart-hint{font-size:12px;color:#334155;margin-bottom:12px;line-height:1.6}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 @media(max-width:700px){.g2{grid-template-columns:1fr}}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:12px;color:#334155}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:12px;color:#1E293B}
 .leg-sq{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:3px;vertical-align:middle}
 .tk-leg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px 6px;margin-top:10px}
-.tk-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#334155;overflow:hidden}
+.tk-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#1E293B;overflow:hidden}
 .tk-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .tk-txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tbl-wrap{overflow-x:auto;max-height:500px;overflow-y:auto}
 table{width:100%;border-collapse:collapse}
-th{padding:9px 10px;text-align:left;color:#334155;font-size:11px;font-weight:700;letter-spacing:.8px;border-bottom:2px solid #F1F5F9;background:#F8FAFC;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:1}
+th{padding:9px 10px;text-align:left;color:#1E293B;font-size:11px;font-weight:700;letter-spacing:.8px;border-bottom:2px solid #F1F5F9;background:#F8FAFC;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;z-index:1}
 th.r{text-align:right}
 th.sortable{cursor:pointer;user-select:none}
 th.sortable:hover{color:#1D4ED8;background:#EFF6FF}
@@ -70,26 +70,26 @@ tr:hover td{background:#F8FAFC}
 .btn{border-radius:6px;padding:9px 18px;font-size:13px;font-family:inherit;font-weight:700;cursor:pointer;border:none}
 .btn-blue{background:#1D4ED8;color:#fff}.btn-blue:hover{background:#1E40AF}
 .btn-green{background:#059669;color:#fff}
-.btn-grey{background:transparent;color:#334155;border:1px solid #CBD5E1}.btn-grey:hover{background:#F8FAFC}
+.btn-grey{background:transparent;color:#1E293B;border:1px solid #CBD5E1}.btn-grey:hover{background:#F8FAFC}
 .btn-red{background:transparent;color:#DC2626;border:1px solid #FCA5A5}.btn-red:hover{background:#FEF2F2}
 .btn-sm{padding:6px 12px;font-size:12px}
 .del-btn{background:transparent;border:1px solid #FCA5A5;color:#DC2626;border-radius:4px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
 .del-btn:hover{background:#FEF2F2}
 .dca-row{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end}
 .dca-grp{display:flex;flex-direction:column;gap:5px}
-.dca-lbl{font-size:12px;color:#334155;text-transform:uppercase;letter-spacing:.5px}
+.dca-lbl{font-size:12px;color:#1E293B;text-transform:uppercase;letter-spacing:.5px}
 .dca-inp{background:#fff;border:1px solid #CBD5E1;color:#0F172A;padding:9px 12px;border-radius:8px;font-size:15px;font-family:inherit;outline:none;width:170px}
 .pos{color:#16A34A;font-weight:700}
 .neg{color:#DC2626;font-weight:700}
-.muted{color:#475569}
-.empty{text-align:center;padding:40px;color:#475569;font-size:13px;line-height:2}
+.muted{color:#334155}
+.empty{text-align:center;padding:40px;color:#334155;font-size:13px;line-height:2}
 .empty span{color:#1D4ED8;font-weight:700}
-.ed-tip{margin-top:14px;font-size:12px;color:#475569;line-height:1.8;border-top:1px solid #F1F5F9;padding-top:12px}
-.ed-field-guide{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:13px 17px;margin-bottom:14px;font-size:12px;line-height:2;color:#334155}
+.ed-tip{margin-top:14px;font-size:12px;color:#334155;line-height:1.8;border-top:1px solid #F1F5F9;padding-top:12px}
+.ed-field-guide{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:13px 17px;margin-bottom:14px;font-size:12px;line-height:2;color:#1E293B}
 .ed-field-guide strong{color:#0F172A}
 canvas{display:block}
 .mode-toggle{display:flex;gap:4px;background:#E2E8F0;border-radius:8px;padding:3px;margin-bottom:14px}
-.mode-btn{padding:5px 18px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:transparent;color:#334155;transition:all .15s}
+.mode-btn{padding:5px 18px;border-radius:6px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:transparent;color:#1E293B;transition:all .15s}
 .mode-btn.active{background:#fff;color:#1D4ED8;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .wl-slider-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F1F5F9;font-size:13px}
 .tk-chip{display:inline-block;background:#EFF6FF;color:#1D4ED8;border-radius:4px;padding:2px 8px;font-weight:700;font-size:12px;letter-spacing:.3px}
@@ -98,7 +98,7 @@ canvas{display:block}
 .cat-section{border:1px solid #E2E8F0;border-radius:10px;overflow:hidden;margin-bottom:14px}
 .cat-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#F8FAFC;cursor:pointer;user-select:none}
 .cat-header:hover{background:#F1F5F9}
-.cat-header-title{font-size:13px;font-weight:700;color:#334155;text-transform:uppercase;letter-spacing:1px}
+.cat-header-title{font-size:13px;font-weight:700;color:#1E293B;text-transform:uppercase;letter-spacing:1px}
 .cat-body{padding:14px 16px;display:none}
 .cat-body.open{display:block}
 .cat-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #F8FAFC}
@@ -109,7 +109,7 @@ canvas{display:block}
 .loading-overlay{position:fixed;inset:0;background:rgba(241,245,249,.88);display:flex;align-items:center;justify-content:center;z-index:100;font-size:15px;color:#1D4ED8;font-family:inherit}
 .loading-spinner{width:22px;height:22px;border:2px solid #BFDBFE;border-top-color:#1D4ED8;border-radius:50%;animation:spin .7s linear infinite;margin-right:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.privacy-btn{background:transparent;border:1px solid #CBD5E1;border-radius:6px;padding:5px 12px;font-size:12px;font-family:inherit;font-weight:700;cursor:pointer;color:#334155;margin-left:auto;flex-shrink:0}
+.privacy-btn{background:transparent;border:1px solid #CBD5E1;border-radius:6px;padding:5px 12px;font-size:12px;font-family:inherit;font-weight:700;cursor:pointer;color:#1E293B;margin-left:auto;flex-shrink:0}
 .privacy-btn:hover{background:#F8FAFC}
 
 .wl-slider-row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #F1F5F9;font-size:13px}</style>
@@ -496,10 +496,10 @@ function renderCategoryManager(){
   <div class="cat-section" id="cat-section">
     <div class="cat-header" onclick="toggleCatPanel()">
       <span class="cat-header-title">⚙ Category Manager - ${categories.length} categories &nbsp;(click to ${catOpen?'collapse':'expand'})</span>
-      <span style="font-size:13px;color:#475569">${catOpen?'^':'v'}</span>
+      <span style="font-size:13px;color:#334155">${catOpen?'^':'v'}</span>
     </div>
     <div class="cat-body${catOpen?' open':''}" id="cat-body">
-      <div style="font-size:12px;color:#475569;margin-bottom:10px">Edit names, short labels and colours. Changes apply instantly across all charts and tables. Deleting a category does not remove tickers already assigned to it.</div>
+      <div style="font-size:12px;color:#334155;margin-bottom:10px">Edit names, short labels and colours. Changes apply instantly across all charts and tables. Deleting a category does not remove tickers already assigned to it.</div>
       ${rows}
       <div class="cat-add-row">
         <input type="color" id="new-cat-color" value="#6366F1" class="cat-swatch">
@@ -522,7 +522,7 @@ function renderEditor(){
       <td style="text-align:right;color:#0F172A;padding:7px 10px;font-size:13px;white-space:nowrap">${pw('£'+(p.currentHolding||0).toFixed(2))}</td>
       <td><input class="inp inp-sm" value="${p.shares??''}" onblur="upd(${p.id},'shares',this.value)" placeholder="e.g. 4.294"></td>
       <td><input class="inp inp-sm" value="${p.avgPriceGBP??''}" onblur="upd(${p.id},'avgPriceGBP',this.value)" placeholder="avg £"></td>
-      <td class="cb-cell r" style="color:#334155;padding:7px 10px;font-size:13px;white-space:nowrap">${p.costBasis!=null?pw('£'+p.costBasis.toFixed(2)):'-'}</td>
+      <td class="cb-cell r" style="color:#1E293B;padding:7px 10px;font-size:13px;white-space:nowrap">${p.costBasis!=null?pw('£'+p.costBasis.toFixed(2)):'-'}</td>
       <td><input class="inp" value="${p.manualHolding??''}" onblur="upd(${p.id},'manualHolding',this.value)" placeholder="e.g. 862.06" style="${p.manualHolding!=null?'border-color:#8B5CF6;background:#FDF4FF':''}"></td>
       <td><button class="del-btn" onclick="delRow(${p.id})">✕</button></td>
     </tr>`;
@@ -773,7 +773,7 @@ function saveWlPortfolio(p){wlSaveRaw(p);wlSetTab(wlActiveTab);}
 function wlData(t){return (liveData&&liveData.watchlist&&liveData.watchlist[t])||{};}
 function wlAutoCategory(t){if(WL_CAT_MAP[t])return WL_CAT_MAP[t];const s=(wlData(t).sector||'');const m={'Technology':'Technology','Information Technology':'Technology','Healthcare':'Healthcare','Financial Services':'Financials','Consumer Cyclical':'Consumer','Consumer Defensive':'Consumer','Energy':'Energy','Utilities':'Utilities','Basic Materials':'Materials','Communication Services':'Comms','Industrials':'Industrials','Real Estate':'Real Estate'};return m[s]||s||'Other';}
 function heatColor(v){if(v===null||v===undefined)return '';const a=Math.min(Math.abs(v),30)/30*0.7+0.15;return v>=0?'rgba(22,163,74,'+a.toFixed(2)+')':'rgba(220,38,38,'+a.toFixed(2)+')';}
-function heatTd(v){if(v===null||v===undefined)return '<td class="heat-td" style="color:#475569">-</td>';const bg=heatColor(v);const fc=Math.abs(v)>15?'#fff':'#0F172A';return '<td class="heat-td" style="background:'+bg+';color:'+fc+'">'+(v>=0?'+':'')+v.toFixed(2)+'%</td>';}
+function heatTd(v){if(v===null||v===undefined)return '<td class="heat-td" style="color:#334155">-</td>';const bg=heatColor(v);const fc=Math.abs(v)>15?'#fff':'#0F172A';return '<td class="heat-td" style="background:'+bg+';color:'+fc+'">'+(v>=0?'+':'')+v.toFixed(2)+'%</td>';}
 function thSort(tab,field,label,align){const st=wlSortStates[tab]||{};const arr=st.field===field?(st.dir==='asc'?'^':'v'):'';return '<th onclick="wlSortBy(&#39;'+tab+'&#39;,&#39;'+field+'&#39;)" class="sortable" style="text-align:'+align+';padding:9px 8px;cursor:pointer">'+label+' '+arr+'</th>';}
 function wlApplySort(items,tab,def){const st=wlSortStates[tab]||{field:def,dir:'desc'};return [...items].sort(function(a,b){const get=function(o,f){return f.split('.').reduce(function(x,k){return x&&x[k];},o);};let va=get(a,st.field),vb=get(b,st.field);va=va===null||va===undefined?-Infinity:va;vb=vb===null||vb===undefined?-Infinity:vb;return st.dir==='asc'?(va>vb?1:va<vb?-1:0):(va<vb?1:va>vb?-1:0);});}
 
@@ -795,20 +795,20 @@ function renderWlOverview(){
   wlTotalVal=+(localStorage.getItem('t212-wl-total-v1')||0);
   wlCashAmount=+(localStorage.getItem('t212-cash-v1')||0);
   const p=wlPortfolio();const el=document.getElementById('wl-content');
-  if(!p.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#334155">Add tickers in the Editor tab to get started.</div>';return;}
+  if(!p.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#1E293B">Add tickers in the Editor tab to get started.</div>';return;}
   const bycat={};p.forEach(function(item){const cat=item.category||'Other';if(!bycat[cat])bycat[cat]=[];bycat[cat].push(wlData(item.ticker).returns||{});});
-  const hmHead=WL_PERIODS.map(function(per){return '<th style="text-align:center;padding:7px 10px;color:#334155;font-size:11px;text-transform:uppercase">'+per+'</th>';}).join('');
+  const hmHead=WL_PERIODS.map(function(per){return '<th style="text-align:center;padding:7px 10px;color:#1E293B;font-size:11px;text-transform:uppercase">'+per+'</th>';}).join('');
   const hmRows=Object.entries(bycat).map(function(e){const cat=e[0],rets=e[1];const cells=WL_PERIODS.map(function(per){const vals=rets.map(function(r){return r[per];}).filter(function(v){return v!==null&&v!==undefined;});return heatTd(vals.length?vals.reduce(function(a,b){return a+b;},0)/vals.length:null);}).join('');return '<tr><td style="padding:6px 10px;font-size:13px;font-weight:700;white-space:nowrap">'+cat+'</td>'+cells+'</tr>';}).join('');
-  const tkRows=p.map(function(item){const d=wlData(item.ticker);const cells=WL_PERIODS.map(function(per){return heatTd((d.returns||{})[per]);}).join('');return '<tr><td style="padding:5px 10px"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#334155;font-size:12px;padding:5px 8px">'+(item.category||'-')+'</td>'+cells+'</tr>';}).join('');
+  const tkRows=p.map(function(item){const d=wlData(item.ticker);const cells=WL_PERIODS.map(function(per){return heatTd((d.returns||{})[per]);}).join('');return '<tr><td style="padding:5px 10px"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#1E293B;font-size:12px;padding:5px 8px">'+(item.category||'-')+'</td>'+cells+'</tr>';}).join('');
   const cashPct=wlTotalVal>0?+(wlCashAmount/wlTotalVal*100).toFixed(1):0;
   const total=+(p.reduce(function(s,x){return s+(+x.targetPct||0);},0)+cashPct).toFixed(1);
   const tcol=total>100?'#DC2626':total===100?'#16A34A':'#0F172A';
   const sortedP=wlSliderSort?[...p].sort(function(a,b){return wlSliderSort==='desc'?(+b.targetPct||0)-(+a.targetPct||0):(+a.targetPct||0)-(+b.targetPct||0);}):p;
-  const sliders=sortedP.map(function(item){return '<div class="wl-slider-row"><span class="tk-chip" style="min-width:54px;text-align:center">'+item.ticker+'</span><input type="range" min="0" max="100" step="1" value="'+(+item.targetPct||0)+'" oninput="wlUpdSlider('+item.id+',+this.value)" style="flex:1;margin:0 10px;accent-color:#1D4ED8"><span id="wl-sl-'+item.id+'" style="width:40px;text-align:right;font-weight:700;font-size:13px">'+(+item.targetPct||0)+'%</span><span id="wl-gbp-'+item.id+'" style="width:62px;text-align:right;font-size:12px;color:#334155;padding-left:6px">'+wlFmtGbp(+item.targetPct||0,wlTotalVal)+'</span></div>';}).join('');
-  const cashRow='<div class="wl-slider-row" style="border-bottom:1px solid #E2E8F0;margin-bottom:8px;padding-bottom:8px"><span class="tk-chip" style="min-width:54px;text-align:center;background:#15803D;color:#fff;border-color:#15803D">CASH</span><input type="range" min="0" max="100" step="0.1" value="'+cashPct+'" id="wl-cash-slider" oninput="wlUpdCashSlider(+this.value)" style="flex:1;margin:0 10px;accent-color:#15803D"><span id="wl-cash-pct" style="width:40px;text-align:right;font-weight:700;font-size:13px">'+cashPct.toFixed(1)+'%</span><span id="wl-cash-gbp" style="width:62px;text-align:right;font-size:12px;color:#334155;padding-left:6px">'+wlFmtGbp(cashPct,wlTotalVal)+'</span></div>';
+  const sliders=sortedP.map(function(item){return '<div class="wl-slider-row"><span class="tk-chip" style="min-width:54px;text-align:center">'+item.ticker+'</span><input type="range" min="0" max="100" step="1" value="'+(+item.targetPct||0)+'" oninput="wlUpdSlider('+item.id+',+this.value)" style="flex:1;margin:0 10px;accent-color:#1D4ED8"><span id="wl-sl-'+item.id+'" style="width:40px;text-align:right;font-weight:700;font-size:13px">'+(+item.targetPct||0)+'%</span><span id="wl-gbp-'+item.id+'" style="width:62px;text-align:right;font-size:12px;color:#1E293B;padding-left:6px">'+wlFmtGbp(+item.targetPct||0,wlTotalVal)+'</span></div>';}).join('');
+  const cashRow='<div class="wl-slider-row" style="border-bottom:1px solid #E2E8F0;margin-bottom:8px;padding-bottom:8px"><span class="tk-chip" style="min-width:54px;text-align:center;background:#15803D;color:#fff;border-color:#15803D">CASH</span><input type="range" min="0" max="100" step="0.1" value="'+cashPct+'" id="wl-cash-slider" oninput="wlUpdCashSlider(+this.value)" style="flex:1;margin:0 10px;accent-color:#15803D"><span id="wl-cash-pct" style="width:40px;text-align:right;font-weight:700;font-size:13px">'+cashPct.toFixed(1)+'%</span><span id="wl-cash-gbp" style="width:62px;text-align:right;font-size:12px;color:#1E293B;padding-left:6px">'+wlFmtGbp(cashPct,wlTotalVal)+'</span></div>';
   el.innerHTML='<div class="g2" style="gap:16px;align-items:start">'
-    +'<div class="card"><div class="card-title">Sector Momentum</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#334155;font-size:11px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+hmRows+'</tbody></table></div>'
-    +'<div class="card-title" style="margin-top:18px">Tickers</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#334155;font-size:11px;text-transform:uppercase">TICKER</th><th style="text-align:left;padding:7px 8px;color:#334155;font-size:11px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+tkRows+'</tbody></table></div></div>'
+    +'<div class="card"><div class="card-title">Sector Momentum</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#1E293B;font-size:11px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+hmRows+'</tbody></table></div>'
+    +'<div class="card-title" style="margin-top:18px">Tickers</div><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC"><th style="text-align:left;padding:7px 10px;color:#1E293B;font-size:11px;text-transform:uppercase">TICKER</th><th style="text-align:left;padding:7px 8px;color:#1E293B;font-size:11px;text-transform:uppercase">SECTOR</th>'+hmHead+'</tr></thead><tbody>'+tkRows+'</tbody></table></div></div>'
     +'<div class="card"><div class="card-title">Experimental Pie</div>'
     +'<div style="text-align:center;margin-bottom:10px;font-size:13px">Total: <strong id="wl-total-pct" style="color:'+tcol+'">'+total+'%</strong></div>'
     +'<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;justify-content:center">'
@@ -818,7 +818,7 @@ function renderWlOverview(){
     +'<button class="btn btn-grey btn-sm" onclick="wlToggleSort()">'+(wlSliderSort===''?'↕ Sort %':wlSliderSort==='desc'?'↓ High→Low':'↑ Low→High')+'</button>'
     +'</div>'
     +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:8px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px">'
-    +'<span style="font-size:12px;color:#334155;font-weight:600;white-space:nowrap">Total value</span>'
+    +'<span style="font-size:12px;color:#1E293B;font-weight:600;white-space:nowrap">Total value</span>'
     +'<span style="font-weight:700;color:#0F172A;font-size:15px">£</span>'
     +'<input type="number" id="wl-total-inp" value="'+(wlTotalVal||'')+'" placeholder="e.g. 39353" oninput="wlSetTotal(+this.value)" style="flex:1;min-width:0;border:1px solid #CBD5E1;border-radius:6px;padding:5px 8px;font-size:15px;font-family:\'Courier New\',monospace;font-weight:700;background:#fff;color:#0F172A">'
     +'</div>'
@@ -851,7 +851,7 @@ window.wlToggleSort=function(){wlSliderSort=wlSliderSort===''?'desc':wlSliderSor
 function renderWlATH(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   const items=p.map(function(item){const d=wlData(item.ticker);const ath=d.athPrice,price=d.price;const pct=(ath&&price)?+((price-ath)/ath*100).toFixed(1):null;return{ticker:item.ticker,category:item.category||'-',price:price,ath:ath,pct:pct};}).filter(function(x){return x.pct!==null;}).sort(function(a,b){return a.pct-b.pct;});
-  if(!items.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#334155">No ATH price data available yet.<br><span style="font-size:13px">Run the GitHub Action to fetch ATH prices.</span></div>';return;}
+  if(!items.length){el.innerHTML='<div class="card" style="text-align:center;padding:40px;color:#1E293B">No ATH price data available yet.<br><span style="font-size:13px">Run the GitHub Action to fetch ATH prices.</span></div>';return;}
   el.innerHTML='<div class="card"><div class="card-title">% Below All-Time High</div><div id="wl-ath-wrap" style="position:relative;height:'+Math.max(items.length*28+60,150)+'px"><canvas id="c-wl-ath"></canvas></div></div>';
   setTimeout(function(){
     const ctx=document.getElementById('c-wl-ath');if(!ctx)return;
@@ -863,7 +863,7 @@ function renderWlATH(){
 function renderWlReturns(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);return {ticker:item.ticker,category:item.category||'-',returns:d.returns||{}};}), 'Returns','returns.1M');
-  const rows=items.map(function(item){return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#334155;font-size:12px;padding:6px 8px">'+item.category+'</td>'+WL_RET_PERIODS.map(function(per){return heatTd(item.returns[per]!==undefined?item.returns[per]:null);}).join('')+'</tr>';}).join('');
+  const rows=items.map(function(item){return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#1E293B;font-size:12px;padding:6px 8px">'+item.category+'</td>'+WL_RET_PERIODS.map(function(per){return heatTd(item.returns[per]!==undefined?item.returns[per]:null);}).join('')+'</tr>';}).join('');
   const thP=WL_RET_PERIODS.map(function(per){return thSort('Returns','returns.'+per,per,'center');}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC">'+thSort('Returns','ticker','TICKER','left')+thSort('Returns','category','SECTOR','left')+thP+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
@@ -871,15 +871,15 @@ function renderWlReturns(){
 function renderWlUpside(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   const items=wlApplySort(p.map(function(item){const d=wlData(item.ticker);const price=d.price||null;const target=d.analystTarget||null;const upside=(price&&target)?+((target-price)/price*100).toFixed(1):null;return {ticker:item.ticker,category:item.category||'-',price:price,target:target,upside:upside};}), 'Upside','upside');
-  const rows=items.map(function(item){const uc=item.upside!==null?'<td class="heat-td" style="background:'+heatColor(item.upside)+';color:'+(Math.abs(item.upside||0)>20?'#fff':'#0F172A')+'">'+(item.upside>=0?'+':'')+item.upside+'%</td>':'<td class="heat-td" style="color:#475569">-</td>';return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#334155;font-size:12px;padding:6px 8px">'+item.category+'</td><td style="text-align:right;padding:6px 10px">'+(item.price?'$'+item.price.toFixed(2):'-')+'</td><td style="text-align:right;padding:6px 10px">'+(item.target?'$'+item.target.toFixed(2):'-')+'</td>'+uc+'</tr>';}).join('');
+  const rows=items.map(function(item){const uc=item.upside!==null?'<td class="heat-td" style="background:'+heatColor(item.upside)+';color:'+(Math.abs(item.upside||0)>20?'#fff':'#0F172A')+'">'+(item.upside>=0?'+':'')+item.upside+'%</td>':'<td class="heat-td" style="color:#334155">-</td>';return '<tr><td style="padding:6px 10px;white-space:nowrap"><span class="tk-chip">'+item.ticker+'</span></td><td style="color:#1E293B;font-size:12px;padding:6px 8px">'+item.category+'</td><td style="text-align:right;padding:6px 10px">'+(item.price?'$'+item.price.toFixed(2):'-')+'</td><td style="text-align:right;padding:6px 10px">'+(item.target?'$'+item.target.toFixed(2):'-')+'</td>'+uc+'</tr>';}).join('');
   el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC">'+thSort('Upside','ticker','TICKER','left')+thSort('Upside','category','SECTOR','left')+thSort('Upside','price','PRICE','right')+thSort('Upside','target','TARGET','right')+thSort('Upside','upside','UPSIDE %','center')+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
 }
 
 function renderWlEditor(){
   const p=wlPortfolio();const el=document.getElementById('wl-content');
   const cats=[...(new Set([...p.map(function(x){return x.category;}),'AI Infrastructure & Data Centres','Consumer Internet / Platforms','Critical Materials','Defence & Aerospace','Nuclear','Semiconductors & Hardware','EV & Clean Energy','Bitcoin / Crypto','Fintech','Gaming','Other'].filter(Boolean)))].sort();
-  const rows=p.map(function(item){const d=wlData(item.ticker);const opts=cats.map(function(c){return '<option value="'+c+'"'+(item.category===c?' selected':'')+'>'+c+'</option>';}).join('');return '<tr><td style="padding:6px 8px"><input value="'+item.ticker+'" style="width:72px;font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px" onchange="wlEditField('+item.id+',&#39;ticker&#39;,this.value.toUpperCase().trim())"></td><td style="padding:6px 8px"><select onchange="wlEditField('+item.id+',&#39;category&#39;,this.value)" style="font-family:\'Courier New\',monospace;font-size:12px;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px">'+opts+'</select><button class="btn btn-grey btn-sm" onclick="wlAutoAssignCat('+item.id+')" style="margin-left:6px;font-size:11px" title="Auto from yfinance sector">Auto</button></td><td style="padding:6px 10px;font-size:13px;color:#334155">'+(d.price?'$'+d.price.toFixed(2):'-')+'</td><td style="padding:6px 8px"><button class="btn btn-grey btn-sm" onclick="wlRemove('+item.id+')" style="color:#DC2626">✕</button></td></tr>';}).join('');
-  el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC;font-size:11px;color:#334155;text-transform:uppercase"><th style="padding:9px 8px;text-align:left">TICKER</th><th style="padding:9px 8px;text-align:left">CATEGORY</th><th style="padding:9px 8px;text-align:left">PRICE</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><input id="wl-new-ticker" placeholder="e.g. TSLA" style="font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:8px;padding:6px 10px;width:150px" onkeydown="if(event.key===&#39;Enter&#39;)wlAddTicker()"><button class="btn" onclick="wlAddTicker()" style="background:#1D4ED8;color:#fff">+ Add Ticker</button><button class="btn btn-grey" onclick="wlExportJSON()">⬇ Download watchlist.json</button></div></div>';
+  const rows=p.map(function(item){const d=wlData(item.ticker);const opts=cats.map(function(c){return '<option value="'+c+'"'+(item.category===c?' selected':'')+'>'+c+'</option>';}).join('');return '<tr><td style="padding:6px 8px"><input value="'+item.ticker+'" style="width:72px;font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px" onchange="wlEditField('+item.id+',&#39;ticker&#39;,this.value.toUpperCase().trim())"></td><td style="padding:6px 8px"><select onchange="wlEditField('+item.id+',&#39;category&#39;,this.value)" style="font-family:\'Courier New\',monospace;font-size:12px;border:1px solid #CBD5E1;border-radius:6px;padding:3px 6px">'+opts+'</select><button class="btn btn-grey btn-sm" onclick="wlAutoAssignCat('+item.id+')" style="margin-left:6px;font-size:11px" title="Auto from yfinance sector">Auto</button></td><td style="padding:6px 10px;font-size:13px;color:#1E293B">'+(d.price?'$'+d.price.toFixed(2):'-')+'</td><td style="padding:6px 8px"><button class="btn btn-grey btn-sm" onclick="wlRemove('+item.id+')" style="color:#DC2626">✕</button></td></tr>';}).join('');
+  el.innerHTML='<div class="card"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:#F8FAFC;font-size:11px;color:#1E293B;text-transform:uppercase"><th style="padding:9px 8px;text-align:left">TICKER</th><th style="padding:9px 8px;text-align:left">CATEGORY</th><th style="padding:9px 8px;text-align:left">PRICE</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><input id="wl-new-ticker" placeholder="e.g. TSLA" style="font-family:\'Courier New\',monospace;font-size:13px;font-weight:700;text-transform:uppercase;border:1px solid #CBD5E1;border-radius:8px;padding:6px 10px;width:150px" onkeydown="if(event.key===&#39;Enter&#39;)wlAddTicker()"><button class="btn" onclick="wlAddTicker()" style="background:#1D4ED8;color:#fff">+ Add Ticker</button><button class="btn btn-grey" onclick="wlExportJSON()">⬇ Download watchlist.json</button></div></div>';
 }
 function wlEditField(id,field,val){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item){item[field]=val;saveWlPortfolio(p);}}
 function wlAutoAssignCat(id){const p=wlPortfolio();const item=p.find(function(x){return x.id===id;});if(item){item.category=wlAutoCategory(item.ticker);saveWlPortfolio(p);}}
