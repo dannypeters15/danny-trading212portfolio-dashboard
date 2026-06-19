@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-06-18T23:19:44Z",
-  "gbpusd": 1.3205,
-  "eurusd": 1.1464,
-  "gbpeur": 1.1519,
+  "lastUpdated": "2026-06-19T22:32:29Z",
+  "gbpusd": 1.3237,
+  "eurusd": 1.1469,
+  "gbpeur": 1.1542,
   "tickers": {
     "APLD": {
       "price": 46.59,
@@ -46,7 +46,7 @@
       "price": 59.96,
       "currency": "USD",
       "mktCapB": 21.428,
-      "analystTarget": 81.07,
+      "analystTarget": 80.93,
       "athPrice": 76.41,
       "sector": "Financial Services",
       "returns": {
@@ -66,7 +66,7 @@
       "currency": "USD",
       "mktCapB": 2818.348,
       "analystTarget": 561.39,
-      "athPrice": 538.6585,
+      "athPrice": 538.6586,
       "sector": "Technology",
       "returns": {
         "1D": 0.13,
@@ -84,7 +84,7 @@
       "price": 195.16,
       "currency": "USD",
       "mktCapB": 77.576,
-      "analystTarget": 288.48,
+      "analystTarget": 282.27,
       "athPrice": 688.37,
       "sector": "Technology",
       "returns": {
@@ -141,7 +141,7 @@
       "price": 4.66,
       "currency": "USD",
       "mktCapB": 7.722,
-      "analystTarget": 7.63,
+      "analystTarget": 7.58,
       "athPrice": 83.11,
       "sector": "Communication Services",
       "returns": {
@@ -217,7 +217,7 @@
       "price": 169.61,
       "currency": "USD",
       "mktCapB": 8.583,
-      "analystTarget": 309.88,
+      "analystTarget": 301.12,
       "athPrice": 409.83,
       "sector": "Industrials",
       "returns": {
@@ -311,7 +311,7 @@
     "UEC": {
       "price": 12.01,
       "currency": "USD",
-      "mktCapB": 5.943,
+      "mktCapB": 5.888,
       "analystTarget": 18.58,
       "athPrice": 20.14,
       "sector": "Energy",
@@ -369,7 +369,7 @@
       "price": 411.35,
       "currency": "USD",
       "mktCapB": 1957.031,
-      "analystTarget": 522.06,
+      "analystTarget": 523.84,
       "athPrice": 481.57,
       "sector": "Technology",
       "returns": {
@@ -503,7 +503,7 @@
     "UEC": {
       "price": 12.01,
       "currency": "USD",
-      "mktCapB": 5.943,
+      "mktCapB": 5.888,
       "analystTarget": 18.58,
       "athPrice": 20.14,
       "sector": "Energy",
@@ -580,7 +580,7 @@
       "price": 59.96,
       "currency": "USD",
       "mktCapB": 21.428,
-      "analystTarget": 81.07,
+      "analystTarget": 80.93,
       "athPrice": 76.41,
       "sector": "Financial Services",
       "returns": {
@@ -599,7 +599,7 @@
       "price": 298.01,
       "currency": "USD",
       "mktCapB": 4376.979,
-      "analystTarget": 312.72,
+      "analystTarget": 314.42,
       "athPrice": 315.2,
       "sector": "Technology",
       "returns": {
@@ -694,7 +694,7 @@
       "price": 411.35,
       "currency": "USD",
       "mktCapB": 1957.031,
-      "analystTarget": 522.06,
+      "analystTarget": 523.84,
       "athPrice": 481.57,
       "sector": "Technology",
       "returns": {
@@ -770,7 +770,7 @@
       "price": 169.61,
       "currency": "USD",
       "mktCapB": 8.583,
-      "analystTarget": 309.88,
+      "analystTarget": 301.12,
       "athPrice": 409.83,
       "sector": "Industrials",
       "returns": {
@@ -846,7 +846,7 @@
       "price": 4.66,
       "currency": "USD",
       "mktCapB": 7.722,
-      "analystTarget": 7.63,
+      "analystTarget": 7.58,
       "athPrice": 83.11,
       "sector": "Communication Services",
       "returns": {
@@ -903,7 +903,7 @@
       "price": 195.16,
       "currency": "USD",
       "mktCapB": 77.576,
-      "analystTarget": 288.48,
+      "analystTarget": 282.27,
       "athPrice": 688.37,
       "sector": "Technology",
       "returns": {
