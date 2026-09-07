@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-09-04T23:13:29Z",
-  "gbpusd": 1.3517,
-  "eurusd": 1.1621,
-  "gbpeur": 1.1632,
+  "lastUpdated": "2026-09-07T23:42:21Z",
+  "gbpusd": 1.3548,
+  "eurusd": 1.1632,
+  "gbpeur": 1.1647,
   "tickers": {
     "APLD": {
       "price": 26.37,
@@ -28,7 +28,7 @@
       "currency": "USD",
       "mktCapB": 457.361,
       "analystTarget": 242.05,
-      "athPrice": 324.63,
+      "athPrice": 324.6299,
       "sector": "Technology",
       "returns": {
         "1D": 3.08,
@@ -104,16 +104,16 @@
       "currency": "USD",
       "mktCapB": 4139.344,
       "analystTarget": 428.07,
-      "athPrice": 402.3797,
+      "athPrice": 402.1212,
       "sector": "Communication Services",
       "returns": {
-        "1D": -1.17,
-        "1W": -2.35,
-        "1M": -6.61,
-        "3M": -8.1,
-        "6M": 12.64,
-        "1Y": 46.12,
-        "3Y": 151.5,
+        "1D": -1.11,
+        "1W": -2.28,
+        "1M": -6.55,
+        "3M": -8.05,
+        "6M": 12.71,
+        "1Y": 46.21,
+        "3Y": 151.66,
         "5Y": null
       },
       "stale": false
@@ -178,7 +178,7 @@
     "ALOY": {
       "price": 10.1,
       "currency": "USD",
-      "mktCapB": 0.697,
+      "mktCapB": 0.701,
       "analystTarget": 17.0,
       "athPrice": 63.0,
       "sector": "Basic Materials",
@@ -312,7 +312,7 @@
       "price": 11.54,
       "currency": "USD",
       "mktCapB": 5.711,
-      "analystTarget": 17.38,
+      "analystTarget": 18.03,
       "athPrice": 20.14,
       "sector": "Energy",
       "returns": {
@@ -331,7 +331,7 @@
       "price": 173.89,
       "currency": "USD",
       "mktCapB": 3.47,
-      "analystTarget": 253.25,
+      "analystTarget": 248.28,
       "athPrice": 6821.4287,
       "sector": "Energy",
       "returns": {
@@ -379,7 +379,7 @@
         "3M": -7.07,
         "6M": 7.95,
         "1Y": 17.78,
-        "3Y": 325.42,
+        "3Y": 325.43,
         "5Y": null
       },
       "stale": false
@@ -388,7 +388,7 @@
       "price": 174.33,
       "currency": "USD",
       "mktCapB": 418.925,
-      "analystTarget": 191.68,
+      "analystTarget": 193.88,
       "athPrice": 207.18,
       "sector": "Technology",
       "returns": {
@@ -426,7 +426,7 @@
       "price": 141.26,
       "currency": "USD",
       "mktCapB": 146.043,
-      "analystTarget": 141.19,
+      "analystTarget": 141.84,
       "athPrice": 234.078,
       "sector": "Technology",
       "returns": {
@@ -504,7 +504,7 @@
       "price": 11.54,
       "currency": "USD",
       "mktCapB": 5.711,
-      "analystTarget": 17.38,
+      "analystTarget": 18.03,
       "athPrice": 20.14,
       "sector": "Energy",
       "returns": {
@@ -676,16 +676,16 @@
       "currency": "USD",
       "mktCapB": 4100.82,
       "analystTarget": 422.34,
-      "athPrice": 398.8,
+      "athPrice": 398.5413,
       "sector": "Communication Services",
       "returns": {
-        "1D": -1.11,
-        "1W": -2.21,
-        "1M": -6.89,
-        "3M": -8.27,
-        "6M": 11.58,
-        "1Y": 44.53,
-        "3Y": 147.43,
+        "1D": -1.05,
+        "1W": -2.14,
+        "1M": -6.83,
+        "3M": -8.21,
+        "6M": 11.65,
+        "1Y": 44.63,
+        "3Y": 147.59,
         "5Y": null
       },
       "stale": false
@@ -704,7 +704,7 @@
         "3M": -7.07,
         "6M": 7.95,
         "1Y": 17.78,
-        "3Y": 325.42,
+        "3Y": 325.43,
         "5Y": null
       },
       "stale": false
@@ -750,7 +750,7 @@
     "ALOY": {
       "price": 10.1,
       "currency": "USD",
-      "mktCapB": 0.697,
+      "mktCapB": 0.701,
       "analystTarget": 17.0,
       "athPrice": 63.0,
       "sector": "Basic Materials",
@@ -865,7 +865,7 @@
       "price": 122.11,
       "currency": "USD",
       "mktCapB": 109.787,
-      "analystTarget": 123.38,
+      "analystTarget": 125.45,
       "athPrice": 152.46,
       "sector": "Financial Services",
       "returns": {
@@ -960,7 +960,7 @@
       "price": 141.26,
       "currency": "USD",
       "mktCapB": 146.043,
-      "analystTarget": 141.19,
+      "analystTarget": 141.84,
       "athPrice": 234.078,
       "sector": "Technology",
       "returns": {
