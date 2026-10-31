@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-10-30T01:17:20Z",
-  "gbpusd": 1.3403,
-  "eurusd": 1.1213,
-  "gbpeur": 1.1953,
+  "lastUpdated": "2026-10-31T00:58:57Z",
+  "gbpusd": 1.3389,
+  "eurusd": 1.1166,
+  "gbpeur": 1.1991,
   "tickers": {
     "APLD": {
-      "price": 19.41,
+      "price": 17.815,
       "currency": "USD",
-      "mktCapB": 5.869,
+      "mktCapB": 5.387,
       "analystTarget": 62.44,
       "athPrice": 49.65,
       "sector": "Technology",
@@ -24,9 +24,9 @@
       "stale": false
     },
     "ORCL": {
-      "price": 139.56,
+      "price": 130.67,
       "currency": "USD",
-      "mktCapB": 423.076,
+      "mktCapB": 396.126,
       "analystTarget": 235.8,
       "athPrice": 323.4337,
       "sector": "Technology",
@@ -43,9 +43,9 @@
       "stale": false
     },
     "IREN": {
-      "price": 26.25,
+      "price": 23.95,
       "currency": "USD",
-      "mktCapB": 10.621,
+      "mktCapB": 9.69,
       "analystTarget": 76.92,
       "athPrice": 76.41,
       "sector": "Financial Services",
@@ -62,10 +62,10 @@
       "stale": false
     },
     "MSFT": {
-      "price": 530.14,
+      "price": 521.91,
       "currency": "USD",
-      "mktCapB": 3936.579,
-      "analystTarget": 605.12,
+      "mktCapB": 3875.805,
+      "analystTarget": 627.73,
       "athPrice": 543.45,
       "sector": "Technology",
       "returns": {
@@ -81,9 +81,9 @@
       "stale": false
     },
     "ADBE": {
-      "price": 248.12,
+      "price": 250.23,
       "currency": "USD",
-      "mktCapB": 96.568,
+      "mktCapB": 97.39,
       "analystTarget": 272.31,
       "athPrice": 688.37,
       "sector": "Technology",
@@ -100,10 +100,10 @@
       "stale": false
     },
     "GOOGL": {
-      "price": 283.82,
+      "price": 279.84,
       "currency": "USD",
-      "mktCapB": 3471.1,
-      "analystTarget": 419.92,
+      "mktCapB": 3440.353,
+      "analystTarget": 408.09,
       "athPrice": 402.1212,
       "sector": "Communication Services",
       "returns": {
@@ -119,9 +119,9 @@
       "stale": false
     },
     "AMZN": {
-      "price": 243.79,
+      "price": 240.35,
       "currency": "USD",
-      "mktCapB": 2629.595,
+      "mktCapB": 2598.424,
       "analystTarget": 332.41,
       "athPrice": 284.02,
       "sector": "Consumer Cyclical",
@@ -138,9 +138,9 @@
       "stale": false
     },
     "SNAP": {
-      "price": 5.68,
+      "price": 5.34,
       "currency": "USD",
-      "mktCapB": 9.606,
+      "mktCapB": 9.031,
       "analystTarget": 7.44,
       "athPrice": 83.11,
       "sector": "Communication Services",
@@ -157,9 +157,9 @@
       "stale": false
     },
     "NFLX": {
-      "price": 62.05,
+      "price": 62.08,
       "currency": "USD",
-      "mktCapB": 258.372,
+      "mktCapB": 258.497,
       "analystTarget": 84.76,
       "athPrice": 133.913,
       "sector": "Communication Services",
@@ -176,9 +176,9 @@
       "stale": false
     },
     "ALOY": {
-      "price": 7.17,
+      "price": 6.68,
       "currency": "USD",
-      "mktCapB": 0.5,
+      "mktCapB": 0.465,
       "analystTarget": 17.0,
       "athPrice": 63.0,
       "sector": "Basic Materials",
@@ -195,9 +195,9 @@
       "stale": false
     },
     "FLY": {
-      "price": 19.87,
+      "price": 17.935,
       "currency": "USD",
-      "mktCapB": 3.326,
+      "mktCapB": 3.002,
       "analystTarget": 38.0,
       "athPrice": 60.35,
       "sector": "Industrials",
@@ -214,9 +214,9 @@
       "stale": false
     },
     "AVAV": {
-      "price": 134.88,
+      "price": 126.11,
       "currency": "USD",
-      "mktCapB": 6.855,
+      "mktCapB": 6.409,
       "analystTarget": 213.07,
       "athPrice": 409.83,
       "sector": "Industrials",
@@ -233,9 +233,9 @@
       "stale": false
     },
     "SMR": {
-      "price": 5.92,
+      "price": 5.62,
       "currency": "USD",
-      "mktCapB": 2.43,
+      "mktCapB": 2.306,
       "analystTarget": 10.73,
       "athPrice": 53.43,
       "sector": "Industrials",
@@ -252,9 +252,9 @@
       "stale": false
     },
     "OKLO": {
-      "price": 26.81,
+      "price": 25.25,
       "currency": "USD",
-      "mktCapB": 4.987,
+      "mktCapB": 4.697,
       "analystTarget": 65.25,
       "athPrice": 174.14,
       "sector": "Utilities",
@@ -271,9 +271,9 @@
       "stale": false
     },
     "LTBR": {
-      "price": 5.4,
+      "price": 5.08,
       "currency": "USD",
-      "mktCapB": 0.19,
+      "mktCapB": 0.179,
       "analystTarget": null,
       "athPrice": 1494.0,
       "sector": "Industrials",
@@ -290,9 +290,9 @@
       "stale": false
     },
     "NVA": {
-      "price": 3.5,
+      "price": 3.81,
       "currency": "USD",
-      "mktCapB": 0.134,
+      "mktCapB": 0.146,
       "analystTarget": 10.0,
       "athPrice": 14.368,
       "sector": "Basic Materials",
@@ -309,9 +309,9 @@
       "stale": false
     },
     "UEC": {
-      "price": 8.15,
+      "price": 7.71,
       "currency": "USD",
-      "mktCapB": 4.039,
+      "mktCapB": 3.821,
       "analystTarget": 16.03,
       "athPrice": 20.14,
       "sector": "Energy",
@@ -328,10 +328,10 @@
       "stale": false
     },
     "LEU": {
-      "price": 110.55,
+      "price": 103.29,
       "currency": "USD",
-      "mktCapB": 2.261,
-      "analystTarget": 207.41,
+      "mktCapB": 2.113,
+      "analystTarget": 206.36,
       "athPrice": 6821.4287,
       "sector": "Energy",
       "returns": {
@@ -347,9 +347,9 @@
       "stale": false
     },
     "NVDA": {
-      "price": 213.66,
+      "price": 204.64,
       "currency": "USD",
-      "mktCapB": 5159.248,
+      "mktCapB": 4941.442,
       "analystTarget": 328.95,
       "athPrice": 239.24,
       "sector": "Technology",
@@ -366,9 +366,9 @@
       "stale": false
     },
     "AVGO": {
-      "price": 345.0,
+      "price": 326.08,
       "currency": "USD",
-      "mktCapB": 1646.902,
+      "mktCapB": 1556.585,
       "analystTarget": 530.14,
       "athPrice": 479.9351,
       "sector": "Technology",
@@ -385,10 +385,10 @@
       "stale": false
     },
     "PLTR": {
-      "price": 196.42,
+      "price": 184.11,
       "currency": "USD",
-      "mktCapB": 472.009,
-      "analystTarget": 210.93,
+      "mktCapB": 442.427,
+      "analystTarget": 212.5,
       "athPrice": 209.05,
       "sector": "Technology",
       "returns": {
@@ -404,9 +404,9 @@
       "stale": false
     },
     "CRWV": {
-      "price": 60.74,
+      "price": 54.87,
       "currency": "USD",
-      "mktCapB": 33.5,
+      "mktCapB": 30.263,
       "analystTarget": 134.58,
       "athPrice": 183.58,
       "sector": "Technology",
@@ -423,10 +423,10 @@
       "stale": false
     },
     "NOW": {
-      "price": 109.67,
+      "price": 105.12,
       "currency": "USD",
-      "mktCapB": 113.384,
-      "analystTarget": 155.67,
+      "mktCapB": 109.106,
+      "analystTarget": 155.17,
       "athPrice": 234.078,
       "sector": "Technology",
       "returns": {
@@ -442,9 +442,9 @@
       "stale": false
     },
     "TTWO": {
-      "price": 193.39,
+      "price": 190.17,
       "currency": "USD",
-      "mktCapB": 36.16,
+      "mktCapB": 35.558,
       "analystTarget": 285.13,
       "athPrice": 262.29,
       "sector": "Communication Services",
@@ -461,9 +461,9 @@
       "stale": false
     },
     "XE": {
-      "price": 11.7,
+      "price": 10.93,
       "currency": "USD",
-      "mktCapB": 4.754,
+      "mktCapB": 4.442,
       "analystTarget": 31.38,
       "athPrice": 35.98,
       "sector": "Industrials",
@@ -482,10 +482,10 @@
   },
   "watchlist": {
     "TSLA": {
-      "price": 403.3,
+      "price": 399.81,
       "currency": "USD",
-      "mktCapB": 1594.136,
-      "analystTarget": 410.68,
+      "mktCapB": 1580.341,
+      "analystTarget": 411.82,
       "athPrice": 489.88,
       "sector": "Consumer Cyclical",
       "returns": {
@@ -501,9 +501,9 @@
       "stale": false
     },
     "UEC": {
-      "price": 8.15,
+      "price": 7.71,
       "currency": "USD",
-      "mktCapB": 4.039,
+      "mktCapB": 3.821,
       "analystTarget": 16.03,
       "athPrice": 20.14,
       "sector": "Energy",
@@ -520,9 +520,9 @@
       "stale": false
     },
     "SMR": {
-      "price": 5.92,
+      "price": 5.62,
       "currency": "USD",
-      "mktCapB": 2.43,
+      "mktCapB": 2.306,
       "analystTarget": 10.73,
       "athPrice": 53.43,
       "sector": "Industrials",
@@ -539,9 +539,9 @@
       "stale": false
     },
     "LTBR": {
-      "price": 5.4,
+      "price": 5.08,
       "currency": "USD",
-      "mktCapB": 0.19,
+      "mktCapB": 0.179,
       "analystTarget": null,
       "athPrice": 1494.0,
       "sector": "Industrials",
@@ -558,9 +558,9 @@
       "stale": false
     },
     "UUUU": {
-      "price": 8.23,
+      "price": 7.71,
       "currency": "USD",
-      "mktCapB": 2.18,
+      "mktCapB": 2.042,
       "analystTarget": 22.15,
       "athPrice": 235.0,
       "sector": "Energy",
@@ -577,9 +577,9 @@
       "stale": false
     },
     "IREN": {
-      "price": 26.25,
+      "price": 23.95,
       "currency": "USD",
-      "mktCapB": 10.621,
+      "mktCapB": 9.69,
       "analystTarget": 76.92,
       "athPrice": 76.41,
       "sector": "Financial Services",
@@ -596,11 +596,11 @@
       "stale": false
     },
     "AAPL": {
-      "price": 348.91,
+      "price": 344.63,
       "currency": "USD",
-      "mktCapB": 5092.055,
+      "mktCapB": 5029.592,
       "analystTarget": 332.39,
-      "athPrice": 348.22,
+      "athPrice": 348.91,
       "sector": "Technology",
       "returns": {
         "1D": NaN,
@@ -615,9 +615,9 @@
       "stale": false
     },
     "ORCL": {
-      "price": 139.56,
+      "price": 130.67,
       "currency": "USD",
-      "mktCapB": 423.076,
+      "mktCapB": 396.126,
       "analystTarget": 235.8,
       "athPrice": 323.4337,
       "sector": "Technology",
@@ -634,10 +634,10 @@
       "stale": false
     },
     "MSFT": {
-      "price": 530.14,
+      "price": 521.91,
       "currency": "USD",
-      "mktCapB": 3936.579,
-      "analystTarget": 605.12,
+      "mktCapB": 3875.805,
+      "analystTarget": 627.73,
       "athPrice": 543.45,
       "sector": "Technology",
       "returns": {
@@ -653,9 +653,9 @@
       "stale": false
     },
     "AMZN": {
-      "price": 243.79,
+      "price": 240.35,
       "currency": "USD",
-      "mktCapB": 2629.595,
+      "mktCapB": 2598.424,
       "analystTarget": 332.41,
       "athPrice": 284.02,
       "sector": "Consumer Cyclical",
@@ -672,10 +672,10 @@
       "stale": false
     },
     "GOOG": {
-      "price": 282.32,
+      "price": 278.22,
       "currency": "USD",
-      "mktCapB": 3452.755,
-      "analystTarget": 405.53,
+      "mktCapB": 3420.437,
+      "analystTarget": 403.87,
       "athPrice": 398.5413,
       "sector": "Communication Services",
       "returns": {
@@ -691,9 +691,9 @@
       "stale": false
     },
     "AVGO": {
-      "price": 345.0,
+      "price": 326.08,
       "currency": "USD",
-      "mktCapB": 1646.902,
+      "mktCapB": 1556.585,
       "analystTarget": 530.14,
       "athPrice": 479.9351,
       "sector": "Technology",
@@ -710,9 +710,9 @@
       "stale": false
     },
     "SOFI": {
-      "price": 17.61,
+      "price": 16.76,
       "currency": "USD",
-      "mktCapB": 22.833,
+      "mktCapB": 21.731,
       "analystTarget": 20.75,
       "athPrice": 32.21,
       "sector": "Financial Services",
@@ -729,9 +729,9 @@
       "stale": false
     },
     "NVDA": {
-      "price": 213.66,
+      "price": 204.64,
       "currency": "USD",
-      "mktCapB": 5159.248,
+      "mktCapB": 4941.442,
       "analystTarget": 328.95,
       "athPrice": 239.24,
       "sector": "Technology",
@@ -748,9 +748,9 @@
       "stale": false
     },
     "ALOY": {
-      "price": 7.17,
+      "price": 6.68,
       "currency": "USD",
-      "mktCapB": 0.5,
+      "mktCapB": 0.465,
       "analystTarget": 17.0,
       "athPrice": 63.0,
       "sector": "Basic Materials",
@@ -767,9 +767,9 @@
       "stale": false
     },
     "AVAV": {
-      "price": 134.88,
+      "price": 126.11,
       "currency": "USD",
-      "mktCapB": 6.855,
+      "mktCapB": 6.409,
       "analystTarget": 213.07,
       "athPrice": 409.83,
       "sector": "Industrials",
@@ -786,9 +786,9 @@
       "stale": false
     },
     "NFLX": {
-      "price": 62.05,
+      "price": 62.08,
       "currency": "USD",
-      "mktCapB": 258.372,
+      "mktCapB": 258.497,
       "analystTarget": 84.76,
       "athPrice": 133.913,
       "sector": "Communication Services",
@@ -805,9 +805,9 @@
       "stale": false
     },
     "APLD": {
-      "price": 19.41,
+      "price": 17.815,
       "currency": "USD",
-      "mktCapB": 5.869,
+      "mktCapB": 5.387,
       "analystTarget": 62.44,
       "athPrice": 49.65,
       "sector": "Technology",
@@ -824,9 +824,9 @@
       "stale": false
     },
     "FLY": {
-      "price": 19.87,
+      "price": 17.935,
       "currency": "USD",
-      "mktCapB": 3.326,
+      "mktCapB": 3.002,
       "analystTarget": 38.0,
       "athPrice": 60.35,
       "sector": "Industrials",
@@ -843,9 +843,9 @@
       "stale": false
     },
     "SNAP": {
-      "price": 5.68,
+      "price": 5.34,
       "currency": "USD",
-      "mktCapB": 9.606,
+      "mktCapB": 9.031,
       "analystTarget": 7.44,
       "athPrice": 83.11,
       "sector": "Communication Services",
@@ -862,10 +862,10 @@
       "stale": false
     },
     "HOOD": {
-      "price": 91.59,
+      "price": 84.99,
       "currency": "USD",
-      "mktCapB": 82.476,
-      "analystTarget": 130.34,
+      "mktCapB": 76.533,
+      "analystTarget": 130.67,
       "athPrice": 152.46,
       "sector": "Financial Services",
       "returns": {
@@ -881,9 +881,9 @@
       "stale": false
     },
     "NVA": {
-      "price": 3.5,
+      "price": 3.81,
       "currency": "USD",
-      "mktCapB": 0.134,
+      "mktCapB": 0.146,
       "analystTarget": 10.0,
       "athPrice": 14.368,
       "sector": "Basic Materials",
@@ -900,9 +900,9 @@
       "stale": false
     },
     "ADBE": {
-      "price": 248.12,
+      "price": 250.23,
       "currency": "USD",
-      "mktCapB": 96.568,
+      "mktCapB": 97.39,
       "analystTarget": 272.31,
       "athPrice": 688.37,
       "sector": "Technology",
@@ -919,9 +919,9 @@
       "stale": false
     },
     "TTWO": {
-      "price": 193.39,
+      "price": 190.17,
       "currency": "USD",
-      "mktCapB": 36.16,
+      "mktCapB": 35.558,
       "analystTarget": 285.13,
       "athPrice": 262.29,
       "sector": "Communication Services",
@@ -938,9 +938,9 @@
       "stale": false
     },
     "MSTR": {
-      "price": 141.62,
+      "price": 130.51,
       "currency": "USD",
-      "mktCapB": 59.986,
+      "mktCapB": 55.28,
       "analystTarget": 239.27,
       "athPrice": 473.83,
       "sector": "Technology",
@@ -957,10 +957,10 @@
       "stale": false
     },
     "NOW": {
-      "price": 109.67,
+      "price": 105.12,
       "currency": "USD",
-      "mktCapB": 113.384,
-      "analystTarget": 155.67,
+      "mktCapB": 109.106,
+      "analystTarget": 155.17,
       "athPrice": 234.078,
       "sector": "Technology",
       "returns": {
