@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-11-26T03:43:53Z",
-  "gbpusd": 1.3098,
-  "eurusd": 1.0961,
-  "gbpeur": 1.195,
+  "lastUpdated": "2026-11-27T03:44:36Z",
+  "gbpusd": 1.3124,
+  "eurusd": 1.0983,
+  "gbpeur": 1.1949,
   "tickers": {
     "APLD": {
       "price": 12.29,
@@ -312,7 +312,7 @@
       "price": 5.69,
       "currency": "USD",
       "mktCapB": 2.82,
-      "analystTarget": 15.85,
+      "analystTarget": 15.66,
       "athPrice": 20.14,
       "sector": "Energy",
       "returns": {
@@ -504,7 +504,7 @@
       "price": 5.69,
       "currency": "USD",
       "mktCapB": 2.82,
-      "analystTarget": 15.85,
+      "analystTarget": 15.66,
       "athPrice": 20.14,
       "sector": "Energy",
       "returns": {
@@ -713,7 +713,7 @@
       "price": 13.07,
       "currency": "USD",
       "mktCapB": 16.963,
-      "analystTarget": 20.67,
+      "analystTarget": 20.56,
       "athPrice": 32.21,
       "sector": "Financial Services",
       "returns": {
